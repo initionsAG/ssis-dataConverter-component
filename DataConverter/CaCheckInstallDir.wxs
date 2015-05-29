@@ -1,0 +1,7 @@
+<?xml version='1.0'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+  <Fragment>
+    <Binary Id='binCheckInstDir' SourceFile="C:\Visual Studio\Visual Studio TFS\initions\BI\SSIS\WiX\CustomActionCheckInstallDir\CustomActionCheckInstallDir\bin\Debug\CustomActionCheckInstallDir.CA.dll"/>
+    <CustomAction Id="FooBinary" BinaryKey="binCheckInstDir" DllEntry="CheckInstallDir"></CustomAction>
+  </Fragment>
+</Wix>
