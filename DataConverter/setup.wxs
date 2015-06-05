@@ -104,11 +104,11 @@
 
       </InstallExecuteSequence>
       
-        <Icon Id="DataConverter_DC.ico" SourceFile="C:\Visual Studio\Visual Studio TFS\initions\BI\SSIS\DataConverter\Main\Source\DataConverter\Resources\DataConverter_DC.ico"/>
+        <Icon Id="DataConverter_DC.ico" SourceFile="C:\Visual Studio\Visual Studio TFS\initions-BI\Henry Components\DataConverter\Main\DataConverter\DataConverter_DC.ico"/>
         <Property Id="ARPPRODUCTICON" Value="DataConverter_DC.ico" />
         <Property Id="ALLUSERS" Value="1" />
 
-      <Binary Id="binCheckInstDir" SourceFile="C:\Visual Studio\Visual Studio TFS\initions\BI\SSIS\WiX\CustomActionCheckInstallDir\CustomActionCheckInstallDir\bin\Debug\CAINSTDIR.CA.dll"/>
+      <!--<Binary Id="binCheckInstDir" SourceFile="C:\Visual Studio\Visual Studio TFS\initions\BI\SSIS\WiX\CustomActionCheckInstallDir\CustomActionCheckInstallDir\bin\Debug\CAINSTDIR.CA.dll"/>-->
     </Product>
 
 </Wix>
