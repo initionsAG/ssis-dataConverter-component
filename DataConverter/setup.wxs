@@ -31,7 +31,7 @@
 
         <Property Id="WIXUI_INSTALLDIR" Value="PIPELINECOMPONENTS" />
 
-      <CustomAction Id="CA_CheckInstDir" BinaryKey="binCheckInstDir" DllEntry="CheckInstallDir" />
+      <!--<CustomAction Id="CA_CheckInstDir" BinaryKey="binCheckInstDir" DllEntry="CheckInstallDir" />-->
       
       <UIRef Id="WixUI_InstallDir" />
 
@@ -98,7 +98,7 @@
 
       <InstallExecuteSequence>
 
-        <Custom Action="CA_CheckInstDir"  After="InstallValidate">NOT Installed</Custom>
+        <!--<Custom Action="CA_CheckInstDir"  After="InstallValidate">NOT Installed</Custom>-->
         <RemoveExistingProducts After="InstallValidate"/>
         
 
