@@ -3,8 +3,8 @@
 
 
   
-    <Product Id='*' Name='DataConverter 1.1.8.0 for Integration Services 2008' Language='1033'
-             Version='1.1.8.0' Manufacturer='innovative IT solutions AG' UpgradeCode='D45D6CB6-26C7-486C-8954-8A40E06CE79F'>
+    <Product Id='*' Name='DataConverter 1.1.9.0 for Integration Services 2008' Language='1033'
+             Version='1.1.9.0' Manufacturer='innovative IT solutions AG' UpgradeCode='D45D6CB6-26C7-486C-8954-8A40E06CE79F'>
      
         <Package Description='DataConverter Installer package'
                   Manufacturer='innovative IT solutions AG' InstallerVersion='200' Compressed='yes' />
@@ -14,11 +14,11 @@
         <Upgrade Id="D45D6CB6-26C7-486C-8954-8A40E06CE79F">
             <UpgradeVersion Minimum="1.0.0"
                             IncludeMinimum="yes"
-                            Maximum="1.1.8"
+                            Maximum="1.1.9"
                             Property="OLDERVERSIONBEINGUPGRADED" />
         </Upgrade>
         <Upgrade Id="D45D6CB6-26C7-486C-8954-8A40E06CE79F">
-            <UpgradeVersion Minimum="1.1.8"
+            <UpgradeVersion Minimum="1.1.9"
                             OnlyDetect="yes"
                             Property="NEWERVERSIONDETECTED" />
         </Upgrade>
