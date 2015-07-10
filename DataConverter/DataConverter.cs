@@ -181,10 +181,12 @@ namespace DataConverter
     ///     - Konvertierungen von formatierten strings (z.B. DD.MM.YYYY): Zur kurze Werte führten bei der Konvertierung zum Abbruch des DC
     ///  13.06.2014, Dennis Weise
     ///     - Version 1.1.8
+    /// 09.07.2014, Dennis Weise  
+    ///     - PerformUpgrade: Upgrade von 2008 auf 2012/2014 ist nun möglich 
     /// </summary>
     [DtsPipelineComponent(DisplayName = "DataConverter",
         ComponentType = ComponentType.Transform,
-        CurrentVersion = 0,
+        CurrentVersion = 1,
         IconResource = "DataConverter.Resources.DataConverter_DC.ico",
         UITypeName = "DataConverter.DataConverterUI, DataConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8a91e54220f9b6ce")]
     public class DataConverter : PipelineComponent
@@ -210,7 +212,7 @@ namespace DataConverter
 
         public override DTSValidationStatus Validate()
         {
-            initProperties();
+            InitProperties();
 
             _IsagCustomProperties.Save(ComponentMetaData);
 
@@ -233,7 +235,7 @@ namespace DataConverter
             base.ReinitializeMetaData();
             this.ComponentMetaData.RemoveInvalidInputColumns();
 
-            initProperties();
+            InitProperties();
             _IsagCustomProperties.FixError(ComponentMetaData);
 
             _IsagCustomProperties.Save(ComponentMetaData);
@@ -322,7 +324,7 @@ namespace DataConverter
         {
             base.OnInputPathAttached(inputID);
 
-            initProperties();
+            InitProperties();
 
             //Initialisierung falls zuvor noch keine Inputcolumns angebunden waren
             if (_IsagCustomProperties.ColumnConfigList.Count == 0)
@@ -512,7 +514,7 @@ namespace DataConverter
         {
             base.PreExecute();
 
-            initProperties();
+            InitProperties();
 
             _debugMode = _IsagCustomProperties.DebugModus;
 
@@ -746,7 +748,7 @@ namespace DataConverter
         {
             base.PrimeOutput(outputs, outputIDs, buffers);
 
-            initProperties();
+            InitProperties();
 
             if (buffers.Length > 0)
             {
@@ -1026,7 +1028,7 @@ namespace DataConverter
         #endregion
 
 
-        private void initProperties()
+        private void InitProperties()
         {
             object configuration = this.ComponentMetaData.CustomPropertyCollection[Constants.PROP_CONFIG].Value;
             if (configuration != null) _IsagCustomProperties = IsagCustomProperties.Load(configuration);
@@ -1034,7 +1036,97 @@ namespace DataConverter
         }
 
 
+        #region PerfornUpgrade
 
+        /// <summary>
+        /// Upgrade von SSIS 2008 auf 2012/2014
+        /// </summary>
+        /// <param name="pipelineVersion"></param>
+        public override void PerformUpgrade(int pipelineVersion)
+        {
+            try
+            {
+                if (Mapping.NeedsMapping())
+                {
+                    InitProperties();
+
+                    foreach (ColumnConfig config in _IsagCustomProperties.ColumnConfigList)
+                    {
+                        if (string.IsNullOrEmpty(config.CustomId)) config.CustomId = Guid.NewGuid().ToString();
+
+                        AddInputColumnCustomProperty(config.InputColumnName, config.CustomId, Mapping.IdPropertyName);
+                        if (config.Convert) AddOutputColumnCustomProperty(config.OutputAlias, config.CustomId, Mapping.IdPropertyName, Constants.OUTPUT_NAME);
+                        AddOutputColumnCustomProperty(config.InputColumnName, config.CustomId, Mapping.IdPropertyName, Constants.OUTPUT_LOG_NAME);
+                    }
+
+                    Mapping.UpdateInputIdProperties(this.ComponentMetaData, _IsagCustomProperties);
+                    _IsagCustomProperties.Save(this.ComponentMetaData);
+                }
+
+                DtsPipelineComponentAttribute attr =
+                    (DtsPipelineComponentAttribute)Attribute.GetCustomAttribute(this.GetType(), typeof(DtsPipelineComponentAttribute), false);
+                ComponentMetaData.Version = attr.CurrentVersion;
+            }
+            catch (Exception ex)
+            {
+                bool cancel = false;
+                this.ComponentMetaData.FireError(0, "DataConverter Upgrade", ex.ToString(), "", 0, out cancel);
+                throw (ex);
+            }
+        }
+
+
+        /// <summary>
+        ///  Adds a custom property to an output column and sets the value
+        ///  (has no effect if custom property already exists)
+        /// </summary>
+        /// <param name="colName">The name of the input column</param>
+        /// <param name="value">the value of the custom property</param>
+        /// <param name="propertyName">the name of the custom property</param>
+        private void AddOutputColumnCustomProperty(string colName, string value, string propertyName, string outputCollectionName)
+        {
+            IDTSOutputColumn100 outputCol = this.ComponentMetaData.OutputCollection[outputCollectionName].OutputColumnCollection[colName];
+            AddCustomProperty(outputCol.CustomPropertyCollection, value, propertyName);
+        }
+
+
+        /// <summary>
+        ///  Adds a custom property to an input column and sets the value
+        ///  (has no effect if custom property already exists)
+        /// </summary>
+        /// <param name="colName">The name of the input column</param>
+        /// <param name="value">the value of the custom property</param>
+        /// <param name="propertyName">the name of the custom property</param>
+        private void AddInputColumnCustomProperty(string colName, string value, string propertyName)
+        {
+            IDTSInputColumn100 inputCol = this.ComponentMetaData.InputCollection[0].InputColumnCollection[colName];
+            AddCustomProperty(inputCol.CustomPropertyCollection, value, propertyName);
+        }
+
+        /// <summary>
+        ///  Adds a custom property to a CustomPropertyCollection and sets the value
+        ///  (has no effect if custom property already exists)
+        /// </summary>
+        /// <param name="propCollection">the CustomPropertyCollection</param>
+        /// <param name="value">the value of the custom property</param>
+        /// <param name="propertyName">the name of the custom property</param>
+        private void AddCustomProperty(IDTSCustomPropertyCollection100 propCollection, string value, string propertyName)
+        {
+            IDTSCustomProperty100 prop = null;
+            try
+            {
+                //do nothing if custom property exists:
+                prop = propCollection[propertyName];
+            }
+            catch (Exception)
+            {
+                prop = propCollection.New();
+                prop.Name = propertyName;
+                prop.Value = value;
+            }
+        }
+
+        #endregion
 
     }
 }

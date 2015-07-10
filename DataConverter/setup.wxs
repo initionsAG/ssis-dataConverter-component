@@ -3,8 +3,8 @@
 
 
   
-    <Product Id='*' Name='DataConverter 1.1.8.0 for Integration Services 2008' Language='1033'
-             Version='1.1.8.0' Manufacturer='innovative IT solutions AG' UpgradeCode='D45D6CB6-26C7-486C-8954-8A40E06CE79F'>
+    <Product Id='*' Name='DataConverter 1.1.9.0 for Integration Services 2008' Language='1033'
+             Version='1.1.9.0' Manufacturer='innovative IT solutions AG' UpgradeCode='D45D6CB6-26C7-486C-8954-8A40E06CE79F'>
      
         <Package Description='DataConverter Installer package'
                   Manufacturer='innovative IT solutions AG' InstallerVersion='200' Compressed='yes' />
@@ -14,11 +14,11 @@
         <Upgrade Id="D45D6CB6-26C7-486C-8954-8A40E06CE79F">
             <UpgradeVersion Minimum="1.0.0"
                             IncludeMinimum="yes"
-                            Maximum="1.1.8"
+                            Maximum="1.1.9"
                             Property="OLDERVERSIONBEINGUPGRADED" />
         </Upgrade>
         <Upgrade Id="D45D6CB6-26C7-486C-8954-8A40E06CE79F">
-            <UpgradeVersion Minimum="1.1.8"
+            <UpgradeVersion Minimum="1.1.9"
                             OnlyDetect="yes"
                             Property="NEWERVERSIONDETECTED" />
         </Upgrade>
@@ -31,7 +31,7 @@
 
         <Property Id="WIXUI_INSTALLDIR" Value="PIPELINECOMPONENTS" />
 
-      <CustomAction Id="CA_CheckInstDir" BinaryKey="binCheckInstDir" DllEntry="CheckInstallDir" />
+      <!--<CustomAction Id="CA_CheckInstDir" BinaryKey="binCheckInstDir" DllEntry="CheckInstallDir" />-->
       
       <UIRef Id="WixUI_InstallDir" />
 
@@ -98,17 +98,17 @@
 
       <InstallExecuteSequence>
 
-        <Custom Action="CA_CheckInstDir"  After="InstallValidate">NOT Installed</Custom>
+        <!--<Custom Action="CA_CheckInstDir"  After="InstallValidate">NOT Installed</Custom>-->
         <RemoveExistingProducts After="InstallValidate"/>
         
 
       </InstallExecuteSequence>
       
-        <Icon Id="DataConverter_DC.ico" SourceFile="C:\Visual Studio\Visual Studio TFS\initions\BI\SSIS\DataConverter\Main\Source\DataConverter\Resources\DataConverter_DC.ico"/>
+        <Icon Id="DataConverter_DC.ico" SourceFile="C:\Visual Studio\Visual Studio TFS\initions-BI\Henry Components\DataConverter\Main\DataConverter\DataConverter_DC.ico"/>
         <Property Id="ARPPRODUCTICON" Value="DataConverter_DC.ico" />
         <Property Id="ALLUSERS" Value="1" />
 
-      <Binary Id="binCheckInstDir" SourceFile="C:\Visual Studio\Visual Studio TFS\initions\BI\SSIS\WiX\CustomActionCheckInstallDir\CustomActionCheckInstallDir\bin\Debug\CAINSTDIR.CA.dll"/>
+      <!--<Binary Id="binCheckInstDir" SourceFile="C:\Visual Studio\Visual Studio TFS\initions\BI\SSIS\WiX\CustomActionCheckInstallDir\CustomActionCheckInstallDir\bin\Debug\CAINSTDIR.CA.dll"/>-->
     </Product>
 
 </Wix>
