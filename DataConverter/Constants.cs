@@ -67,18 +67,18 @@ namespace DataConverter
         public static readonly string[] DATATYPE_LENGTH_CODEPAGE = { "DT_STR" };
         public static readonly string[] DATATYPE_CODEPAGE = { "DT_TEXT" };
 
-        public static BindingList<string> DATATYPE_LIST()
+        public static BindingList<object> DATATYPE_LIST()
         {
-            List<string> datatypes = new List<string>();
+            List<object> datatypes = new List<object>();
             datatypes.AddRange(Constants.DATATYPE_SIMPLE);
             datatypes.AddRange(Constants.DATATYPE_LENGTH);
             datatypes.AddRange(Constants.DATATYPE_PRECISION_SCALE);
             datatypes.AddRange(Constants.DATATYPE_SCALE);
             datatypes.AddRange(Constants.DATATYPE_LENGTH_CODEPAGE);
             datatypes.AddRange(Constants.DATATYPE_CODEPAGE);
-            datatypes.Sort();          
+            datatypes.Sort();
 
-            return  new BindingList<string>(datatypes);
+            return new BindingList<object>(datatypes);
         }
 
         public static readonly string[] DATATYPE_NUMBER = {"DT_CY","DT_UI1","DT_UI2","DT_UI4","DT_UI8",

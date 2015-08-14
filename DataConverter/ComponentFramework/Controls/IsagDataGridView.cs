@@ -32,12 +32,12 @@ namespace Lookup2.ComponentFramework.Controls
         /// int: ColumnIndex in the DataGridView
         /// BindingList<string>: DataSource for the ItemList
         /// </summary>
-        private Dictionary<int, BindingList<string>> _cmbItemSources = new Dictionary<int, BindingList<string>>();
+        private Dictionary<int, BindingList<object>> _cmbItemSources = new Dictionary<int, BindingList<object>>();
 
         /// <summary>
         /// ComboBox Columns gets the name of the column that it is bound to pls this prefix
         /// </summary>
-        private const string CMB_COLUMN_PREFIX = "BoundedCombo_";
+        public const string CMB_COLUMN_PREFIX = "BoundedCombo_";
 
         /// <summary>
         /// the constructor
@@ -94,12 +94,12 @@ namespace Lookup2.ComponentFramework.Controls
 
             if (e.Index != -1)
             {
-                string itemValue = ((ComboBox)sender).Items[e.Index].ToString();
+                object itemValue = ((ComboBox)sender).Items[e.Index]; 
                 bool isValid = _cmbItemSources[this.SelectedCells[0].ColumnIndex].Contains(itemValue);
                 Color color = isValid ? Color.Black : Color.Red;
 
                 using (var brush = new SolidBrush(color))
-                    e.Graphics.DrawString(itemValue, e.Font, brush, e.Bounds);
+                    e.Graphics.DrawString(itemValue.ToString(), e.Font, brush, e.Bounds);
             }
 
             e.DrawFocusRectangle();
@@ -116,8 +116,8 @@ namespace Lookup2.ComponentFramework.Controls
         {
             if (_cmbItemSources.Keys.Contains(e.ColumnIndex))
             {
-                if (this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null) this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
-                string value = this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                //if (this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null) this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+                object value = this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
 
                 //Update Cell that is databounded to the GridVeiws DataSource
                 this.Rows[e.RowIndex].Cells[GetBoundedColumnIndex(e.ColumnIndex)].Value = value;
@@ -137,10 +137,10 @@ namespace Lookup2.ComponentFramework.Controls
         {
             DataGridViewComboBoxColumn cmbColumn = (DataGridViewComboBoxColumn)this.Columns[columnIndex];
 
-            List<string> invalidItems = new List<string>();
+            List<object> invalidItems = new List<object>();
             foreach (DataGridViewRow row in this.Rows)
             {
-                string rowValue = row.Cells[columnIndex].Value.ToString();
+                object rowValue = row.Cells[columnIndex].Value;
                 if (!_cmbItemSources[columnIndex].Contains(rowValue))
                 {
                     invalidItems.Add(rowValue);
@@ -149,7 +149,7 @@ namespace Lookup2.ComponentFramework.Controls
             for (int i = cmbColumn.Items.Count - 1; i >= 0; i--)
             {
 
-                string item = cmbColumn.Items[i].ToString();
+                object item = cmbColumn.Items[i];
                 if (!invalidItems.Contains(item) && !_cmbItemSources[columnIndex].Contains(item)) cmbColumn.Items.RemoveAt(i);
             }
         }
@@ -177,7 +177,7 @@ namespace Lookup2.ComponentFramework.Controls
 
             if (cell.Value != null)
             {
-                bool isValid = _cmbItemSources[columnIndex].Contains(cell.Value.ToString());
+                bool isValid = _cmbItemSources[columnIndex].Contains(cell.Value);
                 Color color = isValid ? Color.Black : Color.Red;
                 Color backColor = isValid ? Color.Empty : Color.White;
 
@@ -192,7 +192,7 @@ namespace Lookup2.ComponentFramework.Controls
         /// </summary>
         /// <param name="srcColumnName">the name of the column that the combobox column is bounded to</param>
         /// <param name="dataSource">the DataSource for the ItemList of the combobox</param>
-        public void AddCellBoundedComboBox(string srcColumnName, BindingList<string> dataSource)
+        public void AddCellBoundedComboBox(string srcColumnName, BindingList<object> dataSource)
         {
             dataSource.ListChanged += DataSource_ListChanged;
 
@@ -201,10 +201,11 @@ namespace Lookup2.ComponentFramework.Controls
             srcColumn.Visible = false;
 
             cmbColumn.Name = CMB_COLUMN_PREFIX + srcColumnName;
-            cmbColumn.HeaderText = srcColumnName;
+            cmbColumn.HeaderText = srcColumn.HeaderText;
             cmbColumn.Sorted = true;
+            cmbColumn.ValueType = dataSource[0].GetType();
 
-            cmbColumn.Items.AddRange(dataSource.ToArray<string>());
+            cmbColumn.Items.AddRange(dataSource.ToArray<object>());
             cmbColumn.FlatStyle = FlatStyle.Flat;
 
             int index = _cmbItemSources.Count;
@@ -215,12 +216,12 @@ namespace Lookup2.ComponentFramework.Controls
 
         public void AddCellBoundedComboBox(string srcColumnName, Type srcEnum)
         {
-            BindingList<string> dataSource = new BindingList<string>();
+            BindingList<object> dataSource = new BindingList<object>();
             Array enums = Enum.GetValues(srcEnum);
 
              for (int i = 0; i < enums.Length; i++)
              {
-                 dataSource.Add(enums.GetValue(i).ToString());
+                 dataSource.Add(enums.GetValue(i));
              }
 
              AddCellBoundedComboBox(srcColumnName, dataSource);
@@ -250,16 +251,16 @@ namespace Lookup2.ComponentFramework.Controls
             int boundedColumnIndex = GetBoundedColumnIndex(columnIndex);
 
             cmbColumn.Items.Clear();
-            cmbColumn.Items.AddRange(_cmbItemSources[columnIndex].ToArray<string>());
+            cmbColumn.Items.AddRange(_cmbItemSources[columnIndex].ToArray<object>());
 
             foreach (DataGridViewRow row in this.Rows)
             {
                 DataGridViewCell boundedCell = row.Cells[boundedColumnIndex];
                 if (boundedCell.Value == null) boundedCell.Value = "";
 
-                if (!_cmbItemSources[columnIndex].Contains(boundedCell.Value.ToString()))
+                if (!_cmbItemSources[columnIndex].Contains(boundedCell.Value))
                 {
-                    cmbColumn.Items.Add(boundedCell.Value.ToString());
+                    cmbColumn.Items.Add(boundedCell.Value);
                 }
                 try
                 {
@@ -290,7 +291,7 @@ namespace Lookup2.ComponentFramework.Controls
         /// <param name="e"></param>
         private void DataSource_ListChanged(object sender, ListChangedEventArgs e)
         {
-            BindingList<string> datasource = (BindingList<string>)sender;
+            BindingList<object> datasource = (BindingList<object>)sender;
 
             foreach (int key in _cmbItemSources.Keys)
             {

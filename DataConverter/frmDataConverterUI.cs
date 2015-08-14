@@ -13,6 +13,7 @@ using Infragistics.Win.UltraWinGrid;
 using System.Text.RegularExpressions;
 using Microsoft.SqlServer.Dts.Runtime;
 using DataConverter.ComponentFrameWork.Mapping;
+using Lookup2.ComponentFramework.Controls;
 
 namespace DataConverter
 {
@@ -21,15 +22,15 @@ namespace DataConverter
         private IDTSComponentMetaData100 _metadata;
         private Variables _variables;
         private IsagCustomProperties _IsagCustomProperties;
-        private IsagDataGrid _ugMapping = new IsagDataGrid();
-        private IsagDataGrid _ugNewColumns = new IsagDataGrid();
+
+
         private Dictionary<string, IDTSInputColumn100> _inputColumnsDictionary;
         private bool _abortClosing = false;
 
         public frmDataConverterUI(IDTSComponentMetaData100 metadata, Variables variables)
         {
             InitializeComponent();
-            InitializeCustomComponents();
+        
 
             _metadata = metadata;
             _variables = variables;
@@ -39,135 +40,60 @@ namespace DataConverter
 
             _inputColumnsDictionary = ComponentMetaDataTools.GetInputDictionary(metadata);
             PopulateMappingGrid();
-            PopulateNewColumnsGrid();
+
             PopulateRowDisposition();
             PopulateComboVariables();
 
-            _ugMapping.AfterCellUpdate += new CellEventHandler(ugMapping_AfterCellUpdate);
-            _ugNewColumns.AfterCellUpdate += new CellEventHandler(_ugNewColumns_AfterCellUpdate);
             cbErrorHandling.SelectedIndexChanged += new System.EventHandler(cbErrorHandling_SelectedIndexChanged);
 
             SetToolTips();
             InitializeContextMenu();
 
-            InitializeCompareButtons();
+         
         }
 
-        private void InitializeCompareButtons()
-        {
-            _ugMapping.DisplayLayout.Bands[0].Columns["Compare"].Style = Infragistics.Win.UltraWinGrid.ColumnStyle.EditButton;
-            _ugMapping.DisplayLayout.Override.ButtonStyle = UIElementButtonStyle.Office2007RibbonButton;
-            _ugMapping.ClickCellButton += new CellEventHandler(ugMapping_ClickCellButton);
-        }
+
         void ugMapping_ClickCellButton(object sender, CellEventArgs e)
         {
             ColumnConfig config = (ColumnConfig)e.Cell.Row.ListObject;
 
             string value = e.Cell.Value == null ? "" : e.Cell.Value.ToString();
-            frmEditor editor = new frmEditor(config.InputColumnName, value, _IsagCustomProperties.GetInputColumns());                                                             
+            frmEditor editor = new frmEditor(config.InputColumnName, value, _IsagCustomProperties.GetInputColumns());
 
             if (editor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 e.Cell.Value = editor.Value;
         }
 
-        private void InitializeCustomComponents()
-        {
-            pnlDGV.Controls.Add(_ugMapping);
-            pnlNewColumns.Controls.Add(_ugNewColumns);
-        }
+      
 
-        private void PopulateNewColumnsGrid()
-        {
-            _ugNewColumns.DataSource = _IsagCustomProperties.NewColumnConfigList;
-            _ugNewColumns.DataBind();
-
-            ValueList valueList = _ugNewColumns.DisplayLayout.ValueLists.Add("IS_Datatypes");
-
-            ArrayList datatypes = new ArrayList();
-            datatypes.AddRange(Constants.DATATYPE_SIMPLE);
-            datatypes.AddRange(Constants.DATATYPE_LENGTH);
-            datatypes.AddRange(Constants.DATATYPE_PRECISION_SCALE);
-            datatypes.AddRange(Constants.DATATYPE_SCALE);
-            datatypes.AddRange(Constants.DATATYPE_LENGTH_CODEPAGE);
-            datatypes.AddRange(Constants.DATATYPE_CODEPAGE);
-            datatypes.Sort();
-
-            foreach (string dataType in datatypes)
-            {
-                valueList.ValueListItems.Add(dataType);
-            }
-
-            _ugNewColumns.DisplayLayout.Bands[0].Columns["DataType"].ValueList = valueList;
-            _ugNewColumns.DisplayLayout.Bands[0].Columns["DataType"].Style = Infragistics.Win.UltraWinGrid.ColumnStyle.DropDownList;
-
-            foreach (UltraGridRow row in _ugNewColumns.Rows)
-            {
-                SetNewColumnsGridDataCellActivation(row);
-            }
-        }
+       
 
         private void PopulateMappingGrid()
         {
 
             idgvMapping.DataSource = _IsagCustomProperties.ColumnConfigList;
             idgvMapping.AddCellBoundedComboBox("DataType", Constants.DATATYPE_LIST());
-       //     idgvMapping.AddCellBoundedComboBox("ErrorHandling", typeof(IsagCustomProperties.ErrorRowHandling));
+            idgvMapping.AddCellBoundedComboBox("ErrorHandling", typeof(IsagCustomProperties.ErrorRowHandling));
 
-            List<string> listConversion = Common.GetListFromEnum(typeof(DateConvertTypes));
+            List<object> listConversion = Common.GetListFromEnum(typeof(DateConvertTypes));
             listConversion.AddRange(Constants.STRING_CONVERSION_TYPES);
-            idgvMapping.AddCellBoundedComboBox("ConversionAsString", new BindingList<string>(listConversion));
-            
+            idgvMapping.AddCellBoundedComboBox("ConversionAsString", new BindingList<object>(listConversion));
 
-
-            tbPrefix.DataBindings.Add("Text", _IsagCustomProperties, "AliasPrefix");
-
-            _ugMapping.DataSource = _IsagCustomProperties.ColumnConfigList;
-            _ugMapping.DataBind();
-
-            foreach (UltraGridColumn col in _ugMapping.DisplayLayout.Bands[0].Columns)
-            {
-                col.Header.Column.SortIndicator = SortIndicator.Ascending;
-            }
-
-            ValueList valueList = _ugMapping.DisplayLayout.ValueLists.Add("IS_Datatypes");
-
-            ArrayList datatypes = new ArrayList();
-            datatypes.AddRange(Constants.DATATYPE_SIMPLE);
-            datatypes.AddRange(Constants.DATATYPE_LENGTH);
-            datatypes.AddRange(Constants.DATATYPE_PRECISION_SCALE);
-            datatypes.AddRange(Constants.DATATYPE_SCALE);
-            datatypes.AddRange(Constants.DATATYPE_LENGTH_CODEPAGE);
-            datatypes.AddRange(Constants.DATATYPE_CODEPAGE);
-            datatypes.Sort();
-
-            foreach (string dataType in datatypes)
-            {
-                valueList.ValueListItems.Add(dataType);
-            }
-
-            _ugMapping.DisplayLayout.Bands[0].Columns["DataType"].ValueList = valueList;
-            _ugMapping.DisplayLayout.Bands[0].Columns["DataType"].Style = Infragistics.Win.UltraWinGrid.ColumnStyle.DropDownList;
-
-            foreach (UltraGridRow row in _ugMapping.Rows)
+            foreach (DataGridViewRow row in idgvMapping.Rows)
             {
                 SetGridColumnsActivationState(row);
             }
 
-            //ErrorHandling Column
-            valueList = _ugMapping.DisplayLayout.ValueLists.Add("ErrorHandling");
-            valueList.ValueListItems.Add(IsagCustomProperties.ErrorRowHandling.RedirectRow);
-            valueList.ValueListItems.Add(IsagCustomProperties.ErrorRowHandling.FailComponent);
-            valueList.ValueListItems.Add(IsagCustomProperties.ErrorRowHandling.IgnoreFailure);
-            _ugMapping.DisplayLayout.Bands[0].Columns["ErrorHandling"].ValueList = valueList;
-            _ugMapping.DisplayLayout.Bands[0].Columns["ErrorHandling"].Style = Infragistics.Win.UltraWinGrid.ColumnStyle.DropDownList;
+            tbPrefix.DataBindings.Add("Text", _IsagCustomProperties, "AliasPrefix");
 
+ 
             //Regular Expressions
 
             cmbRegEx.ValueList = RegularExpressions.LoadFromXml(Constants.PATH_REGEX).GetValueList();
 
             //conversion Column            
             SetConversionColumnState();
-            _ugMapping.DisplayLayout.Bands[0].Columns["ConversionAsString"].Style = Infragistics.Win.UltraWinGrid.ColumnStyle.DropDownList;
+            
         }
 
         private void PopulateComboVariables()
@@ -186,13 +112,10 @@ namespace DataConverter
 
         private void SetToolTips()
         {
-            _ugMapping.DisplayLayout.Bands[0].Columns["Default"].Header.ToolTipText = "Ist ein Wert Null, so wird der OnNull-Wert verwendet.";
-            _ugMapping.DisplayLayout.Bands[0].Columns["OnErrorValue"].Header.ToolTipText =
-                "Kann ein Wert nicht konvertiert werden,\nso wird der Wert durch den OnError Wert ersetzt.\nIst \"ReDirect\" gewählt, so wird die Zeile zusätlich an den Error Ouput gesendet.";
-            _ugMapping.DisplayLayout.Bands[0].Columns["AllowNull"].Header.ToolTipText =
-                "Ist \"AllowNull\" ausgewählt und ist der Input Wert Null, so wird wird Null an den Output weitergeleitet.";
-            _ugMapping.DisplayLayout.Bands[0].Columns["IsErrorCounter"].Header.ToolTipText =
-                "Eine Spalte die als ErrorCounter markiert ist wird niemals konvertiert.\nPro Zeile können mehrere Fehler auftreten, der ErrorCounter wird entsprechend erhöht.";
+            idgvMapping.Columns["Default"].ToolTipText = "Replaces NULL values with the OnNull value.";
+            idgvMapping.Columns["OnErrorValue"].ToolTipText = "If the value cannot be converted, the OnError value is used. /n If \"Redirect\" has been choosen, this row will also sent to the error putput.";
+            idgvMapping.Columns["AllowNull"].ToolTipText = "If \"AllowNull\" has been selected, input columns with NULL values are allowed and and sent to the output.";
+            idgvMapping.Columns["IsErrorCounter"].ToolTipText = "If selected the column will never be converted. \n For each Row the error counter will be increased for each error.";
         }
 
         private void PopulateRowDisposition()
@@ -203,64 +126,74 @@ namespace DataConverter
 
             cbErrorHandling.SelectedItem = _metadata.InputCollection[Constants.INPUT_NAME].ErrorRowDisposition;
         }
-
-        private void SetOuputDataTypeAsInputDataType(UltraGridRow row)
+     
+        private void SetOuputDataTypeAsInputDataType(DataGridViewRow row)
         {
             IDTSInputColumn100 inputColumn = _inputColumnsDictionary[row.Cells["InputColumnName"].Value.ToString()];
 
-            row.Cells["DataType"].Value = inputColumn.DataType.ToString();
+            row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "DataType"].Value = inputColumn.DataType.ToString();
             row.Cells["Length"].Value = inputColumn.Length;
             row.Cells["Precision"].Value = inputColumn.Precision;
             row.Cells["Scale"].Value = inputColumn.Scale;
             row.Cells["Codepage"].Value = inputColumn.CodePage;
         }
 
-        private void DisableOutputColumnData(UltraGridRow row)
+        private void DisableOutputColumnData(DataGridViewRow row)
         {
-            row.Cells["DataType"].Activation = Activation.ActivateOnly;
-
-            row.Cells["Length"].Activation = Activation.ActivateOnly;
-            row.Cells["Precision"].Activation = Activation.ActivateOnly;
-            row.Cells["Scale"].Activation = Activation.ActivateOnly;
-            row.Cells["Codepage"].Activation = Activation.ActivateOnly;
+            SetCellEnabledStatus(row.Cells["DataType"], true);
+            SetCellEnabledStatus(row.Cells["Length"], true);
+            SetCellEnabledStatus(row.Cells["Precision"], true);
+            SetCellEnabledStatus(row.Cells["Scale"], true);
+            SetCellEnabledStatus(row.Cells["Codepage"], true);
         }
 
-
-        private void SetConversionColumnState(UltraGridRow row)
+        private void SetConversionColumnState(DataGridViewRow row)
         {
             ColumnConfig column = _IsagCustomProperties.GetColumnConfigByInputColumnName(row.Cells["InputColumnName"].Value.ToString());
-            row.Cells["ConversionAsString"].Activation = column.SupportsConversion ? Activation.AllowEdit : Activation.ActivateOnly;
-            row.Cells["ConversionAsString"].ValueList = Common.CreateValueList(column.SupportedConversions);         
+
+            DataGridViewCell cell = row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ConversionAsString"];
+            SetCellEnabledStatus(cell, !column.SupportsConversion);
+
+           
+           // row.Cells["ConversionAsString"].ValueList = Common.CreateValueList(column.SupportedConversions);
         }
-
-
         private void SetConversionColumnState()
         {
-            foreach (UltraGridRow row in _ugMapping.Rows)
+            foreach (DataGridViewRow row in idgvMapping.Rows)
             {
                 SetConversionColumnState(row);
             }
         }
 
-        public void SetGridColumnsActivationState(UltraGridRow row)
+       
+
+
+        private void SetCellEnabledStatus(DataGridViewCell cell, bool readOnly)
+        {
+            cell.ReadOnly = readOnly;
+
+            cell.Style.BackColor = readOnly? Color.LightGray : Color.White;
+        }
+        public void SetGridColumnsActivationState(DataGridViewRow row)
         {
 
             if ((bool)row.Cells["IsErrorCounter"].Value)
             {
-                row.Cells["Convert"].Activation = Activation.ActivateOnly;
-                row.Cells["Default"].Activation = Activation.ActivateOnly;
-                row.Cells["OnErrorValue"].Activation = Activation.ActivateOnly;
-                row.Cells["RegEx"].Activation = Activation.ActivateOnly;
-                row.Cells["AllowNull"].Activation = Activation.ActivateOnly;
-                row.Cells["ErrorHandling"].Activation = Activation.ActivateOnly;
+
+                SetCellEnabledStatus(row.Cells["Convert"], true);
+                SetCellEnabledStatus(row.Cells["Default"], true);
+                SetCellEnabledStatus(row.Cells["OnErrorValue"], true);
+                SetCellEnabledStatus(row.Cells["RegEx"], true);
+                SetCellEnabledStatus(row.Cells["AllowNull"], true);
+                SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX +  "ErrorHandling"], true);
 
                 DisableOutputColumnData(row);
                 SetOuputDataTypeAsInputDataType(row);
 
-                row.Cells["OutputAlias"].Activation = Activation.AllowEdit;
-                row.Cells["IsErrorCounter"].Activation = Activation.AllowEdit;
+                SetCellEnabledStatus(row.Cells["OutputAlias"], false);
+                SetCellEnabledStatus(row.Cells["IsErrorCounter"], false);
 
-                row.Update();
+                idgvMapping.Refresh();
                 return;
             }
 
@@ -269,39 +202,39 @@ namespace DataConverter
                 DisableOutputColumnData(row);
                 SetOuputDataTypeAsInputDataType(row);
 
-                row.Cells["Default"].Activation = Activation.ActivateOnly;
-                row.Cells["RegEx"].Activation = Activation.ActivateOnly;
-                row.Cells["OnErrorValue"].Activation = Activation.ActivateOnly;
-                row.Cells["AllowNull"].Activation = Activation.ActivateOnly;
-                row.Cells["ErrorHandling"].Activation = Activation.ActivateOnly;
+                SetCellEnabledStatus(row.Cells["Default"], true);
+                SetCellEnabledStatus(row.Cells["RegEx"], true);
+                SetCellEnabledStatus(row.Cells["OnErrorValue"], true);               
+                SetCellEnabledStatus(row.Cells["AllowNull"], true);
+                SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ErrorHandling"], true);
 
-                row.Cells["IsErrorCounter"].Activation = Activation.AllowEdit;
-                row.Cells["Convert"].Activation = Activation.AllowEdit;
-                row.Cells["OutputAlias"].Activation = Activation.AllowEdit;
+                SetCellEnabledStatus(row.Cells["IsErrorCounter"], false);
+                SetCellEnabledStatus(row.Cells["Convert"], false);
+                SetCellEnabledStatus(row.Cells["OutputAlias"], false);
 
-                row.Update();
+                idgvMapping.Refresh();
                 return;
             }
 
             ColumnConfig config = _IsagCustomProperties.GetColumnConfigByInputColumnName(row.Cells["InputColumnName"].Value.ToString());
 
-            row.Cells["Convert"].Activation = Activation.AllowEdit;
-            row.Cells["DataType"].Activation = Activation.AllowEdit;
-            row.Cells["Default"].Activation = Activation.AllowEdit;
-            row.Cells["Length"].Activation = config.HasLength() ? Activation.AllowEdit : Activation.ActivateOnly;
-            row.Cells["Precision"].Activation = config.HasPrecision() ? Activation.AllowEdit : Activation.ActivateOnly;
-            row.Cells["Scale"].Activation = config.HasScale() ? Activation.AllowEdit : Activation.ActivateOnly;
-            row.Cells["Codepage"].Activation = config.HasCodePage() ? Activation.AllowEdit : Activation.ActivateOnly;
-            row.Cells["RegEx"].Activation = Activation.AllowEdit;
-            row.Cells["OnErrorValue"].Activation = Activation.AllowEdit;
-            row.Cells["AllowNull"].Activation = Activation.AllowEdit;
-            row.Cells["ErrorHandling"].Activation = Activation.AllowEdit;
-            row.Cells["IsErrorCounter"].Activation = Activation.AllowEdit;
-            row.Cells["OutputAlias"].Activation = Activation.AllowEdit;
+            SetCellEnabledStatus(row.Cells["Convert"], false);
+            SetCellEnabledStatus(row.Cells["DataType"], false);
+            SetCellEnabledStatus(row.Cells["Default"], false);
+            SetCellEnabledStatus(row.Cells["Length"], !config.HasLength());
+            SetCellEnabledStatus(row.Cells["Precision"], !config.HasPrecision());
+            SetCellEnabledStatus(row.Cells["Scale"], !config.HasScale());
+            SetCellEnabledStatus(row.Cells["Codepage"], !config.HasCodePage());
+            SetCellEnabledStatus(row.Cells["RegEx"], false);
+            SetCellEnabledStatus(row.Cells["OnErrorValue"], false);
+            SetCellEnabledStatus(row.Cells["AllowNull"], false);
+            SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ErrorHandling"], false);
+            SetCellEnabledStatus(row.Cells["IsErrorCounter"], false);
+            SetCellEnabledStatus(row.Cells["OutputAlias"], false);
 
-            row.Update();
+          
+            idgvMapping.Refresh();
         }
-
 
         #region Load & Save
 
@@ -453,48 +386,46 @@ namespace DataConverter
         private void btnApplyPrefix_Click(object sender, EventArgs e)
         {
             _IsagCustomProperties.AddPrefix();
-            _ugMapping.DataBind();
         }
 
         private void SelectCheckBoxes(bool select)
         {
-            foreach (UltraGridCell cell in _ugMapping.Selected.Cells)
+            foreach (DataGridViewCell cell in idgvMapping.SelectedCells)
             {
-                if (cell.Column.Header.Caption == "Convert" || cell.Column.Header.Caption == "Allow Null")
+                if (idgvMapping.Columns[cell.ColumnIndex].Name == "Convert" || idgvMapping.Columns[cell.ColumnIndex].Name == "Allow Null")
                     cell.Value = select;
             }
 
-            foreach (UltraGridRow row in _ugMapping.Selected.Rows)
+            foreach (DataGridViewRow row in idgvMapping.SelectedRows)
             {
-                //row.Cells["Use"].Value = select;
                 row.Cells["Convert"].Value = select;
                 row.Cells["AllowNull"].Value = select;
             }
 
-            foreach (Infragistics.Win.UltraWinGrid.ColumnHeader col in _ugMapping.Selected.Columns)
+            foreach (DataGridViewColumn col in idgvMapping.SelectedColumns)
             {
-                if (col.Caption == "Convert" || col.Caption == "Allow Null")
+                if (col.Name == "Convert" || col.Name == "Allow Null")
                 {
-                    foreach (UltraGridRow row in _ugMapping.Rows)
+                    foreach (DataGridViewRow row in idgvMapping.Rows)
                     {
-                        row.Cells[col.Column].Value = select;
+                        row.Cells[col.Index].Value = select;
                     }
                 }
             }
-        }
+        }       
 
-        private void ugMapping_AfterCellUpdate(object sender, CellEventArgs e)
+
+        private void idgvMapping_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.Cell.Column.Key == "DataType" || e.Cell.Column.Key == "IsErrorCounter" || e.Cell.Column.Key == "Convert") SetGridColumnsActivationState(e.Cell.Row);
-            else if (e.Cell.Column.Key == "ErrorHandling") cbErrorHandling.SelectedItem = _IsagCustomProperties.GetRowDisposition();
-            //else if (e.Cell.Column.Key == "ConversionAsString") _ugMapping.DataBind();
-            SetConversionColumnState(e.Cell.Row);
+            DataGridViewColumn col = idgvMapping.Columns[e.ColumnIndex];
+            DataGridViewRow row = idgvMapping.Rows[e.RowIndex];
+            if (col.Name == "DataType" || col.Name == "IsErrorCounter" || col.Name == "Convert") SetGridColumnsActivationState(row);
+            else if (col.Name == "ErrorHandling") cbErrorHandling.SelectedItem = _IsagCustomProperties.GetRowDisposition();
+           
+           SetConversionColumnState(row);
         }
 
-
-
-
-        private void TestRegEx(UltraGridRow row)
+        private void TestRegEx(DataGridViewRow row)
         {
             //^(2[0-3]|[0-1]?[0-9])(:[0-5][0-9]){2}$(2[0-3]|[0-1]?[0-9])
             string pattern = row.Cells["RegEx"].Value.ToString();
@@ -507,7 +438,6 @@ namespace DataConverter
         private void cbErrorHandling_SelectedIndexChanged(object sender, EventArgs e)
         {
             _IsagCustomProperties.SetRowDisposition((DTSRowDisposition)cbErrorHandling.SelectedItem);
-            _ugMapping.DataBind();
         }
 
         private void btnCopyRegEx_Click(object sender, EventArgs e)
@@ -546,17 +476,17 @@ namespace DataConverter
         private void InitializeContextMenu()
         {
 
-            _ugMapping.ContextMenu = new ContextMenu();
-            _ugMapping.ContextMenu.MenuItems.Add(new MenuItem("Select", menuItem_Click));
-            _ugMapping.ContextMenu.MenuItems.Add(new MenuItem("DeSelect", menuItem_Click));
-            _ugMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
-            _ugMapping.ContextMenu.MenuItems.Add(new MenuItem("Apply Alias Prefix", menuItem_Click));
-            _ugMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
+            //_ugMapping.ContextMenu = new ContextMenu();
+            //_ugMapping.ContextMenu.MenuItems.Add(new MenuItem("Select", menuItem_Click));
+            //_ugMapping.ContextMenu.MenuItems.Add(new MenuItem("DeSelect", menuItem_Click));
+            //_ugMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
+            //_ugMapping.ContextMenu.MenuItems.Add(new MenuItem("Apply Alias Prefix", menuItem_Click));
+            //_ugMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
 
-            MenuItem item = new MenuItem("DebugMode", menuItem_Click);
-            item.Checked = _IsagCustomProperties.DebugModus;
+            //MenuItem item = new MenuItem("DebugMode", menuItem_Click);
+            //item.Checked = _IsagCustomProperties.DebugModus;
 
-            _ugMapping.ContextMenu.MenuItems.Add(item);
+            //_ugMapping.ContextMenu.MenuItems.Add(item);
 
         }
 
@@ -568,68 +498,15 @@ namespace DataConverter
         }
 
 
-        #region NewColumnsConfig
-
-        private void btnAddRow_Click(object sender, EventArgs e)
-        {
-            AddRow();
-        }
-
-        private void btnRemoveRow_Click(object sender, EventArgs e)
-        {
-            RemoveRows();
-        }
-
-        private void AddRow()
-        {
-            NewColumnConfig config = new NewColumnConfig();
-
-            int idx = 0;
-            for (int i = 0; i < _IsagCustomProperties.NewColumnConfigList.Count; i++)
-            {
-                if (_IsagCustomProperties.NewColumnConfigList[i].OutputAlias == "NewColumn" + idx.ToString())
-                {
-                    i = -1;
-                    idx++;
-                }
-            }
-
-            config.OutputAlias = "NewColumn" + idx.ToString();
-
-            _IsagCustomProperties.NewColumnConfigList.Add(config);
-            _ugNewColumns.DataBind();
-            SetNewColumnsGridDataCellActivation(_ugNewColumns.Rows[_ugNewColumns.Rows.Count - 1]);
-        }
-
-        private void RemoveRows()
-        {
-            _ugNewColumns.DeleteSelectedRows();
-        }
-
-        private void SetNewColumnsGridDataCellActivation(UltraGridRow row)
-        {
-            NewColumnConfig config = _IsagCustomProperties.GetNewColumnConfigByName(row.Cells["OutputAlias"].Value.ToString());
-
-            row.Cells["Length"].Activation = config.HasLength() ? Activation.AllowEdit : Activation.ActivateOnly;
-            row.Cells["Precision"].Activation = config.HasPrecision() ? Activation.AllowEdit : Activation.ActivateOnly;
-            row.Cells["Scale"].Activation = config.HasScale() ? Activation.AllowEdit : Activation.ActivateOnly;
-            row.Cells["Codepage"].Activation = config.HasCodePage() ? Activation.AllowEdit : Activation.ActivateOnly;
-        }
-
-        void _ugNewColumns_AfterCellUpdate(object sender, CellEventArgs e)
-        {
-            SetNewColumnsGridDataCellActivation(e.Cell.Row);
-        }
-
-        #endregion
 
         private void frmDataConverterUI_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (_abortClosing && this.DialogResult == System.Windows.Forms.DialogResult.OK &&
-              Common.ShowMessage("Da beim Speichern ein Fehler aufgetreten ist, würden Änderungen beim Schließen des DataConverters verworfen werden. <br/><br/>" +
-                          "Soll das Schließen des DataConverters abgebrochen werden?", "",
+              Common.ShowMessage("Error while saving. Changes would be lost. Abort closing the window?", "",
                           MessageBoxIcon.Question, MessageBoxButtons.YesNo, ultraMessageBox) == System.Windows.Forms.DialogResult.Yes)
                 e.Cancel = _abortClosing;
         }
+
+       
     }
 }

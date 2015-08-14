@@ -46,9 +46,9 @@ namespace DataConverter
 
         }
 
-        public static List<string> GetListFromEnum(Type srcEnum)
+        public static List<object> GetListFromEnum(Type srcEnum)
         {
-            List<string> result = new List<string>();
+            List<object> result = new List<object>();
             Array enums = Enum.GetValues(srcEnum);
 
             for (int i = 0; i < enums.Length; i++)
