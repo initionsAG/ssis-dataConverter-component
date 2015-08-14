@@ -108,6 +108,17 @@ namespace DataConverter
 
         private void PopulateMappingGrid()
         {
+
+            idgvMapping.DataSource = _IsagCustomProperties.ColumnConfigList;
+            idgvMapping.AddCellBoundedComboBox("DataType", Constants.DATATYPE_LIST());
+       //     idgvMapping.AddCellBoundedComboBox("ErrorHandling", typeof(IsagCustomProperties.ErrorRowHandling));
+
+            List<string> listConversion = Common.GetListFromEnum(typeof(DateConvertTypes));
+            listConversion.AddRange(Constants.STRING_CONVERSION_TYPES);
+            idgvMapping.AddCellBoundedComboBox("ConversionAsString", new BindingList<string>(listConversion));
+            
+
+
             tbPrefix.DataBindings.Add("Text", _IsagCustomProperties, "AliasPrefix");
 
             _ugMapping.DataSource = _IsagCustomProperties.ColumnConfigList;

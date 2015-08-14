@@ -45,5 +45,18 @@ namespace DataConverter
             return ultraMessageBox.ShowMessageBox(info);
 
         }
+
+        public static List<string> GetListFromEnum(Type srcEnum)
+        {
+            List<string> result = new List<string>();
+            Array enums = Enum.GetValues(srcEnum);
+
+            for (int i = 0; i < enums.Length; i++)
+            {
+                result.Add(enums.GetValue(i).ToString());
+            }
+
+            return result;
+        }
     }
 }

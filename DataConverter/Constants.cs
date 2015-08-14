@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+using System.Collections;
+using System.ComponentModel;
 
 namespace DataConverter
 {
@@ -19,7 +21,7 @@ namespace DataConverter
         public const string PREFIX_OUTPUT_COL_NAME_DEFAULT = "";
 
         public const string PATH_REGEX = @"\\localhost\SSIS_RegEx\regex.xml";
-       
+
         //Mapping Konstanten 
         //Je Spalte wird ein Konfigurations-Array genutzt.
         //Die idx-Konstanten geben die Position einer Einstellung innerhalb des Arrays an.
@@ -64,6 +66,20 @@ namespace DataConverter
         public static readonly string[] DATATYPE_SCALE = { "DT_DECIMAL" };
         public static readonly string[] DATATYPE_LENGTH_CODEPAGE = { "DT_STR" };
         public static readonly string[] DATATYPE_CODEPAGE = { "DT_TEXT" };
+
+        public static BindingList<string> DATATYPE_LIST()
+        {
+            List<string> datatypes = new List<string>();
+            datatypes.AddRange(Constants.DATATYPE_SIMPLE);
+            datatypes.AddRange(Constants.DATATYPE_LENGTH);
+            datatypes.AddRange(Constants.DATATYPE_PRECISION_SCALE);
+            datatypes.AddRange(Constants.DATATYPE_SCALE);
+            datatypes.AddRange(Constants.DATATYPE_LENGTH_CODEPAGE);
+            datatypes.AddRange(Constants.DATATYPE_CODEPAGE);
+            datatypes.Sort();          
+
+            return  new BindingList<string>(datatypes);
+        }
 
         public static readonly string[] DATATYPE_NUMBER = {"DT_CY","DT_UI1","DT_UI2","DT_UI4","DT_UI8",
              "DT_I1","DT_I2","DT_I4","DT_I8","DT_R4","DT_R8", "DT_NUMERIC", "DT_DECIMAL"};
@@ -149,8 +165,8 @@ namespace DataConverter
             {
                 errorOutput = metadata.OutputCollection[OUTPUT_ERROR_NAME];
 
-                try {errorOutput.OutputColumnCollection.RemoveAll();                }
-                catch (Exception) {} //Standard Errorspalten können nicht gelöscht werden                
+                try { errorOutput.OutputColumnCollection.RemoveAll(); }
+                catch (Exception) { } //Standard Errorspalten können nicht gelöscht werden                
             }
             catch (Exception)
             {

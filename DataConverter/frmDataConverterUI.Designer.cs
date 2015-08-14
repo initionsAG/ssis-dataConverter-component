@@ -31,19 +31,21 @@
             this.components = new System.ComponentModel.Container();
             Infragistics.Win.UltraWinTabControl.UltraTab ultraTab1 = new Infragistics.Win.UltraWinTabControl.UltraTab();
             Infragistics.Win.UltraWinTabControl.UltraTab ultraTab2 = new Infragistics.Win.UltraWinTabControl.UltraTab();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDataConverterUI));
             this.ultraTabPageControl1 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             this.pnlDGV = new System.Windows.Forms.Panel();
-            this.tbPrefix = new Infragistics.Win.UltraWinEditors.UltraTextEditor();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnCopyRegEx = new System.Windows.Forms.Button();
-            this.btnApplyPrefix = new Infragistics.Win.Misc.UltraButton();
-            this.cmbRegEx = new Infragistics.Win.UltraWinEditors.UltraComboEditor();
-            this.lblRegEx = new System.Windows.Forms.Label();
             this.ultraTabPageControl2 = new Infragistics.Win.UltraWinTabControl.UltraTabPageControl();
             this.btnAddRow = new Infragistics.Win.Misc.UltraButton();
             this.btnRemoveRow = new Infragistics.Win.Misc.UltraButton();
             this.pnlNewColumns = new System.Windows.Forms.Panel();
+            this.tbPrefix = new Infragistics.Win.UltraWinEditors.UltraTextEditor();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnApplyPrefix = new Infragistics.Win.Misc.UltraButton();
+            this.cmbRegEx = new Infragistics.Win.UltraWinEditors.UltraComboEditor();
+            this.lblRegEx = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.cbErrorHandling = new System.Windows.Forms.ComboBox();
@@ -53,27 +55,26 @@
             this.ultraTabControl1 = new Infragistics.Win.UltraWinTabControl.UltraTabControl();
             this.ultraTabSharedControlsPage1 = new Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage();
             this.ultraMessageBox = new Infragistics.Win.UltraMessageBox.UltraMessageBoxManager(this.components);
+            this.pnlMapping = new System.Windows.Forms.Panel();
+            this.btnCopyRegEx = new System.Windows.Forms.Button();
+            this.idgvMapping = new Lookup2.ComponentFramework.Controls.IsagDataGridView();
             this.ultraTabPageControl1.SuspendLayout();
+            this.ultraTabPageControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbPrefix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbRegEx)).BeginInit();
-            this.ultraTabPageControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbErrorName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ultraTabControl1)).BeginInit();
             this.ultraTabControl1.SuspendLayout();
+            this.pnlMapping.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.idgvMapping)).BeginInit();
             this.SuspendLayout();
             // 
             // ultraTabPageControl1
             // 
             this.ultraTabPageControl1.Controls.Add(this.pnlDGV);
-            this.ultraTabPageControl1.Controls.Add(this.tbPrefix);
-            this.ultraTabPageControl1.Controls.Add(this.label1);
-            this.ultraTabPageControl1.Controls.Add(this.btnCopyRegEx);
-            this.ultraTabPageControl1.Controls.Add(this.btnApplyPrefix);
-            this.ultraTabPageControl1.Controls.Add(this.cmbRegEx);
-            this.ultraTabPageControl1.Controls.Add(this.lblRegEx);
             this.ultraTabPageControl1.Location = new System.Drawing.Point(1, 23);
             this.ultraTabPageControl1.Name = "ultraTabPageControl1";
-            this.ultraTabPageControl1.Size = new System.Drawing.Size(1051, 412);
+            this.ultraTabPageControl1.Size = new System.Drawing.Size(1051, 172);
             // 
             // pnlDGV
             // 
@@ -82,70 +83,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlDGV.Location = new System.Drawing.Point(7, 3);
             this.pnlDGV.Name = "pnlDGV";
-            this.pnlDGV.Size = new System.Drawing.Size(1041, 376);
+            this.pnlDGV.Size = new System.Drawing.Size(1041, 94);
             this.pnlDGV.TabIndex = 12;
-            // 
-            // tbPrefix
-            // 
-            this.tbPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tbPrefix.Location = new System.Drawing.Point(73, 386);
-            this.tbPrefix.Name = "tbPrefix";
-            this.tbPrefix.Size = new System.Drawing.Size(126, 21);
-            this.tbPrefix.TabIndex = 13;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 390);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Alias Prefix";
-            // 
-            // btnCopyRegEx
-            // 
-            this.btnCopyRegEx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnCopyRegEx.BackgroundImage = global::DataConverter.Properties.Resources.copy;
-            this.btnCopyRegEx.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnCopyRegEx.Location = new System.Drawing.Point(463, 385);
-            this.btnCopyRegEx.Name = "btnCopyRegEx";
-            this.btnCopyRegEx.Size = new System.Drawing.Size(26, 23);
-            this.btnCopyRegEx.TabIndex = 17;
-            this.btnCopyRegEx.UseVisualStyleBackColor = true;
-            this.btnCopyRegEx.Click += new System.EventHandler(this.btnCopyRegEx_Click);
-            // 
-            // btnApplyPrefix
-            // 
-            this.btnApplyPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnApplyPrefix.Location = new System.Drawing.Point(207, 385);
-            this.btnApplyPrefix.Name = "btnApplyPrefix";
-            this.btnApplyPrefix.Size = new System.Drawing.Size(45, 23);
-            this.btnApplyPrefix.TabIndex = 14;
-            this.btnApplyPrefix.Text = "Apply";
-            this.btnApplyPrefix.Click += new System.EventHandler(this.btnApplyPrefix_Click);
-            // 
-            // cmbRegEx
-            // 
-            this.cmbRegEx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmbRegEx.DisplayStyle = Infragistics.Win.EmbeddableElementDisplayStyle.WindowsVista;
-            this.cmbRegEx.DropDownStyle = Infragistics.Win.DropDownStyle.DropDownList;
-            this.cmbRegEx.Location = new System.Drawing.Point(327, 386);
-            this.cmbRegEx.Name = "cmbRegEx";
-            this.cmbRegEx.Size = new System.Drawing.Size(133, 21);
-            this.cmbRegEx.TabIndex = 16;
-            // 
-            // lblRegEx
-            // 
-            this.lblRegEx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblRegEx.AutoSize = true;
-            this.lblRegEx.Location = new System.Drawing.Point(283, 390);
-            this.lblRegEx.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblRegEx.Name = "lblRegEx";
-            this.lblRegEx.Size = new System.Drawing.Size(39, 13);
-            this.lblRegEx.TabIndex = 8;
-            this.lblRegEx.Text = "RegEx";
             // 
             // ultraTabPageControl2
             // 
@@ -154,7 +93,7 @@
             this.ultraTabPageControl2.Controls.Add(this.pnlNewColumns);
             this.ultraTabPageControl2.Location = new System.Drawing.Point(-10000, -10000);
             this.ultraTabPageControl2.Name = "ultraTabPageControl2";
-            this.ultraTabPageControl2.Size = new System.Drawing.Size(1051, 412);
+            this.ultraTabPageControl2.Size = new System.Drawing.Size(1051, 172);
             // 
             // btnAddRow
             // 
@@ -185,6 +124,56 @@
             this.pnlNewColumns.Name = "pnlNewColumns";
             this.pnlNewColumns.Size = new System.Drawing.Size(1041, 376);
             this.pnlNewColumns.TabIndex = 13;
+            // 
+            // tbPrefix
+            // 
+            this.tbPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tbPrefix.Location = new System.Drawing.Point(73, 193);
+            this.tbPrefix.Name = "tbPrefix";
+            this.tbPrefix.Size = new System.Drawing.Size(126, 21);
+            this.tbPrefix.TabIndex = 13;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 197);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(58, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Alias Prefix";
+            // 
+            // btnApplyPrefix
+            // 
+            this.btnApplyPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnApplyPrefix.Location = new System.Drawing.Point(207, 192);
+            this.btnApplyPrefix.Name = "btnApplyPrefix";
+            this.btnApplyPrefix.Size = new System.Drawing.Size(45, 23);
+            this.btnApplyPrefix.TabIndex = 14;
+            this.btnApplyPrefix.Text = "Apply";
+            this.btnApplyPrefix.Click += new System.EventHandler(this.btnApplyPrefix_Click);
+            // 
+            // cmbRegEx
+            // 
+            this.cmbRegEx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmbRegEx.DisplayStyle = Infragistics.Win.EmbeddableElementDisplayStyle.WindowsVista;
+            this.cmbRegEx.DropDownStyle = Infragistics.Win.DropDownStyle.DropDownList;
+            this.cmbRegEx.Location = new System.Drawing.Point(327, 193);
+            this.cmbRegEx.Name = "cmbRegEx";
+            this.cmbRegEx.Size = new System.Drawing.Size(133, 21);
+            this.cmbRegEx.TabIndex = 16;
+            // 
+            // lblRegEx
+            // 
+            this.lblRegEx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblRegEx.AutoSize = true;
+            this.lblRegEx.Location = new System.Drawing.Point(283, 197);
+            this.lblRegEx.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblRegEx.Name = "lblRegEx";
+            this.lblRegEx.Size = new System.Drawing.Size(39, 13);
+            this.lblRegEx.TabIndex = 8;
+            this.lblRegEx.Text = "RegEx";
             // 
             // btnCancel
             // 
@@ -264,10 +253,10 @@
             this.ultraTabControl1.Controls.Add(this.ultraTabSharedControlsPage1);
             this.ultraTabControl1.Controls.Add(this.ultraTabPageControl1);
             this.ultraTabControl1.Controls.Add(this.ultraTabPageControl2);
-            this.ultraTabControl1.Location = new System.Drawing.Point(6, 3);
+            this.ultraTabControl1.Location = new System.Drawing.Point(6, 243);
             this.ultraTabControl1.Name = "ultraTabControl1";
             this.ultraTabControl1.SharedControlsPage = this.ultraTabSharedControlsPage1;
-            this.ultraTabControl1.Size = new System.Drawing.Size(1055, 438);
+            this.ultraTabControl1.Size = new System.Drawing.Size(1055, 198);
             this.ultraTabControl1.TabIndex = 20;
             ultraTab1.TabPage = this.ultraTabPageControl1;
             ultraTab1.Text = "Column Mapping";
@@ -282,13 +271,80 @@
             // 
             this.ultraTabSharedControlsPage1.Location = new System.Drawing.Point(-10000, -10000);
             this.ultraTabSharedControlsPage1.Name = "ultraTabSharedControlsPage1";
-            this.ultraTabSharedControlsPage1.Size = new System.Drawing.Size(1051, 412);
+            this.ultraTabSharedControlsPage1.Size = new System.Drawing.Size(1051, 172);
             // 
             // ultraMessageBox
             // 
             this.ultraMessageBox.ContainingControl = this;
             this.ultraMessageBox.MinimumWidth = 775;
             this.ultraMessageBox.UseOsThemes = Infragistics.Win.DefaultableBoolean.False;
+            // 
+            // pnlMapping
+            // 
+            this.pnlMapping.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlMapping.Controls.Add(this.idgvMapping);
+            this.pnlMapping.Controls.Add(this.label1);
+            this.pnlMapping.Controls.Add(this.tbPrefix);
+            this.pnlMapping.Controls.Add(this.lblRegEx);
+            this.pnlMapping.Controls.Add(this.cmbRegEx);
+            this.pnlMapping.Controls.Add(this.btnCopyRegEx);
+            this.pnlMapping.Controls.Add(this.btnApplyPrefix);
+            this.pnlMapping.Location = new System.Drawing.Point(7, 12);
+            this.pnlMapping.Name = "pnlMapping";
+            this.pnlMapping.Size = new System.Drawing.Size(1054, 225);
+            this.pnlMapping.TabIndex = 21;
+            // 
+            // btnCopyRegEx
+            // 
+            this.btnCopyRegEx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnCopyRegEx.BackgroundImage = global::DataConverter.Properties.Resources.copy;
+            this.btnCopyRegEx.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnCopyRegEx.Location = new System.Drawing.Point(463, 192);
+            this.btnCopyRegEx.Name = "btnCopyRegEx";
+            this.btnCopyRegEx.Size = new System.Drawing.Size(26, 23);
+            this.btnCopyRegEx.TabIndex = 17;
+            this.btnCopyRegEx.UseVisualStyleBackColor = true;
+            this.btnCopyRegEx.Click += new System.EventHandler(this.btnCopyRegEx_Click);
+            // 
+            // idgvMapping
+            // 
+            this.idgvMapping.AllowUserToAddRows = false;
+            this.idgvMapping.AllowUserToDeleteRows = false;
+            this.idgvMapping.AllowUserToOrderColumns = true;
+            this.idgvMapping.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.idgvMapping.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.idgvMapping.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.idgvMapping.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.idgvMapping.DefaultCellStyle = dataGridViewCellStyle2;
+            this.idgvMapping.Location = new System.Drawing.Point(0, 0);
+            this.idgvMapping.Name = "idgvMapping";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.idgvMapping.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.idgvMapping.ShowEditingIcon = false;
+            this.idgvMapping.Size = new System.Drawing.Size(1051, 186);
+            this.idgvMapping.TabIndex = 18;
             // 
             // frmDataConverterUI
             // 
@@ -298,6 +354,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(1065, 482);
+            this.Controls.Add(this.pnlMapping);
             this.Controls.Add(this.ultraTabControl1);
             this.Controls.Add(this.cmbErrorName);
             this.Controls.Add(this.label3);
@@ -312,13 +369,15 @@
             this.Text = "DataConverter";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDataConverterUI_FormClosing);
             this.ultraTabPageControl1.ResumeLayout(false);
-            this.ultraTabPageControl1.PerformLayout();
+            this.ultraTabPageControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tbPrefix)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbRegEx)).EndInit();
-            this.ultraTabPageControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cmbErrorName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ultraTabControl1)).EndInit();
             this.ultraTabControl1.ResumeLayout(false);
+            this.pnlMapping.ResumeLayout(false);
+            this.pnlMapping.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.idgvMapping)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -347,5 +406,8 @@
         private Infragistics.Win.Misc.UltraButton btnAddRow;
         private Infragistics.Win.Misc.UltraButton btnRemoveRow;
         private Infragistics.Win.UltraMessageBox.UltraMessageBoxManager ultraMessageBox;
+        private System.Windows.Forms.Panel pnlMapping;
+        private Lookup2.ComponentFramework.Controls.IsagDataGridView idgvMapping;
+
     }
 }

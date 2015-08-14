@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataConverter</RootNamespace>
     <AssemblyName>DataConverter</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>DataConverter.snk</AssemblyOriginatorKeyFile>
@@ -37,6 +37,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -85,6 +86,18 @@
     <Compile Include="ColumnConfig.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Comparer.cs" />
+    <Compile Include="ComponentFramework\Controls\IsagComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ComponentFramework\Controls\IsagComboBox.designer.cs">
+      <DependentUpon>IsagComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ComponentFramework\Controls\IsagDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ComponentFramework\Controls\IsagDataGridView.designer.cs">
+      <DependentUpon>IsagDataGridView.cs</DependentUpon>
+    </Compile>
     <Compile Include="ComponentFramework\Controls\IsagUltraComboEditor.cs">
       <SubType>Component</SubType>
     </Compile>
