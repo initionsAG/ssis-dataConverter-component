@@ -39,43 +39,184 @@
     <SccProvider>SAK</SccProvider>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <Choose>
+    <When Condition="'$(Configuration)' == 'Sql2008'">
+      <PropertyGroup>
+        <AssemblyOriginatorKeyFile>DataConverter.snk</AssemblyOriginatorKeyFile>
+        <AssemblyName>Lookup2</AssemblyName>
+        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(Configuration)' == 'Sql2012'">
+      <PropertyGroup>
+        <AssemblyOriginatorKeyFile>DataConverter_2012.snk</AssemblyOriginatorKeyFile>
+        <AssemblyName>Lookup3</AssemblyName>
+        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(Configuration)' == 'Sql2014'">
+      <PropertyGroup>
+        <AssemblyOriginatorKeyFile>DataConverter_2014.snk</AssemblyOriginatorKeyFile>
+        <AssemblyName>Lookup4</AssemblyName>
+        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <AssemblyOriginatorKeyFile>DataConverter.snk</AssemblyOriginatorKeyFile>
+        <AssemblyName>Lookup2</AssemblyName>
+        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2008|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
+    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\100\DTS\PipelineComponents</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SQL2008</DefineConstants>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\100\DTS\PipelineComponents\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\100\DTS\PipelineComponents\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2012|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\110\DTS\PipelineComponents</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SQL2012</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>DataConverter_DC.ico</ApplicationIcon>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2014|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\120\DTS\PipelineComponents</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SQL2014</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.SqlServer.Dts.Design, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86" />
-    <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
+  <Choose>
+    <When Condition="'$(Configuration)' == 'Sql2008'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualBasic" />
+        <Reference Include="System" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Drawing" />
+        <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+        <Reference Include="System.Windows.Forms" />
+        <Reference Include="System.Xml" />
+        <Reference Include="Microsoft.SqlServer.Dts.Design, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
+          <HintPath>Lib\2008\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x64">
+          <SpecificVersion>True</SpecificVersion>
+          <EmbedInteropTypes>True</EmbedInteropTypes>
+          <Private>False</Private>
+          <HintPath>Lib\2008\x64\Microsoft.SQLServer.DTSRuntimeWrap.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
+          <HintPath>Lib\2008\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+        <Reference Include="Microsoft.SqlServer.PipelineHost, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <When Condition="'$(Configuration)' == 'Sql2012'">
+      <ItemGroup>
+		  <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Microsoft.VisualBasic" />
+        <Reference Include="System" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Drawing" />
+        <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+        <Reference Include="System.Windows.Forms" />
+        <Reference Include="System.Xml" />
+        <Reference Include="Microsoft.SqlServer.Dts.Design, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
+          <HintPath>Lib\2012\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x64">
+          <SpecificVersion>True</SpecificVersion>
+          <EmbedInteropTypes>True</EmbedInteropTypes>
+          <Private>False</Private>
+          <HintPath>Lib\2012\x64\Microsoft.SQLServer.DTSRuntimeWrap.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
+          <HintPath>Lib\2012\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SqlServer.PipelineHost, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+        <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <EmbedInteropTypes>True</EmbedInteropTypes>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="'$(Configuration)' == 'Sql2014'">
+      <ItemGroup>
+		  <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Microsoft.VisualBasic" />
+        <Reference Include="System" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Drawing" />
+        <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+        <Reference Include="System.Windows.Forms" />
+        <Reference Include="System.Xml" />
+        <Reference Include="Microsoft.SqlServer.Dts.Design, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
+          <HintPath>Lib\2014\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x64">
+          <SpecificVersion>True</SpecificVersion>
+          <EmbedInteropTypes>True</EmbedInteropTypes>
+          <Private>False</Private>
+          <HintPath>Lib\2014\x64\Microsoft.SQLServer.DTSRuntimeWrap.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
+          <HintPath>Lib\2014\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <EmbedInteropTypes>False</EmbedInteropTypes>
+        </Reference>
+        <Reference Include="Microsoft.SqlServer.PipelineHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.SqlServer.Dts.Design, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
+          <SpecificVersion>False</SpecificVersion>
+          <EmbedInteropTypes>True</EmbedInteropTypes>
+          <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SQLServer.DTSRuntimeWrap.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+        <Reference Include="Microsoft.SqlServer.PipelineHost, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+        <Reference Include="Microsoft.VisualBasic" />
+        <Reference Include="System" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Drawing" />
+        <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+        <Reference Include="System.Windows.Forms" />
+        <Reference Include="System.Xml" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
   <ItemGroup>
     <Compile Include="ColumnConfig.cs" />
     <Compile Include="Common.cs" />
@@ -165,6 +306,15 @@
     <Content Include="CaCheckInstallDir.wxs" />
     <Content Include="DataConverter_DC.ico" />
     <EmbeddedResource Include="Resources\DataConverter_DC.ico" />
+    <Content Include="Lib\2012\Microsoft.SqlServer.Dts.Design.dll" />
+    <Content Include="Lib\2012\Microsoft.SqlServer.ManagedDTS.dll" />
+    <Content Include="Lib\2012\x64\Microsoft.SqlServer.DTSRuntimeWrap.dll" />
+    <Content Include="Lib\2014\Microsoft.SqlServer.Dts.Design.dll" />
+    <Content Include="Lib\2014\Microsoft.SqlServer.ManagedDTS.dll" />
+    <Content Include="Lib\2014\x64\Microsoft.SqlServer.DTSRuntimeWrap.dll" />
+    <Content Include="Lib\2088\Microsoft.SqlServer.Dts.Design.dll" />
+    <Content Include="Lib\2088\Microsoft.SqlServer.ManagedDTS.dll" />
+    <Content Include="Lib\2088\x64\Microsoft.SqlServer.DTSRuntimeWrap.dll" />
     <Content Include="setup.wxs">
       <SubType>Designer</SubType>
     </Content>
@@ -178,7 +328,13 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2008|AnyCPU'">
     <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2012|AnyCPU'">
+    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2014|AnyCPU'">
+    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
