@@ -31,10 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditor));
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnInsertInputColumn = new Infragistics.Win.Misc.UltraButton();
-            this.tbValue = new Infragistics.Win.FormattedLinkLabel.UltraFormattedTextEditor();
-            this.cbColumnList = new Infragistics.Win.UltraWinEditors.UltraComboEditor();
-            ((System.ComponentModel.ISupportInitialize)(this.cbColumnList)).BeginInit();
+            this.cbColumnList = new System.Windows.Forms.ComboBox();
+            this.btnInsertInputColumn = new System.Windows.Forms.Button();
+            this.tbValue = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnOk
@@ -59,15 +58,28 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
+            // cbColumnList
+            // 
+            this.cbColumnList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbColumnList.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbColumnList.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbColumnList.FormattingEnabled = true;
+            this.cbColumnList.Location = new System.Drawing.Point(93, 116);
+            this.cbColumnList.Name = "cbColumnList";
+            this.cbColumnList.Size = new System.Drawing.Size(144, 21);
+            this.cbColumnList.Sorted = true;
+            this.cbColumnList.TabIndex = 15;
+            // 
             // btnInsertInputColumn
             // 
             this.btnInsertInputColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnInsertInputColumn.Location = new System.Drawing.Point(12, 114);
+            this.btnInsertInputColumn.Location = new System.Drawing.Point(12, 116);
             this.btnInsertInputColumn.Name = "btnInsertInputColumn";
             this.btnInsertInputColumn.Size = new System.Drawing.Size(75, 23);
-            this.btnInsertInputColumn.TabIndex = 11;
-            this.btnInsertInputColumn.Text = "Insert InputColumn";
-            this.btnInsertInputColumn.Click += new System.EventHandler(this.btnInsertInputColumn_Click);
+            this.btnInsertInputColumn.TabIndex = 16;
+            this.btnInsertInputColumn.Text = "Insert";
+            this.btnInsertInputColumn.UseVisualStyleBackColor = true;
+            this.btnInsertInputColumn.Click += new System.EventHandler(this.btnInsertInputColumn_Click_1);
             // 
             // tbValue
             // 
@@ -75,36 +87,24 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbValue.Location = new System.Drawing.Point(12, 12);
+            this.tbValue.Multiline = true;
             this.tbValue.Name = "tbValue";
-            this.tbValue.Size = new System.Drawing.Size(495, 96);
-            this.tbValue.TabIndex = 12;
-            this.tbValue.Value = "";
-            // 
-            // cbColumnList
-            // 
-            this.cbColumnList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbColumnList.AutoCompleteMode = Infragistics.Win.AutoCompleteMode.SuggestAppend;
-            this.cbColumnList.AutoSuggestFilterMode = Infragistics.Win.AutoSuggestFilterMode.StartsWith;
-            this.cbColumnList.Location = new System.Drawing.Point(93, 116);
-            this.cbColumnList.Name = "cbColumnList";
-            this.cbColumnList.Nullable = false;
-            this.cbColumnList.Size = new System.Drawing.Size(144, 21);
-            this.cbColumnList.TabIndex = 14;
+            this.tbValue.Size = new System.Drawing.Size(495, 87);
+            this.tbValue.TabIndex = 17;
             // 
             // frmEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(519, 149);
-            this.Controls.Add(this.cbColumnList);
             this.Controls.Add(this.tbValue);
             this.Controls.Add(this.btnInsertInputColumn);
+            this.Controls.Add(this.cbColumnList);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmEditor";
             this.Text = "DataConverter: Compare Editor";
-            ((System.ComponentModel.ISupportInitialize)(this.cbColumnList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -114,9 +114,9 @@
 
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
-        private Infragistics.Win.Misc.UltraButton btnInsertInputColumn;
-        private Infragistics.Win.FormattedLinkLabel.UltraFormattedTextEditor tbValue;
-        private Infragistics.Win.UltraWinEditors.UltraComboEditor cbColumnList;
+        private System.Windows.Forms.ComboBox cbColumnList;
+        private System.Windows.Forms.Button btnInsertInputColumn;
+        private System.Windows.Forms.TextBox tbValue;
 
     }
 }

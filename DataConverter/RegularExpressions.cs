@@ -4,7 +4,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using System.IO;
-using Infragistics.Win;
 
 namespace DataConverter
 {
@@ -58,19 +57,7 @@ namespace DataConverter
             return result;
         }
 
-        public ValueList GetValueList()
-        {
-            ValueList result = new ValueList();
-
-            foreach (RegularExpression regEx in this)
-            {
-                result.ValueListItems.Add(regEx.Pattern, regEx.Name);
-            }
-
-            result.Key = "Regular Expressions";
-
-            return result;
-        }
+      
     }
 
     public class RegularExpression

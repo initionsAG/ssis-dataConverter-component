@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Infragistics.Win;
 
 namespace DataConverter
 {
@@ -16,29 +15,26 @@ namespace DataConverter
             get { return tbValue.Text; }
         }
 
-        private string _inputColumnName;
+        
 
 
-        private List<string> _inputColumnNameList = new List<string>();
+        
         public bool IsSelectedColumnValid
         {
             get
             {
-                return _inputColumnNameList.Contains(cbColumnList.Text);
+                return cbColumnList.Items.Contains(cbColumnList.Text);
             }
         }
 
-        public frmEditor(string inputColumnName, string value, string[] inputColumnNameList)
+        public frmEditor(string inputColumnName,string value, string[] inputColumnNameList)
         {
             InitializeComponent();
 
-            _inputColumnName = inputColumnName;
+           
             tbValue.Text = value;
-          
-            ValueList valueList = new ValueList();
-            foreach (string columnName in inputColumnNameList) valueList.ValueListItems.Add(columnName);
-            _inputColumnNameList.AddRange(inputColumnNameList);
-            cbColumnList.ValueList = valueList;
+                      
+            cbColumnList.Items.AddRange(inputColumnNameList);
             cbColumnList.Text = inputColumnName;
 
             cbColumnList.TextChanged += new EventHandler(cbColumnList_TextChanged);
@@ -49,30 +45,17 @@ namespace DataConverter
         {
             btnInsertInputColumn.Enabled = IsSelectedColumnValid;
         }
-
-        private string GetInputReference()
-        {
-            return cbColumnList.Text;
-        }
-        private void btnInsertInputColumn_Click(object sender, EventArgs e)
-        {
-            Insert(GetInputReference());
-        }
-
-
-
+ 
         private void Insert(string value)
         {
-            object oldValue = System.Windows.Forms.Clipboard.GetDataObject();
-            System.Windows.Forms.Clipboard.SetDataObject(value, true);
-            tbValue.EditInfo.Paste();
-            try
-            {
-                System.Windows.Forms.Clipboard.SetDataObject(oldValue, true);
-            }
-            catch (Exception){}
-            
+            tbValue.Text = tbValue.Text.Insert(tbValue.SelectionStart, value);          
+           
             tbValue.Focus();
+        }
+
+        private void btnInsertInputColumn_Click_1(object sender, EventArgs e)
+        {
+            Insert(cbColumnList.Text);
         }
     }
 }

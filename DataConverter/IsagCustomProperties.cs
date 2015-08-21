@@ -155,7 +155,7 @@ namespace DataConverter
             foreach (ColumnConfig config in ColumnConfigList)
             {
                 if (config.Convert) config.OutputAlias = AliasPrefix + config.InputColumnName;
-            }
+            }            
         }
 
         #endregion

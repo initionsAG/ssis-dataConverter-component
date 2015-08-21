@@ -50,6 +50,20 @@ namespace Lookup2.ComponentFramework.Controls
             this.EditingControlShowing += IsagDataGridView_EditingControlShowing;
             this.DataBindingComplete += IsagDataGridView_DataBindingComplete;
 
+            this.CurrentCellDirtyStateChanged += IsagDataGridView_CurrentCellDirtyStateChanged;
+
+        }
+
+        /// <summary>
+        /// Commits the cells value change earlier
+        /// This way the cell does not have to loose focus to trigger cell value change event.
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void IsagDataGridView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (this.IsCurrentCellDirty) this.CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
 
         /// <summary>
