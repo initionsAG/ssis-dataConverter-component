@@ -184,11 +184,32 @@ namespace DataConverter
     /// 09.07.2014, Dennis Weise  
     ///     - PerformUpgrade: Upgrade von 2008 auf 2012/2014 ist nun möglich 
     /// </summary>
+   
+#if     (SQL2008)
     [DtsPipelineComponent(DisplayName = "DataConverter",
-        ComponentType = ComponentType.Transform,
-        CurrentVersion = 1,
-        IconResource = "DataConverter.Resources.DataConverter_DC.ico",
-        UITypeName = "DataConverter.DataConverterUI, DataConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8a91e54220f9b6ce")]
+    ComponentType = ComponentType.Transform,
+    CurrentVersion = 1,
+    IconResource = "DataConverter.Resources.DataConverter_DC.ico",
+    UITypeName = "DataConverter.DataConverterUI, DataConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8a91e54220f9b6ce")]
+#elif   (SQL2012)
+    [DtsPipelineComponent(DisplayName = "DataConverter",
+    ComponentType = ComponentType.Transform,
+    CurrentVersion = 0,
+    IconResource = "DataConverter.Resources.DataConverter_DC.ico",
+    UITypeName = "DataConverter.DataConverterUI, DataConverter2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=611facfb07109fd4")]
+#elif   (SQL2014)
+    [DtsPipelineComponent(DisplayName = "DataConverter",
+    ComponentType = ComponentType.Transform,
+    CurrentVersion = 1,
+    IconResource = "DataConverter.Resources.DataConverter_DC.ico",
+    UITypeName = "DataConverter.DataConverterUI, DataConverter3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1e7bd12ce9d458f0")]
+#else
+    [DtsPipelineComponent(DisplayName = "DataConverter",
+    ComponentType = ComponentType.Transform,
+    CurrentVersion = 1,
+    IconResource = "DataConverter.Resources.DataConverter_DC.ico",
+    UITypeName = "DataConverter.DataConverterUI, DataConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8a91e54220f9b6ce")]
+#endif
     public class DataConverter : PipelineComponent
     {
         private PipelineBuffer _outputErrorBuffer;

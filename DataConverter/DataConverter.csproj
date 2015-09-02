@@ -43,28 +43,28 @@
     <When Condition="'$(Configuration)' == 'Sql2008'">
       <PropertyGroup>
         <AssemblyOriginatorKeyFile>DataConverter.snk</AssemblyOriginatorKeyFile>
-        <AssemblyName>Lookup2</AssemblyName>
+        <AssemblyName>DataConverter</AssemblyName>
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
       </PropertyGroup>
     </When>
     <When Condition="'$(Configuration)' == 'Sql2012'">
       <PropertyGroup>
         <AssemblyOriginatorKeyFile>DataConverter_2012.snk</AssemblyOriginatorKeyFile>
-        <AssemblyName>Lookup3</AssemblyName>
+        <AssemblyName>DataConverter2</AssemblyName>
         <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
       </PropertyGroup>
     </When>
     <When Condition="'$(Configuration)' == 'Sql2014'">
       <PropertyGroup>
         <AssemblyOriginatorKeyFile>DataConverter_2014.snk</AssemblyOriginatorKeyFile>
-        <AssemblyName>Lookup4</AssemblyName>
+        <AssemblyName>DataConverter3</AssemblyName>
         <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
       </PropertyGroup>
     </When>
     <Otherwise>
       <PropertyGroup>
         <AssemblyOriginatorKeyFile>DataConverter.snk</AssemblyOriginatorKeyFile>
-        <AssemblyName>Lookup2</AssemblyName>
+        <AssemblyName>DataConverter</AssemblyName>
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
       </PropertyGroup>
     </Otherwise>
@@ -128,7 +128,7 @@
     </When>
     <When Condition="'$(Configuration)' == 'Sql2012'">
       <ItemGroup>
-		  <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Microsoft.CSharp" />
         <Reference Include="Microsoft.VisualBasic" />
         <Reference Include="System" />
         <Reference Include="System.Data" />
@@ -160,7 +160,7 @@
     </When>
     <When Condition="'$(Configuration)' == 'Sql2014'">
       <ItemGroup>
-		  <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Microsoft.CSharp" />
         <Reference Include="Microsoft.VisualBasic" />
         <Reference Include="System" />
         <Reference Include="System.Data" />
@@ -278,7 +278,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="createSetup.bat" />
+    <None Include="Setup\2008\createSetup.bat" />
+    <None Include="Setup\2012\createSetup.bat" />
+    <None Include="Setup\2014\createSetup.bat" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -298,6 +300,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Setup\2012\setup.wxs">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Setup\2014\setup.wxs">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DataConverter.snk" />
     <None Include="DataConverter_2012.snk" />
     <None Include="DataConverter_2014.snk" />
@@ -315,9 +323,9 @@
     <Content Include="Lib\2088\Microsoft.SqlServer.Dts.Design.dll" />
     <Content Include="Lib\2088\Microsoft.SqlServer.ManagedDTS.dll" />
     <Content Include="Lib\2088\x64\Microsoft.SqlServer.DTSRuntimeWrap.dll" />
-    <Content Include="setup.wxs">
+    <None Include="Setup\2008\setup.wxs">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
