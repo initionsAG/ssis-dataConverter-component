@@ -320,9 +320,9 @@
     <Content Include="Lib\2014\Microsoft.SqlServer.Dts.Design.dll" />
     <Content Include="Lib\2014\Microsoft.SqlServer.ManagedDTS.dll" />
     <Content Include="Lib\2014\x64\Microsoft.SqlServer.DTSRuntimeWrap.dll" />
-    <Content Include="Lib\2088\Microsoft.SqlServer.Dts.Design.dll" />
-    <Content Include="Lib\2088\Microsoft.SqlServer.ManagedDTS.dll" />
-    <Content Include="Lib\2088\x64\Microsoft.SqlServer.DTSRuntimeWrap.dll" />
+    <Content Include="Lib\2008\Microsoft.SqlServer.Dts.Design.dll" />
+    <Content Include="Lib\2008\Microsoft.SqlServer.ManagedDTS.dll" />
+    <Content Include="Lib\2008\x64\Microsoft.SqlServer.DTSRuntimeWrap.dll" />
     <None Include="Setup\2008\setup.wxs">
       <SubType>Designer</SubType>
     </None>
