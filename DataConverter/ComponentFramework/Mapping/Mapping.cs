@@ -11,10 +11,11 @@ namespace DataConverter.ComponentFrameWork.Mapping
 
         public static bool NeedsMapping()
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(asm.Location);
-
-            return fvi.FileMajorPart > 1;
+#if     (SQL2008) 
+            return false;      
+#else
+            return true;
+#endif
         }
 
         #region Output
