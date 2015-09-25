@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDataConverterUI));
             this.label1 = new System.Windows.Forms.Label();
             this.lblRegEx = new System.Windows.Forms.Label();
@@ -43,8 +43,8 @@
             this.cmbRegEx = new System.Windows.Forms.ComboBox();
             this.btnApplyPrefix = new System.Windows.Forms.Button();
             this.tbPrefix = new System.Windows.Forms.TextBox();
-            this.idgvMapping = new Lookup2.ComponentFramework.Controls.IsagDataGridView();
             this.cmbErrorName = new System.Windows.Forms.ComboBox();
+            this.idgvMapping = new Lookup2.ComponentFramework.Controls.IsagDataGridView();
             this.pnlMapping.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.idgvMapping)).BeginInit();
             this.SuspendLayout();
@@ -57,7 +57,7 @@
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
-            this.label1.TabIndex = 8;
+            this.label1.TabIndex = 1;
             this.label1.Text = "Alias Prefix";
             // 
             // lblRegEx
@@ -68,7 +68,7 @@
             this.lblRegEx.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegEx.Name = "lblRegEx";
             this.lblRegEx.Size = new System.Drawing.Size(39, 13);
-            this.lblRegEx.TabIndex = 8;
+            this.lblRegEx.TabIndex = 4;
             this.lblRegEx.Text = "RegEx";
             // 
             // btnCancel
@@ -79,7 +79,7 @@
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(74, 23);
-            this.btnCancel.TabIndex = 7;
+            this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -91,7 +91,7 @@
             this.btnOK.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(74, 23);
-            this.btnOK.TabIndex = 6;
+            this.btnOK.TabIndex = 3;
             this.btnOK.Text = "&OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -104,7 +104,7 @@
             this.cbErrorHandling.Location = new System.Drawing.Point(258, 454);
             this.cbErrorHandling.Name = "cbErrorHandling";
             this.cbErrorHandling.Size = new System.Drawing.Size(121, 21);
-            this.cbErrorHandling.TabIndex = 15;
+            this.cbErrorHandling.TabIndex = 2;
             // 
             // label2
             // 
@@ -114,7 +114,7 @@
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 13);
-            this.label2.TabIndex = 8;
+            this.label2.TabIndex = 99;
             this.label2.Text = "Error";
             // 
             // label3
@@ -125,7 +125,7 @@
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(57, 13);
-            this.label3.TabIndex = 18;
+            this.label3.TabIndex = 99;
             this.label3.Text = "ErrorName";
             // 
             // pnlMapping
@@ -142,7 +142,7 @@
             this.pnlMapping.Location = new System.Drawing.Point(7, 12);
             this.pnlMapping.Name = "pnlMapping";
             this.pnlMapping.Size = new System.Drawing.Size(1054, 429);
-            this.pnlMapping.TabIndex = 21;
+            this.pnlMapping.TabIndex = 0;
             // 
             // cmbRegEx
             // 
@@ -151,7 +151,7 @@
             this.cmbRegEx.Location = new System.Drawing.Point(324, 397);
             this.cmbRegEx.Name = "cmbRegEx";
             this.cmbRegEx.Size = new System.Drawing.Size(133, 21);
-            this.cmbRegEx.TabIndex = 21;
+            this.cmbRegEx.TabIndex = 5;
             // 
             // btnApplyPrefix
             // 
@@ -159,7 +159,7 @@
             this.btnApplyPrefix.Location = new System.Drawing.Point(207, 395);
             this.btnApplyPrefix.Name = "btnApplyPrefix";
             this.btnApplyPrefix.Size = new System.Drawing.Size(45, 23);
-            this.btnApplyPrefix.TabIndex = 20;
+            this.btnApplyPrefix.TabIndex = 3;
             this.btnApplyPrefix.Text = "Apply";
             this.btnApplyPrefix.UseVisualStyleBackColor = true;
             this.btnApplyPrefix.Click += new System.EventHandler(this.btnApplyPrefix_Click);
@@ -170,7 +170,18 @@
             this.tbPrefix.Location = new System.Drawing.Point(67, 398);
             this.tbPrefix.Name = "tbPrefix";
             this.tbPrefix.Size = new System.Drawing.Size(126, 20);
-            this.tbPrefix.TabIndex = 19;
+            this.tbPrefix.TabIndex = 2;
+            // 
+            // cmbErrorName
+            // 
+            this.cmbErrorName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmbErrorName.FormattingEnabled = true;
+            this.cmbErrorName.Location = new System.Drawing.Point(74, 453);
+            this.cmbErrorName.Name = "cmbErrorName";
+            this.cmbErrorName.Size = new System.Drawing.Size(126, 21);
+            this.cmbErrorName.Sorted = true;
+            this.cmbErrorName.TabIndex = 1;
+            this.cmbErrorName.TextChanged += new System.EventHandler(this.cmbErrorName_TextChanged);
             // 
             // idgvMapping
             // 
@@ -181,49 +192,38 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.idgvMapping.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.idgvMapping.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.idgvMapping.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.idgvMapping.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.idgvMapping.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.idgvMapping.DefaultCellStyle = dataGridViewCellStyle2;
             this.idgvMapping.Location = new System.Drawing.Point(0, 0);
             this.idgvMapping.Name = "idgvMapping";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.idgvMapping.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.idgvMapping.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.idgvMapping.ShowEditingIcon = false;
             this.idgvMapping.Size = new System.Drawing.Size(1051, 389);
-            this.idgvMapping.TabIndex = 18;
+            this.idgvMapping.TabIndex = 0;
             this.idgvMapping.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.idgvMapping_CellValueChanged);
             this.idgvMapping.MouseDown += new System.Windows.Forms.MouseEventHandler(this.idgvMapping_MouseDown);
-            // 
-            // cmbErrorName
-            // 
-            this.cmbErrorName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmbErrorName.FormattingEnabled = true;
-            this.cmbErrorName.Location = new System.Drawing.Point(74, 453);
-            this.cmbErrorName.Name = "cmbErrorName";
-            this.cmbErrorName.Size = new System.Drawing.Size(126, 21);
-            this.cmbErrorName.Sorted = true;
-            this.cmbErrorName.TabIndex = 22;
-            this.cmbErrorName.TextChanged += new System.EventHandler(this.cmbErrorName_TextChanged);
             // 
             // frmDataConverterUI
             // 
@@ -243,6 +243,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.MinimumSize = new System.Drawing.Size(1081, 520);
             this.Name = "frmDataConverterUI";
             this.Text = "DataConverter";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDataConverterUI_FormClosing);
