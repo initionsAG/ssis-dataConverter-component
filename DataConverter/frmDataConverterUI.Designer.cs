@@ -53,7 +53,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 401);
+            this.label1.Location = new System.Drawing.Point(4, 377);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
@@ -64,7 +64,7 @@
             // 
             this.lblRegEx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblRegEx.AutoSize = true;
-            this.lblRegEx.Location = new System.Drawing.Point(283, 401);
+            this.lblRegEx.Location = new System.Drawing.Point(283, 377);
             this.lblRegEx.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRegEx.Name = "lblRegEx";
             this.lblRegEx.Size = new System.Drawing.Size(39, 13);
@@ -75,7 +75,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(978, 447);
+            this.btnCancel.Location = new System.Drawing.Point(978, 423);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(74, 23);
@@ -87,7 +87,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(897, 447);
+            this.btnOK.Location = new System.Drawing.Point(897, 423);
             this.btnOK.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(74, 23);
@@ -101,7 +101,7 @@
             this.cbErrorHandling.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbErrorHandling.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbErrorHandling.FormattingEnabled = true;
-            this.cbErrorHandling.Location = new System.Drawing.Point(258, 454);
+            this.cbErrorHandling.Location = new System.Drawing.Point(258, 430);
             this.cbErrorHandling.Name = "cbErrorHandling";
             this.cbErrorHandling.Size = new System.Drawing.Size(121, 21);
             this.cbErrorHandling.TabIndex = 2;
@@ -110,7 +110,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(224, 457);
+            this.label2.Location = new System.Drawing.Point(224, 433);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 13);
@@ -121,7 +121,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 457);
+            this.label3.Location = new System.Drawing.Point(11, 433);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(57, 13);
@@ -141,14 +141,14 @@
             this.pnlMapping.Controls.Add(this.lblRegEx);
             this.pnlMapping.Location = new System.Drawing.Point(7, 12);
             this.pnlMapping.Name = "pnlMapping";
-            this.pnlMapping.Size = new System.Drawing.Size(1054, 429);
+            this.pnlMapping.Size = new System.Drawing.Size(1054, 405);
             this.pnlMapping.TabIndex = 0;
             // 
             // cmbRegEx
             // 
             this.cmbRegEx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmbRegEx.FormattingEnabled = true;
-            this.cmbRegEx.Location = new System.Drawing.Point(324, 397);
+            this.cmbRegEx.Location = new System.Drawing.Point(324, 373);
             this.cmbRegEx.Name = "cmbRegEx";
             this.cmbRegEx.Size = new System.Drawing.Size(133, 21);
             this.cmbRegEx.TabIndex = 5;
@@ -156,7 +156,7 @@
             // btnApplyPrefix
             // 
             this.btnApplyPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnApplyPrefix.Location = new System.Drawing.Point(207, 395);
+            this.btnApplyPrefix.Location = new System.Drawing.Point(207, 371);
             this.btnApplyPrefix.Name = "btnApplyPrefix";
             this.btnApplyPrefix.Size = new System.Drawing.Size(45, 23);
             this.btnApplyPrefix.TabIndex = 3;
@@ -167,7 +167,7 @@
             // tbPrefix
             // 
             this.tbPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tbPrefix.Location = new System.Drawing.Point(67, 398);
+            this.tbPrefix.Location = new System.Drawing.Point(67, 374);
             this.tbPrefix.Name = "tbPrefix";
             this.tbPrefix.Size = new System.Drawing.Size(126, 20);
             this.tbPrefix.TabIndex = 2;
@@ -176,7 +176,7 @@
             // 
             this.cmbErrorName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmbErrorName.FormattingEnabled = true;
-            this.cmbErrorName.Location = new System.Drawing.Point(74, 453);
+            this.cmbErrorName.Location = new System.Drawing.Point(74, 429);
             this.cmbErrorName.Name = "cmbErrorName";
             this.cmbErrorName.Size = new System.Drawing.Size(126, 21);
             this.cmbErrorName.Sorted = true;
@@ -220,7 +220,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.idgvMapping.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.idgvMapping.ShowEditingIcon = false;
-            this.idgvMapping.Size = new System.Drawing.Size(1051, 389);
+            this.idgvMapping.Size = new System.Drawing.Size(1051, 365);
             this.idgvMapping.TabIndex = 0;
             this.idgvMapping.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.idgvMapping_CellValueChanged);
             this.idgvMapping.MouseDown += new System.Windows.Forms.MouseEventHandler(this.idgvMapping_MouseDown);
@@ -232,7 +232,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(1065, 482);
+            this.ClientSize = new System.Drawing.Size(1065, 458);
             this.Controls.Add(this.cmbErrorName);
             this.Controls.Add(this.pnlMapping);
             this.Controls.Add(this.label3);
@@ -243,7 +243,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.MinimumSize = new System.Drawing.Size(1081, 520);
+            this.MinimumSize = new System.Drawing.Size(1081, 496);
             this.Name = "frmDataConverterUI";
             this.Text = "DataConverter";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDataConverterUI_FormClosing);
