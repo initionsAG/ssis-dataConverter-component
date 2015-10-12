@@ -128,8 +128,17 @@
           <Private>False</Private>
           <HintPath>Lib\2008\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
         </Reference>
-        <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-        <Reference Include="Microsoft.SqlServer.PipelineHost, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+        <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
+          <EmbedInteropTypes>True</EmbedInteropTypes>
+          <HintPath>Lib\2008\Microsoft.SQLServer.DTSPipelineWrap.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SqlServer.PipelineHost, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
+          <HintPath>Lib\2008\Microsoft.SQLServer.PipelineHost.dll</HintPath>
+        </Reference>
       </ItemGroup>
     </When>
     <When Condition="'$(Configuration)' == 'Sql2012'">
@@ -158,9 +167,16 @@
           <Private>False</Private>
           <HintPath>Lib\2012\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
         </Reference>
-        <Reference Include="Microsoft.SqlServer.PipelineHost, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
         <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
           <EmbedInteropTypes>True</EmbedInteropTypes>
+          <HintPath>Lib\2012\Microsoft.SQLServer.DTSPipelineWrap.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.SqlServer.PipelineHost, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
+          <HintPath>Lib\2012\Microsoft.SQLServer.PipelineHost.dll</HintPath>
         </Reference>
       </ItemGroup>
     </When>
@@ -191,9 +207,16 @@
           <HintPath>Lib\2014\Microsoft.SQLServer.ManagedDTS.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-          <EmbedInteropTypes>False</EmbedInteropTypes>
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
+          <EmbedInteropTypes>True</EmbedInteropTypes>
+          <HintPath>Lib\2014\Microsoft.SQLServer.DTSPipelineWrap.dll</HintPath>
         </Reference>
-        <Reference Include="Microsoft.SqlServer.PipelineHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+        <Reference Include="Microsoft.SqlServer.PipelineHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>True</SpecificVersion>
+          <Private>False</Private>
+          <HintPath>Lib\2014\Microsoft.SQLServer.PipelineHost.dll</HintPath>
+        </Reference>
       </ItemGroup>
     </When>
     <Otherwise>
@@ -319,11 +342,17 @@
     <Content Include="CaCheckInstallDir.wxs" />
     <Content Include="DataConverter_DC.ico" />
     <EmbeddedResource Include="Resources\DataConverter_DC.ico" />
+    <Content Include="Lib\2008\Microsoft.SQLServer.DTSPipelineWrap.dll" />
+    <Content Include="Lib\2008\Microsoft.SQLServer.PipelineHost.dll" />
     <Content Include="Lib\2012\Microsoft.SqlServer.Dts.Design.dll" />
+    <Content Include="Lib\2012\Microsoft.SQLServer.DTSPipelineWrap.dll" />
     <Content Include="Lib\2012\Microsoft.SqlServer.ManagedDTS.dll" />
+    <Content Include="Lib\2012\Microsoft.SQLServer.PipelineHost.dll" />
     <Content Include="Lib\2012\x64\Microsoft.SqlServer.DTSRuntimeWrap.dll" />
     <Content Include="Lib\2014\Microsoft.SqlServer.Dts.Design.dll" />
+    <Content Include="Lib\2014\Microsoft.SQLServer.DTSPipelineWrap.dll" />
     <Content Include="Lib\2014\Microsoft.SqlServer.ManagedDTS.dll" />
+    <Content Include="Lib\2014\Microsoft.SQLServer.PipelineHost.dll" />
     <Content Include="Lib\2014\x64\Microsoft.SqlServer.DTSRuntimeWrap.dll" />
     <Content Include="Lib\2008\Microsoft.SqlServer.Dts.Design.dll" />
     <Content Include="Lib\2008\Microsoft.SqlServer.ManagedDTS.dll" />
