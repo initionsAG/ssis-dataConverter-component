@@ -71,7 +71,7 @@
   </Choose>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2008|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\100\DTS\PipelineComponents</OutputPath>
+    <OutputPath>bin\%24%28Configuration%29\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SQL2008</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2012|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\110\DTS\PipelineComponents</OutputPath>
+    <OutputPath>bin\%24%28Configuration%29\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SQL2012</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -89,12 +89,18 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2014|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\120\DTS\PipelineComponents</OutputPath>
+    <OutputPath>bin\%24%28Configuration%29\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SQL2014</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>DataConverter_DC.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <Choose>
     <When Condition="'$(Configuration)' == 'Sql2008'">
@@ -335,13 +341,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2008|AnyCPU'">
-    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2012|AnyCPU'">
-    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2014|AnyCPU'">
-    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
-  </PropertyGroup>
 </Project>

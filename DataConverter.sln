@@ -1,44 +1,95 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataConverter", "DataConverter\DataConverter.csproj", "{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "DataConverter_Installer", "DataConverter_Installer\DataConverter_Installer.wixproj", "{622499B1-DB2F-442D-83A9-85F4766078D4}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
+		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://svc-tfsbi:8080/tfs/bicollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = DataConverter\\DataConverter.csproj
-		SccProjectName1 = DataConverter
-		SccLocalPath1 = DataConverter
+		SccProjectUniqueName0 = DataConverter\\DataConverter.csproj
+		SccProjectName0 = DataConverter
+		SccLocalPath0 = DataConverter
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = DataConverter_Installer\\DataConverter_Installer.wixproj
+		SccProjectName2 = DataConverter_Installer
+		SccLocalPath2 = DataConverter_Installer
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
 		Sql2008|Any CPU = Sql2008|Any CPU
+		Sql2008|Mixed Platforms = Sql2008|Mixed Platforms
+		Sql2008|x86 = Sql2008|x86
 		Sql2012|Any CPU = Sql2012|Any CPU
+		Sql2012|Mixed Platforms = Sql2012|Mixed Platforms
+		Sql2012|x86 = Sql2012|x86
 		Sql2014|Any CPU = Sql2014|Any CPU
+		Sql2014|Mixed Platforms = Sql2014|Mixed Platforms
+		Sql2014|x86 = Sql2014|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Debug|Any CPU.ActiveCfg = Sql2014|Any CPU
 		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Debug|Any CPU.Build.0 = Sql2014|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Debug|Mixed Platforms.ActiveCfg = Sql2012|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Debug|Mixed Platforms.Build.0 = Sql2012|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Debug|x86.ActiveCfg = Sql2012|Any CPU
 		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Release|Any CPU.ActiveCfg = Sql2014|Any CPU
 		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Release|Any CPU.Build.0 = Sql2014|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Release|Mixed Platforms.ActiveCfg = Sql2012|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Release|Mixed Platforms.Build.0 = Sql2012|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Release|x86.ActiveCfg = Sql2012|Any CPU
 		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2008|Any CPU.ActiveCfg = Sql2008|Any CPU
 		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2008|Any CPU.Build.0 = Sql2008|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2008|Mixed Platforms.ActiveCfg = Sql2008|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2008|Mixed Platforms.Build.0 = Sql2008|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2008|x86.ActiveCfg = Sql2008|Any CPU
 		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2012|Any CPU.ActiveCfg = Sql2012|Any CPU
 		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2012|Any CPU.Build.0 = Sql2012|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2012|Mixed Platforms.ActiveCfg = Sql2012|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2012|Mixed Platforms.Build.0 = Sql2012|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2012|x86.ActiveCfg = Sql2012|Any CPU
 		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2014|Any CPU.ActiveCfg = Sql2014|Any CPU
 		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2014|Any CPU.Build.0 = Sql2014|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2014|Mixed Platforms.ActiveCfg = Sql2014|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2014|Mixed Platforms.Build.0 = Sql2014|Any CPU
+		{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}.Sql2014|x86.ActiveCfg = Sql2014|Any CPU
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Debug|x86.ActiveCfg = Debug|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Debug|x86.Build.0 = Debug|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Release|Any CPU.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Release|Mixed Platforms.Build.0 = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Release|x86.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Release|x86.Build.0 = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2008|Any CPU.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2008|Mixed Platforms.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2008|Mixed Platforms.Build.0 = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2008|x86.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2008|x86.Build.0 = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2012|Any CPU.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2012|Mixed Platforms.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2012|Mixed Platforms.Build.0 = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2012|x86.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2012|x86.Build.0 = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2014|Any CPU.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2014|Mixed Platforms.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2014|Mixed Platforms.Build.0 = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2014|x86.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2014|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
