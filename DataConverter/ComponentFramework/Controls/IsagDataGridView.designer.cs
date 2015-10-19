@@ -1,4 +1,4 @@
-﻿namespace Lookup2.ComponentFramework.Controls
+﻿namespace ComponentFramework.Controls
 {
     partial class IsagDataGridView
     {

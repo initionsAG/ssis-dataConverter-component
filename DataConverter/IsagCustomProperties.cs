@@ -10,12 +10,24 @@ using System.ComponentModel;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 using Microsoft.SqlServer.Dts.Runtime.Wrapper;
 using DataConverter.ComponentFrameWork.Mapping;
+using ComponentFramework;
 
 namespace DataConverter
 {
-    public class IsagCustomProperties
+    public class IsagCustomProperties: INotifyPropertyChanged
     {
         public enum ErrorRowHandling { RedirectRow, FailComponent, IgnoreFailure }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+
+        }
 
         #region Properties
 
@@ -31,7 +43,7 @@ namespace DataConverter
         }
 
 
-        public List<ColumnConfig> ColumnConfigList { get; set; }
+        public SortableBindingList<ColumnConfig> ColumnConfigList { get; set; }
 
         public List<NewColumnConfig> NewColumnConfigList { get; set; }
 
@@ -47,13 +59,13 @@ namespace DataConverter
 
         public IsagCustomProperties()
         {
-            this.ColumnConfigList = new List<ColumnConfig>();
+            this.ColumnConfigList = new SortableBindingList<ColumnConfig>();
         }
 
         public IsagCustomProperties(string aliasPrefix)
         {
             this.AliasPrefix = aliasPrefix;
-            this.ColumnConfigList = new List<ColumnConfig>();
+            this.ColumnConfigList = new SortableBindingList<ColumnConfig>();
         }
 
         /// <summary>

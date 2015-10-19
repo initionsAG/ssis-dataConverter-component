@@ -263,6 +263,7 @@
       <DependentUpon>IsagDataGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="ComponentFramework\Mapping\Mapping.cs" />
+    <Compile Include="ComponentFramework\SortableBindingList.cs" />
     <Compile Include="ComponentMetaDataTools.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Converter.cs" />
@@ -363,6 +364,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

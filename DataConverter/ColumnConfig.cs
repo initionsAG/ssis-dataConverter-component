@@ -10,12 +10,20 @@ using DataConverter.ComponentFrameWork.Mapping;
 namespace DataConverter
 {
     public enum DateConvertTypes { None, YYYYMMDD, YYYYMM, YYYY, Point2Comma, Comma2Point, AmericanDecimal, GermanDecimal, STR2YYYYMMDD }
-    public enum DataTypeKind  {TextDate, NumberDate, Date, None };
+    public enum DataTypeKind { TextDate, NumberDate, Date, None };
 
-    public class ColumnConfig : IXmlSerializable
+    public class ColumnConfig: IXmlSerializable, INotifyPropertyChanged
     {
 
-        
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
 
         #region Properties
 
@@ -38,8 +46,11 @@ namespace DataConverter
                 if (_convert)
                 {
                     //_use = true;
-                    if (string.IsNullOrEmpty(_outputAlias)) _outputAlias = "C_" + InputColumnName;
+                    if (string.IsNullOrEmpty(_outputAlias))
+                        _outputAlias = "C_" + InputColumnName;
                 }
+                NotifyPropertyChanged("Convert");
+
             }
         }
 
@@ -48,7 +59,11 @@ namespace DataConverter
         public string OutputAlias
         {
             get { return _outputAlias; }
-            set { _outputAlias = value; }
+            set
+            {
+                _outputAlias = value;
+                NotifyPropertyChanged("OutputAlias");
+            }
         }
 
         private string _dataTypeInput;
@@ -60,6 +75,9 @@ namespace DataConverter
             {
                 _dataTypeInput = value;
                 UpdateConversion();
+
+                NotifyPropertyChanged("DataTypeInput");
+                NotifyPropertyChanged("SupportedConversions");
             }
         }
 
@@ -71,11 +89,18 @@ namespace DataConverter
             set
             {
                 _dataType = value;
-                if (!HasLength()) Length = "0";
-                if (!HasPrecision()) Precision = "0";
-                if (!HasScale()) Scale = "0";
-                if (!HasCodePage()) Codepage = "0";
+                if (!HasLength())
+                    Length = "0";
+                if (!HasPrecision())
+                    Precision = "0";
+                if (!HasScale())
+                    Scale = "0";
+                if (!HasCodePage())
+                    Codepage = "0";
                 UpdateConversion();
+
+                NotifyPropertyChanged("DataType");
+                NotifyPropertyChanged("SupportedConversions");     
             }
         }
 
@@ -84,7 +109,11 @@ namespace DataConverter
         public string Default
         {
             get { return _default; }
-            set { _default = value; }
+            set
+            {
+                _default = value;
+                NotifyPropertyChanged("Default");
+            }
         }
 
         private string _length;
@@ -92,7 +121,7 @@ namespace DataConverter
         public string Length
         {
             get { return _length; }
-            set { _length = value; }
+            set { _length = value; NotifyPropertyChanged("Length"); }
         }
 
         private string _precision;
@@ -100,7 +129,7 @@ namespace DataConverter
         public string Precision
         {
             get { return _precision; }
-            set { _precision = value; }
+            set { _precision = value; NotifyPropertyChanged("Precision"); }
         }
 
         private string _scale;
@@ -108,7 +137,7 @@ namespace DataConverter
         public string Scale
         {
             get { return _scale; }
-            set { _scale = value; }
+            set { _scale = value; NotifyPropertyChanged("Scale"); }
         }
 
         private string _codepage;
@@ -116,7 +145,7 @@ namespace DataConverter
         public string Codepage
         {
             get { return _codepage; }
-            set { _codepage = value; }
+            set { _codepage = value; NotifyPropertyChanged("Codepage"); }
         }
 
 
@@ -128,7 +157,7 @@ namespace DataConverter
             set
             {
                 _date2string = value;
-
+                NotifyPropertyChanged("Date2string");
             }
         }
 
@@ -137,7 +166,11 @@ namespace DataConverter
         public string StrConversionByFormat
         {
             get { return _strConversionByFormat == null ? string.Empty : _strConversionByFormat; }
-            set { _strConversionByFormat = value == null ? string.Empty : value; }
+            set
+            {
+                _strConversionByFormat = value == null ? string.Empty : value;
+                NotifyPropertyChanged("StrConversionByFormat");
+            }
         }
 
         [DisplayName("Conversion")]
@@ -145,15 +178,17 @@ namespace DataConverter
         {
             get
             {
-                if (Date2string == DateConvertTypes.STR2YYYYMMDD) return StrConversionByFormat;
-                else return Date2string.ToString();
+                if (Date2string == DateConvertTypes.STR2YYYYMMDD)
+                    return StrConversionByFormat;
+                else
+                    return Date2string.ToString();
             }
 
             set
             {
                 if (Enum.IsDefined(typeof(DateConvertTypes), value))
                 {
-                    Date2string = (DateConvertTypes)Enum.Parse(typeof(DateConvertTypes), value);
+                    Date2string = (DateConvertTypes) Enum.Parse(typeof(DateConvertTypes), value);
                     StrConversionByFormat = "";
                 }
                 else if (SupportsConversionStrByFormat)
@@ -166,6 +201,8 @@ namespace DataConverter
                     Date2string = DateConvertTypes.None;
                     StrConversionByFormat = "";
                 }
+
+                NotifyPropertyChanged("ConversionAsString");
             }
         }
 
@@ -174,7 +211,7 @@ namespace DataConverter
         public string RegEx
         {
             get { return _regEx; }
-            set { _regEx = value; }
+            set { _regEx = value; NotifyPropertyChanged("RegEx"); }
         }
 
         private string _compare;
@@ -182,7 +219,7 @@ namespace DataConverter
         public string Compare
         {
             get { return _compare; }
-            set { _compare = value; }
+            set { _compare = value; NotifyPropertyChanged("Compare"); }
         }
 
 
@@ -200,6 +237,8 @@ namespace DataConverter
 
                 if (!HasOnErrorValue() && ErrorHandling == IsagCustomProperties.ErrorRowHandling.IgnoreFailure)
                     _errorHandling = IsagCustomProperties.ErrorRowHandling.RedirectRow;
+
+                NotifyPropertyChanged("OnErrorValue");
             }
 
         }
@@ -220,6 +259,8 @@ namespace DataConverter
 
                 if (!HasOnErrorValue() && ErrorHandling == IsagCustomProperties.ErrorRowHandling.IgnoreFailure)
                     _errorHandling = IsagCustomProperties.ErrorRowHandling.RedirectRow;
+
+                NotifyPropertyChanged("AllowNull");
             }
         }
 
@@ -232,7 +273,10 @@ namespace DataConverter
             set
             {
                 _isErrorCounter = value;
-                if (_isErrorCounter) Convert = false;
+                if (_isErrorCounter)
+                    Convert = false;
+
+                NotifyPropertyChanged("IsErrorCounter");
             }
         }
 
@@ -314,12 +358,13 @@ namespace DataConverter
 
         #region Conversion
 
-      
+
 
         [BrowsableAttribute(false), ReadOnly(true)]
         public DataTypeKind OutputDataTypeKindForDate
         {
-            get {
+            get
+            {
 
                 if ((DataType == "DT_NUMERIC" ||
                       DataType == "DT_I4" || DataType == "DT_I8" ||
@@ -337,7 +382,7 @@ namespace DataConverter
         [BrowsableAttribute(false), ReadOnly(true)]
         public bool SupportsConversion
         {
-            get { return SupportsConversionDate || SupportsConversionNumeric || SupportsConversionStrByFormat; }
+            get { return (SupportsConversionDate || SupportsConversionNumeric || SupportsConversionStrByFormat) && !IsErrorCounter && Convert; }
         }
 
         [BrowsableAttribute(false), ReadOnly(true)]
@@ -375,33 +420,47 @@ namespace DataConverter
             }
         }
         [BrowsableAttribute(false), ReadOnly(true)]
-        public List<object> SupportedConversions
+
+        BindingList<object> _supportedConversions;
+        [BrowsableAttribute(false), ReadOnly(true), XmlIgnore]
+        public BindingList<object> SupportedConversions
         {
             get
             {
-                List<object> result = new List<object>();
-                result.Add(DateConvertTypes.None);
+                if (_supportedConversions == null)
+                    _supportedConversions = new BindingList<object>();
+
+                _supportedConversions.RaiseListChangedEvents = false;
+                _supportedConversions.Clear();
+
+                _supportedConversions.Add(DateConvertTypes.None.ToString());
 
                 if (SupportsConversionDate)
                 {
-                    result.Add(DateConvertTypes.YYYY);
-                    result.Add(DateConvertTypes.YYYYMM);
-                    result.Add(DateConvertTypes.YYYYMMDD);
+                    _supportedConversions.Add(DateConvertTypes.YYYY.ToString());
+                    _supportedConversions.Add(DateConvertTypes.YYYYMM.ToString());
+                    _supportedConversions.Add(DateConvertTypes.YYYYMMDD.ToString());
                 }
 
                 if (SupportsConversionNumeric)
                 {
-                    result.Add(DateConvertTypes.Point2Comma);
-                    result.Add(DateConvertTypes.Comma2Point);
-                    result.Add(DateConvertTypes.AmericanDecimal);
-                    result.Add(DateConvertTypes.GermanDecimal);
+                    _supportedConversions.Add(DateConvertTypes.Point2Comma.ToString());
+                    _supportedConversions.Add(DateConvertTypes.Comma2Point.ToString());
+                    _supportedConversions.Add(DateConvertTypes.AmericanDecimal.ToString());
+                    _supportedConversions.Add(DateConvertTypes.GermanDecimal.ToString());
                 }
 
                 if (SupportsConversionStrByFormat)
                 {
-                    result.AddRange(Constants.STRING_CONVERSION_TYPES);
+                    foreach (string item in Constants.STRING_CONVERSION_TYPES)
+                    {
+                        _supportedConversions.Add(item);
+                    }
+                    //result.AddRange(Constants.STRING_CONVERSION_TYPES);
                 }
-                return result;
+
+                _supportedConversions.RaiseListChangedEvents = true;
+                return _supportedConversions;
 
             }
         }
@@ -415,7 +474,8 @@ namespace DataConverter
                 Date2string = DateConvertTypes.None;
             }
 
-            if (!SupportsConversionStrByFormat) StrConversionByFormat = "";
+            if (!SupportsConversionStrByFormat)
+                StrConversionByFormat = "";
         }
 
 
@@ -507,8 +567,10 @@ namespace DataConverter
             _customId = Guid.NewGuid().ToString();
 
             Mapping.SetIdProperty(_customId, inputCol.CustomPropertyCollection);
-            if (outCol != null) Mapping.SetIdProperty(_customId, outCol.CustomPropertyCollection);
-            if (outLogCol != null) Mapping.SetIdProperty(_customId, outLogCol.CustomPropertyCollection);
+            if (outCol != null)
+                Mapping.SetIdProperty(_customId, outCol.CustomPropertyCollection);
+            if (outLogCol != null)
+                Mapping.SetIdProperty(_customId, outLogCol.CustomPropertyCollection);
 
         }
         public string CreateInputDataTypeString(string dataType, string length, string precision, string scale, string codepage)
@@ -548,7 +610,7 @@ namespace DataConverter
 
                 try
                 {
-                    Date2string = (DateConvertTypes)Enum.Parse(typeof(DateConvertTypes), reader.GetAttribute("Date2string"));
+                    Date2string = (DateConvertTypes) Enum.Parse(typeof(DateConvertTypes), reader.GetAttribute("Date2string"));
                 }
                 catch (Exception)
                 {
@@ -559,7 +621,7 @@ namespace DataConverter
 
                 try
                 {
-                    ErrorHandling = (IsagCustomProperties.ErrorRowHandling)Enum.Parse(typeof(IsagCustomProperties.ErrorRowHandling), reader.GetAttribute("ErrorHandling"));
+                    ErrorHandling = (IsagCustomProperties.ErrorRowHandling) Enum.Parse(typeof(IsagCustomProperties.ErrorRowHandling), reader.GetAttribute("ErrorHandling"));
                 }
                 catch (Exception)
                 {
@@ -671,10 +733,14 @@ namespace DataConverter
 
         private void ReactOnDataTypeChanged()
         {
-            if (!HasLength()) Length = "0";
-            if (!HasPrecision()) Precision = "0";
-            if (!HasScale()) Scale = "0";
-            if (!HasCodePage()) Codepage = "0";
+            if (!HasLength())
+                Length = "0";
+            if (!HasPrecision())
+                Precision = "0";
+            if (!HasScale())
+                Scale = "0";
+            if (!HasCodePage())
+                Codepage = "0";
         }
 
         //public bool HasOutput()

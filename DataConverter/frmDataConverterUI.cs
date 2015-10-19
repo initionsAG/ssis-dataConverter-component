@@ -10,7 +10,8 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using Microsoft.SqlServer.Dts.Runtime;
 using DataConverter.ComponentFrameWork.Mapping;
-using Lookup2.ComponentFramework.Controls;
+using ComponentFramework.Controls;
+
 
 namespace DataConverter
 {
@@ -20,9 +21,10 @@ namespace DataConverter
         private Variables _variables;
         private IsagCustomProperties _IsagCustomProperties;
 
-
         private Dictionary<string, IDTSInputColumn100> _inputColumnsDictionary;
         private bool _abortClosing = false;
+
+        private IsagDataGridView dgvMapping = new IsagDataGridView();
 
         public frmDataConverterUI(IDTSComponentMetaData100 metadata, Variables variables)
         {
@@ -46,17 +48,23 @@ namespace DataConverter
             SetToolTips();
             InitializeContextMenu();
 
+            this.Load += frmDataConverterUI_Load;
 
+        }
+
+        private void frmDataConverterUI_Load(object sender, EventArgs e)
+        {
+            SetGridColumnsActivationState();
         }
 
 
         private void ShowEditor()
         {
-            string inputColumnName = idgvMapping.Rows[idgvMapping.CurrentCell.RowIndex].Cells["InputColumnName"].Value.ToString();
-            frmEditor editor = new frmEditor(inputColumnName, idgvMapping.CurrentCell.Value.ToString(), _IsagCustomProperties.GetInputColumns());
+            string inputColumnName = dgvMapping.Rows[dgvMapping.CurrentCell.RowIndex].Cells["InputColumnName"].Value.ToString();
+            frmEditor editor = new frmEditor(inputColumnName, dgvMapping.CurrentCell.Value.ToString(), _IsagCustomProperties.GetInputColumns());
 
             if (editor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                idgvMapping.CurrentCell.Value = editor.Value;
+                dgvMapping.CurrentCell.Value = editor.Value;
         }
 
 
@@ -65,26 +73,31 @@ namespace DataConverter
 
         private void PopulateMappingGrid()
         {
-            idgvMapping.DataBindings.DefaultDataSourceUpdateMode = DataSourceUpdateMode.OnValidation;
-            idgvMapping.DataSource = _IsagCustomProperties.ColumnConfigList;
-            idgvMapping.AddCellBoundedComboBox("DataType", Constants.DATATYPE_LIST());
-            idgvMapping.AddCellBoundedComboBox("ErrorHandling", typeof(IsagCustomProperties.ErrorRowHandling));
 
-            List<object> listConversion = Common.GetListFromEnum(typeof(DateConvertTypes));
-            listConversion.Remove(DateConvertTypes.STR2YYYYMMDD.ToString());
-            listConversion.AddRange(Constants.STRING_CONVERSION_TYPES);
-            idgvMapping.AddCellBoundedComboBox("ConversionAsString", new BindingList<object>(listConversion));
+            //Grid
+            pnlGrid.Controls.Add(dgvMapping);
+            dgvMapping.Dock = DockStyle.Fill;
+            dgvMapping.DataBindings.DefaultDataSourceUpdateMode = DataSourceUpdateMode.OnValidation;
+            dgvMapping.DataSource = _IsagCustomProperties.ColumnConfigList;            
 
-            foreach (DataGridViewRow row in idgvMapping.Rows)
+            dgvMapping.AddCellBoundedComboBox("DataType", Constants.DATATYPE_LIST(),true);
+            dgvMapping.AddCellBoundedComboBox("ErrorHandling", typeof(IsagCustomProperties.ErrorRowHandling), false);
+
+            Dictionary<object, BindingList<object>> itemListSource = new Dictionary<object, BindingList<object>>();
+            foreach (ColumnConfig config in _IsagCustomProperties.ColumnConfigList)
             {
-                SetGridColumnsActivationState(row);
+                itemListSource.Add(config, config.SupportedConversions);
             }
 
+            dgvMapping.AddCellBoundedComboBox("ConversionAsString",itemListSource, IsagDataGridView.ComboboxConfigType.MARK_INVALID, false);
+     
+            dgvMapping.CellValueChanged += dgvMapping_CellValueChanged;
+            dgvMapping.MouseDown +=dgvMapping_MouseDown;
+            
+            //Prefix
             tbPrefix.DataBindings.Add("Text", _IsagCustomProperties, "AliasPrefix");
 
-
             //Regular Expressions
-
             cmbRegEx.DataSource=  RegularExpressions.LoadFromXml(Constants.PATH_REGEX);
             cmbRegEx.DisplayMember = "Name";
             cmbRegEx.ValueMember = "Pattern";           
@@ -106,10 +119,10 @@ namespace DataConverter
 
         private void SetToolTips()
         {
-            idgvMapping.Columns["Default"].ToolTipText = "Replaces NULL values with the OnNull value.";
-            idgvMapping.Columns["OnErrorValue"].ToolTipText = "If the value cannot be converted, the OnError value is used. /n If \"Redirect\" has been choosen, this row will also sent to the error putput.";
-            idgvMapping.Columns["AllowNull"].ToolTipText = "If \"AllowNull\" has been selected, input columns with NULL values are allowed and and sent to the output.";
-            idgvMapping.Columns["IsErrorCounter"].ToolTipText = "If selected the column will never be converted. \n For each Row the error counter will be increased for each error.";
+            dgvMapping.Columns["Default"].ToolTipText = "Replaces NULL values with the OnNull value.";
+            dgvMapping.Columns["OnErrorValue"].ToolTipText = "If the value cannot be converted, the OnError value is used. /n If \"Redirect\" has been choosen, this row will also sent to the error putput.";
+            dgvMapping.Columns["AllowNull"].ToolTipText = "If \"AllowNull\" has been selected, input columns with NULL values are allowed and and sent to the output.";
+            dgvMapping.Columns["IsErrorCounter"].ToolTipText = "If selected the column will never be converted. \n For each Row the error counter will be increased for each error.";
         }
 
         private void PopulateRowDisposition()
@@ -147,13 +160,10 @@ namespace DataConverter
 
             DataGridViewCell cell = row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ConversionAsString"];
             SetCellEnabledStatus(cell, !column.SupportsConversion);
-
-
-            // row.Cells["ConversionAsString"].ValueList = Common.CreateValueList(column.SupportedConversions);
         }
         private void SetConversionColumnState()
         {
-            foreach (DataGridViewRow row in idgvMapping.Rows)
+            foreach (DataGridViewRow row in dgvMapping.Rows)
             {
                 SetConversionColumnState(row);
             }
@@ -166,9 +176,17 @@ namespace DataConverter
         {
             cell.ReadOnly = readOnly;
 
-            cell.Style.BackColor = readOnly ? Color.LightGray : Color.White;
+            //cell.Style.BackColor = readOnly ? Color.LightGray : Color.White;
         }
 
+
+        public void SetGridColumnsActivationState()
+        {
+            foreach (DataGridViewRow row in dgvMapping.Rows)
+            {
+                SetGridColumnsActivationState(row);
+            }
+        }
         public void SetGridColumnsActivationState(DataGridViewRow row)
         {
 
@@ -185,6 +203,7 @@ namespace DataConverter
                 SetCellEnabledStatus(row.Cells["RegEx"], true);
                 SetCellEnabledStatus(row.Cells["AllowNull"], true);
                 SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ErrorHandling"], true);
+                SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ConversionAsString"], true);
 
                 DisableOutputColumnData(row);
                 SetOuputDataTypeAsInputDataType(row);
@@ -192,7 +211,6 @@ namespace DataConverter
                 SetCellEnabledStatus(row.Cells["OutputAlias"], false);
                 SetCellEnabledStatus(row.Cells["IsErrorCounter"], false);
 
-                idgvMapping.Refresh();
                 return;
             }
 
@@ -206,12 +224,12 @@ namespace DataConverter
                 SetCellEnabledStatus(row.Cells["OnErrorValue"], true);
                 SetCellEnabledStatus(row.Cells["AllowNull"], true);
                 SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ErrorHandling"], true);
+                SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ConversionAsString"], true);
 
                 SetCellEnabledStatus(row.Cells["IsErrorCounter"], false);
                 SetCellEnabledStatus(row.Cells["Convert"], false);
                 SetCellEnabledStatus(row.Cells["OutputAlias"], false);
 
-                idgvMapping.Refresh();
                 return;
             }
 
@@ -230,9 +248,7 @@ namespace DataConverter
             SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ErrorHandling"], false);
             SetCellEnabledStatus(row.Cells["IsErrorCounter"], false);
             SetCellEnabledStatus(row.Cells["OutputAlias"], false);
-
-
-            idgvMapping.Refresh();
+            SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ConversionAsString"], false);
         }
 
         #region Load & Save
@@ -384,51 +400,17 @@ namespace DataConverter
 
         private void btnApplyPrefix_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in idgvMapping.Rows)
+            foreach (DataGridViewRow row in dgvMapping.Rows)
             {
                 if (((bool)row.Cells["Convert"].Value))
                     row.Cells["OutputAlias"].Value = tbPrefix.Text + row.Cells["InputColumnName"].Value.ToString();
             }
         }
 
-        private void SelectCheckBoxes(bool select)
+        private void dgvMapping_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            foreach (DataGridViewCell cell in idgvMapping.SelectedCells)
-            {
-                if (idgvMapping.Columns[cell.ColumnIndex].Name == "Convert" || idgvMapping.Columns[cell.ColumnIndex].Name == "Allow Null")
-                {
-                    cell.Value = select;
-                }
-            }
-
-            foreach (DataGridViewRow row in idgvMapping.SelectedRows)
-            {
-                row.Cells["Convert"].Value = select;
-                row.Cells["AllowNull"].Value = select;
-            }
-
-            foreach (DataGridViewColumn col in idgvMapping.SelectedColumns)
-            {
-                if (col.Name == "Convert" || col.Name == "Allow Null")
-                {
-                    foreach (DataGridViewRow row in idgvMapping.Rows)
-                    {
-                        row.Cells[col.Index].Value = select;
-                    }
-                }
-            }
-
-            //if cells have been selected, one chekcbox cell value change is visible after user clicks elsewhere. Workaround:
-            DataGridViewCell currentCell = idgvMapping.CurrentCell;
-            idgvMapping.CurrentCell = null;
-            idgvMapping.CurrentCell = currentCell;
-        }
-
-
-        private void idgvMapping_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridViewColumn col = idgvMapping.Columns[e.ColumnIndex];
-            DataGridViewRow row = idgvMapping.Rows[e.RowIndex];
+            DataGridViewColumn col = dgvMapping.Columns[e.ColumnIndex];
+            DataGridViewRow row = dgvMapping.Rows[e.RowIndex];
             if (col.Name == IsagDataGridView.CMB_COLUMN_PREFIX + "DataType" || col.Name == "IsErrorCounter" || col.Name == "Convert") SetGridColumnsActivationState(row);
             else if (col.Name == "ErrorHandling") cbErrorHandling.SelectedItem = _IsagCustomProperties.GetRowDisposition();
 
@@ -455,22 +437,22 @@ namespace DataConverter
         #endregion
 
         #region ContextMenu
-        private void idgvMapping_MouseDown(object sender, MouseEventArgs e)
+        private void dgvMapping_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 //Menu Item "Editor" is visiblie if user clicked on a "Compare" cell
-                bool showEdit = idgvMapping.Columns[idgvMapping.CurrentCell.ColumnIndex].Name == "Compare";
-                idgvMapping.ContextMenu.MenuItems[0].Visible = showEdit;
-                idgvMapping.ContextMenu.MenuItems[1].Visible = showEdit;
+                bool showEdit = dgvMapping.Columns[dgvMapping.CurrentCell.ColumnIndex].Name == "Compare";
+                dgvMapping.ContextMenu.MenuItems[0].Visible = showEdit;
+                dgvMapping.ContextMenu.MenuItems[1].Visible = showEdit;
 
                 //Menu Item "Editor" is visiblie if user clicked on a "Compare" cell
-                bool showRegEx = idgvMapping.Columns[idgvMapping.CurrentCell.ColumnIndex].Name == "RegEx" && !idgvMapping.CurrentCell.ReadOnly;
-                idgvMapping.ContextMenu.MenuItems[2].Visible = showRegEx;
-                idgvMapping.ContextMenu.MenuItems[3].Visible = showRegEx;
+                bool showRegEx = dgvMapping.Columns[dgvMapping.CurrentCell.ColumnIndex].Name == "RegEx" && !dgvMapping.CurrentCell.ReadOnly;
+                dgvMapping.ContextMenu.MenuItems[2].Visible = showRegEx;
+                dgvMapping.ContextMenu.MenuItems[3].Visible = showRegEx;
 
                 // show context menu
-                idgvMapping.ContextMenu.Show(idgvMapping, new Point(e.X, e.Y));
+                dgvMapping.ContextMenu.Show(dgvMapping, new Point(e.X, e.Y));
             }
         }
 
@@ -485,10 +467,10 @@ namespace DataConverter
                     _IsagCustomProperties.DebugModus = item.Checked;
                     break;
                 case "Select":
-                    SelectCheckBoxes(true);
+                    dgvMapping.SelectCheckBoxes(true);
                     break;
                 case "DeSelect":
-                    SelectCheckBoxes(false);
+                    dgvMapping.SelectCheckBoxes(false);
                     break;
                 case "Apply Alias Prefix":
                     btnApplyPrefix_Click(null, null);
@@ -505,22 +487,22 @@ namespace DataConverter
         }
         private void InitializeContextMenu()
         {
-            idgvMapping.ContextMenu = new ContextMenu();
-            idgvMapping.ContextMenu.MenuItems.Add(new MenuItem("Editor", menuItem_Click));
-            idgvMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
-            idgvMapping.ContextMenu.MenuItems.Add(new MenuItem("Insert RegEx", menuItem_Click));
-            idgvMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
-            idgvMapping.ContextMenu.MenuItems.Add(new MenuItem("Select", menuItem_Click));
-            idgvMapping.ContextMenu.MenuItems.Add(new MenuItem("DeSelect", menuItem_Click));
-            idgvMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
-            idgvMapping.ContextMenu.MenuItems.Add(new MenuItem("Apply Alias Prefix", menuItem_Click));
-            idgvMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
+            dgvMapping.ContextMenu = new ContextMenu();
+            dgvMapping.ContextMenu.MenuItems.Add(new MenuItem("Editor", menuItem_Click));
+            dgvMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
+            dgvMapping.ContextMenu.MenuItems.Add(new MenuItem("Insert RegEx", menuItem_Click));
+            dgvMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
+            dgvMapping.ContextMenu.MenuItems.Add(new MenuItem("Select", menuItem_Click));
+            dgvMapping.ContextMenu.MenuItems.Add(new MenuItem("DeSelect", menuItem_Click));
+            dgvMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
+            dgvMapping.ContextMenu.MenuItems.Add(new MenuItem("Apply Alias Prefix", menuItem_Click));
+            dgvMapping.ContextMenu.MenuItems.Add(new MenuItem("-"));
 
             MenuItem item = new MenuItem("DebugMode", menuItem_Click);
             item.Checked = _IsagCustomProperties.DebugModus;
 
 
-            idgvMapping.ContextMenu.MenuItems.Add(item);
+            dgvMapping.ContextMenu.MenuItems.Add(item);
         }
 
         #endregion
@@ -541,7 +523,7 @@ namespace DataConverter
 
         private void InsertRegEx()
         {
-            if (cmbRegEx.SelectedValue != null) idgvMapping.CurrentCell.Value = cmbRegEx.SelectedValue.ToString();
+            if (cmbRegEx.SelectedValue != null) dgvMapping.CurrentCell.Value = cmbRegEx.SelectedValue.ToString();
         }
        
 
