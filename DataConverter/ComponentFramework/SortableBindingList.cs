@@ -3,23 +3,38 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace DataConverter.Framework
-{
+namespace DataConverter.Framework {
     /// <summary>
     /// Makes the BindingList sortable
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class SortableBindingList<T> : BindingList<T> where T : class
-    {
-
+    /// <typeparam name="T">type of list elements</typeparam>
+    public class SortableBindingList<T>: BindingList<T> where T: class {
+        /// <summary>
+        /// is the bindglist already sorted?
+        /// </summary>
         private bool _isSorted;
+
+        /// <summary>
+        /// sort direction
+        /// </summary>
         private ListSortDirection _sortDirection = ListSortDirection.Ascending;
+
+        /// <summary>
+        /// the property that is used for sorting
+        /// </summary>
         private PropertyDescriptor _sortProperty;
 
+        /// <summary>
+        /// constructor
+        /// </summary>
         public SortableBindingList()
         {
         }
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="list">a list that fills the bindinglist</param>
         public SortableBindingList(IList<T> list)
             : base(list)
         {
@@ -65,20 +80,20 @@ namespace DataConverter.Framework
             _isSorted = false;
 
             _sortDirection = ListSortDirection.Ascending;
-            _sortProperty = null;            
+            _sortProperty = null;
         }
 
         /// <summary>
         /// Sorts the items
         /// </summary>
-        /// <param name="sortProperty">A PropertyDescriptor that specifies the property to sort on.</param>
-        /// <param name="sortOrder">the ListSortDirection</param>
+        /// <param name="sortProperty">the property that is used for sorting</param>
+        /// <param name="sortOrder">sort order</param>
         protected override void ApplySortCore(PropertyDescriptor sortProperty, ListSortDirection sortOrder)
         {
             _sortProperty = sortProperty;
             _sortDirection = sortOrder;
 
-            List<T> list = (List<T>) this.Items;
+            List<T> list = (List<T>) this.Items;// as List<T>;
 
             if (list != null)
             {
@@ -91,11 +106,11 @@ namespace DataConverter.Framework
         }
 
         /// <summary>
-        /// Compares 2 values
+        /// compares 2 values
         /// </summary>
         /// <param name="left">left value</param>
         /// <param name="right">right value</param>
-        /// <returns></returns>
+        /// <returns>-1,0 or 1</returns>
         private int Compare(T left, T right)
         {
             object leftValue = left == null ? null : _sortProperty.GetValue(left);
@@ -114,21 +129,22 @@ namespace DataConverter.Framework
             }
             if (leftValue is IComparable)
             {
-                compareResult = ((IComparable)leftValue).CompareTo(rightValue);
+                compareResult = ((IComparable) leftValue).CompareTo(rightValue);
             }
             if (leftValue.Equals(rightValue))
             {
-                compareResult =  0;
+                compareResult = 0;
             }
             else
             {
                 //not IComparable -> compare strings
                 compareResult = leftValue.ToString().CompareTo(rightValue.ToString());
             }
-           
+
             //invert compareResult if sort order is descending
-            if (_sortDirection == ListSortDirection.Descending) compareResult = -compareResult;
-            
+            if (_sortDirection == ListSortDirection.Descending)
+                compareResult = -compareResult;
+
             return compareResult;
         }
     }

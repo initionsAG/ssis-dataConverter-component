@@ -7,8 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ComponentFramework.Controls
-{
+namespace ComponentFramework.Controls {
     /// <summary>
     /// Enhanced DataGridView that accepts a standard DataSource (i.e. DataTable) and DataSources (BindingList<object>) for ItemLists of combobox cells
     /// 
@@ -21,8 +20,7 @@ namespace ComponentFramework.Controls
     /// 
     /// Attention: removing/adding rows is only allowed if all combobox cells for a combobox column have the same itemSource
     /// </summary>
-    public partial class IsagDataGridView: DataGridView
-    {
+    public partial class IsagDataGridView: DataGridView {
         /// <summary>
         /// MARK_INVALID: items/values that are not part of an itemSource of a combobox cell are marked red
         /// </summary>
@@ -54,28 +52,11 @@ namespace ComponentFramework.Controls
 
             this.AllowUserToAddRows = false;
             this.DataBindings.DefaultDataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
-            //this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
-           // this.AutoSize = true;
-         //  this.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader, true);
-
-           // this.ResizeRedraw = true;
-        
         }
-
-        //protected override void OnSizeChanged(EventArgs e)
-        //{
-        //    base.OnSizeChanged(e);
-        //    this.Refresh();
-
-        //}
-
-  
-
 
         /// <summary>
         /// Sort Datagrid
-        /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">event arguments</param>
         protected override void OnColumnHeaderMouseClick(DataGridViewCellMouseEventArgs e)
         {
             bool sortComboBoxCell = _cmbItemSources.ContainsKey(e.ColumnIndex);
@@ -125,7 +106,7 @@ namespace ComponentFramework.Controls
         /// <summary>
         /// Each combobox column has to be updated whenever the bounded column has changed
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">event arguments</param>
         protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
         {
             foreach (int columnIndex in _cmbItemSources.Keys)
@@ -139,7 +120,7 @@ namespace ComponentFramework.Controls
         /// <summary>
         /// Whenn a Combox is opened register to the DrawItem Event
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">event arguments</param>
         protected override void OnEditingControlShowing(DataGridViewEditingControlShowingEventArgs e)
         {
             if (_cmbItemSources.Keys.Contains(this.SelectedCells[0].ColumnIndex))
@@ -162,8 +143,8 @@ namespace ComponentFramework.Controls
         /// Invalid Items (cell values that is not contained in the ItemSource) are marked red
         /// if ComboboxConfigType ==  MARK_INVALID
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">event sender</param>
+        /// <param name="e">event arguments</param>
         private void cmb_DrawItem(object sender, DrawItemEventArgs e)
         {
             e.DrawBackground();
@@ -188,7 +169,7 @@ namespace ComponentFramework.Controls
         /// Commits the cells value change earlier (does not apply to textbox cells)
         /// This way the cell does not have to loose focus to trigger cell value change event.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">event arguments</param>
         protected override void OnCurrentCellDirtyStateChanged(EventArgs e)
         {
             if (this.IsCurrentCellDirty && !(this.CurrentCell is DataGridViewTextBoxCell))
@@ -198,9 +179,9 @@ namespace ComponentFramework.Controls
         }
 
         /// <summary>
-        /// 
+        /// Reacts on cell value changes
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">event arguments</param>
         protected override void OnCellValueChanged(DataGridViewCellEventArgs e)
         {
             if (!IsCellValueChangeEventDisabled)
@@ -213,7 +194,7 @@ namespace ComponentFramework.Controls
         /// <summary>
         /// Set cells back color. Color depends on ReadOnly Property of the cell.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">event arguments</param>
         protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex != -1 && e.ColumnIndex != -1)
@@ -228,7 +209,7 @@ namespace ComponentFramework.Controls
         /// <summary>
         /// When the ReadOnly Property of a cell has changed, the cell has to be redrawn in order to change the back color.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">event arguments</param>
         protected override void OnCellStateChanged(DataGridViewCellStateChangedEventArgs e)
         {
             if (e.StateChanged == DataGridViewElementStates.ReadOnly)
@@ -242,7 +223,7 @@ namespace ComponentFramework.Controls
         ///    2. the bounded cell has to be updated
         ///    3. the fore color of the combobox value has to be updated
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">event arguments</param>
         private void DoCellValueChanged(DataGridViewCellEventArgs e)
         {
             IsCellValueChangeEventDisabled = true;
@@ -278,7 +259,7 @@ namespace ComponentFramework.Controls
         /// <summary>
         /// if a row has been added the ComboBoxConfiguration has to be updated
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">event arguments</param>
         protected override void OnRowsAdded(DataGridViewRowsAddedEventArgs e)
         {
             if (RowCount > 0)
@@ -294,7 +275,7 @@ namespace ComponentFramework.Controls
         /// <summary>
         /// /// if a row has been removed the ComboBoxConfiguration has to be updated
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">event arguments</param>
         protected override void OnRowsRemoved(DataGridViewRowsRemovedEventArgs e)
         {
             if (RowCount > 0)
@@ -315,7 +296,7 @@ namespace ComponentFramework.Controls
         /// <param name="srcColumnName">the name of the column that the combobox column is bounded to</param>
         /// <param name="itemListSource">the ItemSource for the ItemList of all combobox cells</param>
         /// <param name="sortItemList">sort the itemLists?</param>
-        /// <returns></returns>
+        /// <returns>configation for a comboBoxColumn</returns>
         private ComboBoxConfiguration GetComboBoxConfigFromSingleDataSource(BindingList<object> itemListSource, ComboboxConfigType configurationType, bool sortItemList)
         {
             Dictionary<object, BindingList<object>> dataSourceDictionary = new Dictionary<object, BindingList<object>>();
@@ -454,8 +435,8 @@ namespace ComponentFramework.Controls
         /// <summary>
         /// React if the ItemSource for the ItemList has changed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">event sender</param>
+        /// <param name="e">event arguments</param>
         private void DataSource_ListChanged(object sender, ListChangedEventArgs e)
         {
             IsCellValueChangeEventDisabled = true;
@@ -503,7 +484,7 @@ namespace ComponentFramework.Controls
         /// (by removing the prefix CMB_COLUMN_PREFIX of the combobox column name)
         /// </summary>
         /// <param name="cmbColumnIndex">column index of the combobox column</param>
-        /// <returns></returns>
+        /// <returns>column index of bounded column</returns>
         private int GetBoundedColumnIndex(int cmbColumnIndex)
         {
             string boundedColumnName = this.Columns[cmbColumnIndex].Name.Substring(CMB_COLUMN_PREFIX.Length);
@@ -628,8 +609,8 @@ namespace ComponentFramework.Controls
         /// Old Items are removed after new items have been added.
         /// This is to ensure that the cells value is always part of the itemList
         /// </summary>
-        /// <param name="cell"></param>
-        /// <param name="itemList"></param>
+        /// <param name="cell">the datagridview cell</param>
+        /// <param name="itemList">the itenList</param>
         private void SetItemList(DataGridViewComboBoxCell cell, List<object> itemList)
         {
             int count = cell.Items.Count;
@@ -649,8 +630,7 @@ namespace ComponentFramework.Controls
     /// <summary>
     /// Configuration for a cell bounded ComboBoxCell
     /// </summary>
-    class ComboBoxConfiguration
-    {
+    class ComboBoxConfiguration {
         //a Dictionary of dataBoundItems (objects that are bound to a row of the grid) and a datasource for the itemList of a comboBox
         private Dictionary<object, BindingList<object>> _itemSource;
 
@@ -661,6 +641,12 @@ namespace ComponentFramework.Controls
         public bool SortItemList { get; set; }
 
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="itemSource">dataSource for itemList</param>
+        /// <param name="configType">configuration type</param>
+        /// <param name="sortItemList">sort ItemList?</param>
         public ComboBoxConfiguration(Dictionary<object, BindingList<object>> itemSource, ComponentFramework.Controls.IsagDataGridView.ComboboxConfigType configType, bool sortItemList)
         {
             _itemSource = itemSource;
@@ -683,7 +669,7 @@ namespace ComponentFramework.Controls
         /// Removes an element from the _itemSource
         /// (happens when a row is removed from the grid)
         /// </summary>
-        /// <param name="dataBoundItem"></param>
+        /// <param name="dataBoundItem">dataBoundItem</param>
         public void RemoveItemSourceElement(object dataBoundItem)
         {
             if (_itemSource.Count > 0 && !_itemSource.ContainsKey(dataBoundItem))
@@ -693,9 +679,9 @@ namespace ComponentFramework.Controls
         /// <summary>
         /// Returns the ForeColor for the value inside the comboBoxCell
         /// </summary>
-        /// <param name="item"></param>
-        /// <param name="databoundedItem"></param>
-        /// <returns></returns>
+        /// <param name="item">item value</param>
+        /// <param name="databoundedItem">dataBoundItem</param>
+        /// <returns>cells fore color</returns>
         public Color GetForeColor(object item, object databoundedItem)
         {
 
@@ -710,8 +696,8 @@ namespace ComponentFramework.Controls
         /// Returns the ItemList for a databoundedItem.
         /// The itemList will be sorted if property SortItemList is true 
         /// </summary>
-        /// <param name="databoundedItem"></param>
-        /// <returns></returns>
+        /// <param name="databoundedItem">databoundedItem</param>
+        /// <returns>itemList</returns>
         public List<object> GetItemList(object databoundedItem)
         {
             List<object> itemList = _itemSource[databoundedItem].ToList<Object>();
@@ -724,9 +710,9 @@ namespace ComponentFramework.Controls
         /// <summary>
         /// Is the item part of the itemList of a the databoundedItem?
         /// </summary>
-        /// <param name="databoundedItem"></param>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <param name="databoundedItem">databoundedItem</param>
+        /// <param name="item">item value</param>
+        /// <returns>is cell value valid?</returns>
         private bool IsValid(object databoundedItem, object item)
         {
             return _itemSource[databoundedItem].Contains(item);
@@ -735,8 +721,8 @@ namespace ComponentFramework.Controls
         /// <summary>
         /// Does the configuration contain an itemSource?
         /// </summary>
-        /// <param name="itemSource"></param>
-        /// <returns></returns>
+        /// <param name="itemSource">itemSource</param>
+        /// <returns>is itemSource contained in this configuration?</returns>
         public bool HasItemSource(BindingList<object> itemSource)
         {
             return _itemSource.ContainsValue(itemSource);
@@ -745,8 +731,8 @@ namespace ComponentFramework.Controls
         /// <summary>
         /// Does the configuration contain an itemSource for a given dataBoundItem?
         /// </summary>
-        /// <param name="itemSource"></param>
-        /// <param name="databoundedItem"></param>
+        /// <param name="itemSource">itemSource</param>
+        /// <param name="databoundedItem">databoundedItem</param>
         /// <returns></returns>
         public bool HasItemSource(BindingList<object> itemSource, object databoundedItem)
         {
@@ -759,12 +745,18 @@ namespace ComponentFramework.Controls
     /// <summary>
     /// Compares 2 objects. If objects are not IComparable, string values are compared.
     /// </summary>
-    public class ToStringComparer: System.Collections.IComparer
-    {
-        public int Compare(object x, object y)
+    public class ToStringComparer: System.Collections.IComparer {
+
+        /// <summary>
+        /// compares 2 values
+        /// </summary>
+        /// <param name="left">left value</param>
+        /// <param name="right">right value</param>
+        /// <returns></returns>
+        public int Compare(object left, object right)
         {
-            object leftValue = x;
-            object rightValue = y;
+            object leftValue = left;
+            object rightValue = right;
 
             int compareResult;
 
