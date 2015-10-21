@@ -54,9 +54,23 @@ namespace ComponentFramework.Controls
 
             this.AllowUserToAddRows = false;
             this.DataBindings.DefaultDataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
-            this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            this.AutoSize = true;
+            //this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
+           // this.AutoSize = true;
+         //  this.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader, true);
+
+           // this.ResizeRedraw = true;
+        
         }
+
+        //protected override void OnSizeChanged(EventArgs e)
+        //{
+        //    base.OnSizeChanged(e);
+        //    this.Refresh();
+
+        //}
+
+  
+
 
         /// <summary>
         /// Sort Datagrid

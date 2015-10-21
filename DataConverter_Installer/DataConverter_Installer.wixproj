@@ -28,6 +28,14 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataConverterFW\DataConverterFW.csproj">
+      <Name>DataConverterFW</Name>
+      <Project>{0aa18489-81bc-4a57-af87-6e6af03bb2bd}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\DataConverter\DataConverter.csproj">
       <Name>DataConverter</Name>
       <Project>{383bd531-ddca-43f6-92c4-f0e9e98d4fe0}</Project>

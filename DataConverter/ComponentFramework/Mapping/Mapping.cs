@@ -3,7 +3,7 @@ using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 using System.Reflection;
 using System.Diagnostics;
 
-namespace DataConverter.ComponentFrameWork.Mapping
+namespace DataConverter.FrameWork.Mapping
 {
     public class Mapping
     {

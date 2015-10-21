@@ -9,8 +9,9 @@ using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 using System.Collections;
 using System.Text.RegularExpressions;
 using Microsoft.SqlServer.Dts.Runtime;
-using DataConverter.ComponentFrameWork.Mapping;
 using ComponentFramework.Controls;
+using DataConverter.FrameWork.Mapping;
+
 
 
 namespace DataConverter
@@ -24,7 +25,7 @@ namespace DataConverter
         private Dictionary<string, IDTSInputColumn100> _inputColumnsDictionary;
         private bool _abortClosing = false;
 
-        private IsagDataGridView dgvMapping = new IsagDataGridView();
+        //private IsagDataGridView dgvMapping = new IsagDataGridView();
 
         public frmDataConverterUI(IDTSComponentMetaData100 metadata, Variables variables)
         {
@@ -73,11 +74,7 @@ namespace DataConverter
 
         private void PopulateMappingGrid()
         {
-
             //Grid
-            pnlGrid.Controls.Add(dgvMapping);
-            dgvMapping.Dock = DockStyle.Fill;
-            dgvMapping.DataBindings.DefaultDataSourceUpdateMode = DataSourceUpdateMode.OnValidation;
             dgvMapping.DataSource = _IsagCustomProperties.ColumnConfigList;            
 
             dgvMapping.AddCellBoundedComboBox("DataType", Constants.DATATYPE_LIST(),true);

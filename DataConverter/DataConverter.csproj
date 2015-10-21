@@ -89,7 +89,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2014|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\%24%28Configuration%29\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\..\Program Files %28x86%29\Microsoft SQL Server\120\DTS\PipelineComponents\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SQL2014</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -250,18 +250,6 @@
     <Compile Include="ColumnConfig.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Comparer.cs" />
-    <Compile Include="ComponentFramework\Controls\IsagComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ComponentFramework\Controls\IsagComboBox.designer.cs">
-      <DependentUpon>IsagComboBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ComponentFramework\Controls\IsagDataGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ComponentFramework\Controls\IsagDataGridView.designer.cs">
-      <DependentUpon>IsagDataGridView.cs</DependentUpon>
-    </Compile>
     <Compile Include="ComponentFramework\Mapping\Mapping.cs" />
     <Compile Include="ComponentFramework\SortableBindingList.cs" />
     <Compile Include="ComponentMetaDataTools.cs" />
@@ -362,11 +350,15 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DataConverterFW\DataConverterFW.csproj">
+      <Project>{0aa18489-81bc-4a57-af87-6e6af03bb2bd}</Project>
+      <Name>DataConverterFW</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

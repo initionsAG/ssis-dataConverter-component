@@ -9,8 +9,8 @@ using System.Diagnostics;
 using System.ComponentModel;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
 using Microsoft.SqlServer.Dts.Runtime.Wrapper;
-using DataConverter.ComponentFrameWork.Mapping;
 using ComponentFramework;
+using DataConverter.Framework;
 
 namespace DataConverter
 {

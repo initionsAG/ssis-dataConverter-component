@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDataConverterUI));
             this.label1 = new System.Windows.Forms.Label();
             this.lblRegEx = new System.Windows.Forms.Label();
@@ -37,12 +40,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.pnlMapping = new System.Windows.Forms.Panel();
+            this.dgvMapping = new ComponentFramework.Controls.IsagDataGridView();
             this.cmbRegEx = new System.Windows.Forms.ComboBox();
             this.btnApplyPrefix = new System.Windows.Forms.Button();
             this.tbPrefix = new System.Windows.Forms.TextBox();
             this.cmbErrorName = new System.Windows.Forms.ComboBox();
-            this.pnlGrid = new System.Windows.Forms.Panel();
             this.pnlMapping.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMapping)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -97,7 +101,7 @@
             this.cbErrorHandling.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbErrorHandling.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbErrorHandling.FormattingEnabled = true;
-            this.cbErrorHandling.Location = new System.Drawing.Point(258, 430);
+            this.cbErrorHandling.Location = new System.Drawing.Point(258, 429);
             this.cbErrorHandling.Name = "cbErrorHandling";
             this.cbErrorHandling.Size = new System.Drawing.Size(121, 21);
             this.cbErrorHandling.TabIndex = 2;
@@ -129,7 +133,7 @@
             this.pnlMapping.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlMapping.Controls.Add(this.pnlGrid);
+            this.pnlMapping.Controls.Add(this.dgvMapping);
             this.pnlMapping.Controls.Add(this.cmbRegEx);
             this.pnlMapping.Controls.Add(this.btnApplyPrefix);
             this.pnlMapping.Controls.Add(this.tbPrefix);
@@ -139,6 +143,43 @@
             this.pnlMapping.Name = "pnlMapping";
             this.pnlMapping.Size = new System.Drawing.Size(1054, 405);
             this.pnlMapping.TabIndex = 0;
+            // 
+            // dgvMapping
+            // 
+            this.dgvMapping.AllowUserToAddRows = false;
+            this.dgvMapping.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvMapping.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMapping.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvMapping.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvMapping.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvMapping.Location = new System.Drawing.Point(0, 0);
+            this.dgvMapping.Name = "dgvMapping";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMapping.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvMapping.Size = new System.Drawing.Size(1051, 365);
+            this.dgvMapping.TabIndex = 6;
             // 
             // cmbRegEx
             // 
@@ -179,16 +220,6 @@
             this.cmbErrorName.TabIndex = 1;
             this.cmbErrorName.TextChanged += new System.EventHandler(this.cmbErrorName_TextChanged);
             // 
-            // pnlGrid
-            // 
-            this.pnlGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlGrid.Location = new System.Drawing.Point(0, 3);
-            this.pnlGrid.Name = "pnlGrid";
-            this.pnlGrid.Size = new System.Drawing.Size(1051, 362);
-            this.pnlGrid.TabIndex = 6;
-            // 
             // frmDataConverterUI
             // 
             this.AcceptButton = this.btnOK;
@@ -213,6 +244,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDataConverterUI_FormClosing);
             this.pnlMapping.ResumeLayout(false);
             this.pnlMapping.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMapping)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -232,7 +264,7 @@
         private System.Windows.Forms.Button btnApplyPrefix;
         private System.Windows.Forms.ComboBox cmbRegEx;
         private System.Windows.Forms.ComboBox cmbErrorName;
-        private System.Windows.Forms.Panel pnlGrid;
+        private ComponentFramework.Controls.IsagDataGridView dgvMapping;
 
     }
 }

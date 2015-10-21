@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace ComponentFramework
+namespace DataConverter.Framework
 {
     /// <summary>
     /// Makes the BindingList sortable
@@ -71,14 +71,14 @@ namespace ComponentFramework
         /// <summary>
         /// Sorts the items
         /// </summary>
-        /// <param name="sortProperty"></param>
-        /// <param name="sortOrder"></param>
+        /// <param name="sortProperty">A PropertyDescriptor that specifies the property to sort on.</param>
+        /// <param name="sortOrder">the ListSortDirection</param>
         protected override void ApplySortCore(PropertyDescriptor sortProperty, ListSortDirection sortOrder)
         {
             _sortProperty = sortProperty;
             _sortDirection = sortOrder;
 
-            List<T> list = (List<T>) this.Items;// as List<T>;
+            List<T> list = (List<T>) this.Items;
 
             if (list != null)
             {
@@ -91,10 +91,10 @@ namespace ComponentFramework
         }
 
         /// <summary>
-        /// 
+        /// Compares 2 values
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
+        /// <param name="left">left value</param>
+        /// <param name="right">right value</param>
         /// <returns></returns>
         private int Compare(T left, T right)
         {

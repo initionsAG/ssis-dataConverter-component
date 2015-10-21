@@ -10,7 +10,7 @@ using Microsoft.SqlServer.Dts.Runtime;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Globalization;
-using DataConverter.ComponentFrameWork.Mapping;
+using DataConverter.FrameWork.Mapping;
 
 namespace DataConverter
 {

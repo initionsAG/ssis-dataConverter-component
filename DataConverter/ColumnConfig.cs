@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Collections;
 using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
-using DataConverter.ComponentFrameWork.Mapping;
+using DataConverter.FrameWork.Mapping;
 
 namespace DataConverter
 {
