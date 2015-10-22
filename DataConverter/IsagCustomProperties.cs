@@ -644,7 +644,7 @@ namespace DataConverter
             else outputLog = componentMetaData.OutputCollection[Constants.OUTPUT_LOG_NAME];
 
             //OuputError neu generieren falls nötig
-            if (!Constants.HasStandardErrorOutput(componentMetaData)) Constants.CreateStandardErrorOutput(componentMetaData, input.ID);
+            if (!Constants.HasStandardErrorOutput(componentMetaData)) Constants.CreateStandardErrorOutput(componentMetaData);
 
 
 

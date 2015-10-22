@@ -9,19 +9,10 @@ namespace DataConverter
     {
         public static void Fire(IDTSComponentMetaData100 ComponentMetaData, Type eventType, string description)
         {
-            Fire(ComponentMetaData, eventType, Constants.INFO_NONE, ComponentMetaData.Name + "|" + description);
+            Fire(ComponentMetaData, eventType, 1, ComponentMetaData.Name + "|" + description);
         }
 
-        public static void Fire(IDTSComponentMetaData100 ComponentMetaData, Type eventType, int sqlType, int rowsAffected)
-        {
-            string description =
-                rowsAffected.ToString() + " rows were affected by the " + Constants.INFO_NAME[sqlType] + " Command." +
-                "|" + ComponentMetaData.Name +
-                "|" + Constants.INFO_NAME[sqlType] +
-                "|" + rowsAffected.ToString();
-
-            Fire(ComponentMetaData, eventType, sqlType, description);
-        }
+     
 
         public static void Fire(IDTSComponentMetaData100 ComponentMetaData, Type eventType, int sqlType, string description)
         {

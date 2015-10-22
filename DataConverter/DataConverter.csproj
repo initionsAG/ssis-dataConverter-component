@@ -328,7 +328,6 @@
     <None Include="DataConverter_2014.snk" />
     <None Include="Resources\element_copy.png" />
     <None Include="Resources\copy.png" />
-    <Content Include="CaCheckInstallDir.wxs" />
     <Content Include="DataConverter_DC.ico" />
     <EmbeddedResource Include="Resources\DataConverter_DC.ico" />
     <Content Include="Lib\2008\Microsoft.SQLServer.DTSPipelineWrap.dll" />

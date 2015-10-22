@@ -10,21 +10,29 @@ namespace DataConverter
 {
     public class Constants
     {
+        /// <summary>
+        /// cutom properties name
+        /// </summary>
         public const string PROP_CONFIG = "DataConverter Configuration";
 
-        public const string PROP_OUTPUT_CONFIGURATION = "OutputConfiguration";
-        public const string PROP_OUTPUT_CONFIGURATION_COUNT = "OutputConfigurationCount";
-
+        /// <summary>
+        /// custom property name for version
+        /// </summary>
         public const string PROP_VERSION = "ConvertAll Version";
 
-        public const string PROP_PREFIX_OUTPUT_COL_NAME = "Postfix Output";
+        /// <summary>
+        /// default value for prefix of output column name
+        /// </summary>
         public const string PREFIX_OUTPUT_COL_NAME_DEFAULT = "";
 
+        /// <summary>
+        /// path to predefined regular expressions
+        /// </summary>
         public const string PATH_REGEX = @"\\localhost\SSIS_RegEx\regex.xml";
 
-        //Mapping Konstanten 
-        //Je Spalte wird ein Konfigurations-Array genutzt.
-        //Die idx-Konstanten geben die Position einer Einstellung innerhalb des Arrays an.
+        //mapping constants
+        //each column a configuration array is used
+        //index constants mark position in array
         public const int MAPPING_IDX_USE = 0;
         public const int MAPPING_IDX_INPUT_COL_NAME = 1;
         public const int MAPPING_IDX_CONVERT = 2;
@@ -48,25 +56,50 @@ namespace DataConverter
         public const int MAPPING_COUNT = 20; //Anzahl Elemente der Mapping-Config
 
 
-        //Namen der Output- und Input-Collections
+        //SSIS input and output names
         public const string INPUT_NAME = "input";
         public const string OUTPUT_NAME = "output";
         public const string OUTPUT_LOG_NAME = "logOutput";
         public const string OUTPUT_ERROR_NAME = "errorOutput";
 
-
+        /// <summary>
+        /// Supported conversion types for DateConvertType STR2YYYYMMDD
+        /// </summary>
         public static readonly string[] STRING_CONVERSION_TYPES = { "YYYY.MM.DD", "DD.MM.YYYY", "YYYY/MM/DD", "DD/MM/YYYY", "YYYY-MM-DD", "DD-MM-YYYY", "MM-DD-YYYY" };
 
+        /// <summary>
+        /// Simple SSIS datatypes
+        /// </summary>
         public static readonly string[] DATATYPE_SIMPLE = 
             {"DT_BOOL","DT_CY","DT_DBDATE","DT_UI1","DT_UI2","DT_UI4","DT_UI8",
              "DT_I1","DT_I2","DT_I4","DT_I8","DT_R4","DT_R8","DT_IMAGE","DT_DATE",
              "DT_FILETIME","DT_GUID","DT_NTEXT","DT_DBTIMESTAMP"};
+
+        /// <summary>
+        /// SSIS datatypes that need a length property
+        /// </summary>
         public static readonly string[] DATATYPE_LENGTH = { "DT_BYTES", "DT_WSTR" };
+        /// <summary>
+        /// SSIS datatypes that need a sclae and precision property
+        /// </summary>
         public static readonly string[] DATATYPE_PRECISION_SCALE = { "DT_NUMERIC" };
+        /// <summary>
+        /// SSIS datatypes that need a scale property
+        /// </summary>
         public static readonly string[] DATATYPE_SCALE = { "DT_DECIMAL" };
+        /// <summary>
+        /// SSIS datatypes that need a length and codepage property
+        /// </summary>
         public static readonly string[] DATATYPE_LENGTH_CODEPAGE = { "DT_STR" };
+        /// <summary>
+        /// SSIS datatypes that need a codepage property
+        /// </summary>
         public static readonly string[] DATATYPE_CODEPAGE = { "DT_TEXT" };
 
+        /// <summary>
+        /// Returns a list of supported SSIS datatypes
+        /// </summary>
+        /// <returns>list of supported SSIS datatypes</returns>
         public static BindingList<object> DATATYPE_LIST()
         {
             List<object> datatypes = new List<object>();
@@ -81,31 +114,31 @@ namespace DataConverter
             return new BindingList<object>(datatypes);
         }
 
+        /// <summary>
+        /// List of SSIS number datatypes 
+        /// </summary>
         public static readonly string[] DATATYPE_NUMBER = {"DT_CY","DT_UI1","DT_UI2","DT_UI4","DT_UI8",
              "DT_I1","DT_I2","DT_I4","DT_I8","DT_R4","DT_R8", "DT_NUMERIC", "DT_DECIMAL"};
+        /// <summary>
+        /// List of SSIS string datatypes 
+        /// </summary>
         public static readonly string[] DATATYPE_STRING = { "DT_STR", "DT_WSTR" };
+        /// <summary>
+        /// List of SSIS date datatypes 
+        /// </summary>
         public static readonly string[] DATATYPE_DATE = { "DT_DBTIMESTAMP", "DT_DBDATE", "DT_DATE" };
 
-        //On Information Event Codes
-        public const int INFO_NONE = 1;
-        public const int INFO_PRESQL = 1;
-        public const int INFO_POSTSQL = 2;
-        public const int INFO_MERGE = 3;
-        public const int INFO_DELETE = 4;
-        public const int INFO_INSERT = 5;
-        public const int INFO_UPDATE = 6;
-        public const int INFO_CREATE = 7;
-        public const int INFO_SP = 8;
 
-        public static readonly string[] INFO_NAME = {"NONE","PRE SQL", "POST SQL", "Merge", "Delete", "Insert", 
-                                                     "Update", "Create", "Stored Procedure"};
-
-        //StandardLogOuput Column Names
+        //Standard LogOuput Column Names
         public const string LOG_OUTPUT_ISERROR = "isETL_isError";
         public const string LOG_OUTPUT_ERRORCOLUMNS = "isETL_ErrorColumnNames";
         public const string LOG_OUTPUT_ERRORMESSAGES = "isETL_ErrorMessages";
 
-
+        /// <summary>
+        /// Creates a standard log output
+        /// </summary>
+        /// <param name="metadata">components metadata</param>
+        /// <returns>SSIS log output</returns>
         public static IDTSOutput100 CreateStandardLogOutput(IDTSComponentMetaData100 metadata)
         {
             IDTSOutput100 logOutput;
@@ -139,6 +172,11 @@ namespace DataConverter
             return logOutput;
         }
 
+        /// <summary>
+        /// Ckecks if log output is a standard log output
+        /// </summary>
+        /// <param name="metadata">components metadata</param>
+        /// <returns>log output is a standard log output?</returns>
         public static bool HasStandardLogOutput(IDTSComponentMetaData100 metadata)
         {
             try
@@ -157,7 +195,12 @@ namespace DataConverter
             }
         }
 
-        public static IDTSOutput100 CreateStandardErrorOutput(IDTSComponentMetaData100 metadata, int inputId)
+        /// <summary>
+        /// Creates a standard error output
+        /// </summary>
+        /// <param name="metadata">components metdata</param>
+        /// <returns>SSIS error output</returns>
+        public static IDTSOutput100 CreateStandardErrorOutput(IDTSComponentMetaData100 metadata)
         {
             IDTSOutput100 errorOutput;
 
@@ -176,7 +219,6 @@ namespace DataConverter
 
             errorOutput.Name = Constants.OUTPUT_ERROR_NAME;
             errorOutput.IsErrorOut = true;
-            //errorOutput.SynchronousInputID = inputId;
 
             IDTSOutputColumn100 outputColumn = errorOutput.OutputColumnCollection.New();
             outputColumn.Name = "TaskID";
@@ -213,6 +255,12 @@ namespace DataConverter
             return errorOutput;
         }
 
+
+        /// <summary>
+        /// Ckecks if error output is a standard error output
+        /// </summary>
+        /// <param name="metadata">components metadata</param>
+        /// <returns>error output is a standard error output?</returns>
         public static bool HasStandardErrorOutput(IDTSComponentMetaData100 metadata)
         {
             try

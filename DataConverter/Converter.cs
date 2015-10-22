@@ -7,6 +7,9 @@ using Microsoft.SqlServer.Dts.Pipeline;
 
 namespace DataConverter
 {
+    /// <summary>
+    /// Holds methods for conversions
+    /// </summary>
     public static class Converter
     {
 
@@ -204,8 +207,6 @@ namespace DataConverter
                     break;
             }
 
-            // object result = String2Int(DataType.DT_NUMERIC, ref status, strValue, value);
-
             object result = Converter.GetConvertedValue(strValue, DataType.DT_NUMERIC, ref status, true);
             if (dataType != DataType.DT_NUMERIC && result != null)
             {
@@ -224,87 +225,6 @@ namespace DataConverter
 
             return result;
         }
-
-        //public static object String2Int(DataType dataType, ref StatusConvert status, string strValue, object origValue)
-        //{
-        //    object result = Converter.GetConvertedValue(strValue, DataType.DT_NUMERIC, ref status, true);
-        //    if (dataType != DataType.DT_NUMERIC && result != null)
-        //    {
-        //        try
-        //        {
-        //            result = Decimal.Ceiling(((decimal)result));
-        //        }
-        //        catch (Exception) //Ceiling sprengt den Wertebereich von Decimal
-        //        {
-        //            status.SetError("Can convert the value " + origValue.ToString() + " to decimal but not to " + dataType.ToString());
-        //        }
-
-        //        result = Converter.GetConvertedValue(result.ToString(), dataType, ref status, true);
-        //        if (result == null) status.SetError("Can convert the value " + origValue.ToString() + " to decimal but not to " + dataType.ToString());
-        //    }
-
-        //    return result;
-        //}
-
-        /// <summary>
-        /// Rundet einen Decimal Wert auf die nächste ganze Zahl auf und konvertiert das Ergebnis in einen Integer vom Typ dataType
-        /// </summary>
-        /// <param name="value">Der zu konvertierende Wert [Datentyp object, Inhalt muss decimal sein] </param>
-        /// <param name="dataType">Der Zieldatentyp (die Art des Integers) </param>
-        /// <returns></returns>
-        //public static object ConvertFromDecimalToInt(object value, DataType dataType)
-        //{
-        //    object result = null;
-        //    object x = (Int32?) 0;
-        //    try
-        //    {
-        //        value = Decimal.Ceiling(((decimal)value));
-
-        //        //switch (dataType)
-        //        //{
-        //        //    case DataType.DT_I1:
-        //        //        SByte? i1 = value as SByte?;
-        //        //        result = i1;
-        //        //        break;
-        //        //    case DataType.DT_I2:
-        //        //        Int16? i2 = value as Int16?;
-        //        //        result = i2;
-        //        //        break;
-        //        //    case DataType.DT_I4:
-        //        //        x = value as Int32?;
-        //        //        result = x;
-        //        //        break;
-        //        //    case DataType.DT_I8:
-        //        //        Int64? i8 = value as Int64?;
-        //        //        result = i8;
-        //        //        break;
-        //        //    case DataType.DT_UI1:
-        //        //        Byte? ui1 = value as Byte?;
-        //        //        result = ui1;
-        //        //        break;
-        //        //    case DataType.DT_UI2:
-        //        //        UInt16? ui16 = value as UInt16?;
-        //        //        result = ui16;
-        //        //        break;
-        //        //    case DataType.DT_UI4:
-        //        //        UInt32? ui4 = value as UInt32?;
-        //        //        result = ui4;
-        //        //        break;
-        //        //    case DataType.DT_UI8:
-        //        //        UInt64? ui8 = value as UInt64?;
-        //        //        result = ui8;
-        //        //        break;
-        //        //    default:
-        //        //        break;
-        //        //}
-        //    }
-        //    catch (Exception)
-        //    {
-        //        result = null; //Sollte eigentlich nur erreicht werden, wenn value = Decimal.Ceiling(((decimal)value)) zu einem Fehler führt.
-        //    }
-
-        //    return result;
-        //}
 
 
         public static object GetConvertedValue(object value, DataType dataType, ref StatusConvert status, bool convertFromString)

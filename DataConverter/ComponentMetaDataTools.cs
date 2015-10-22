@@ -8,22 +8,18 @@ using System.Windows.Forms;
 
 namespace DataConverter
 {
+    /// <summary>
+    /// Helper methods for SSIS API
+    /// </summary>
     public class ComponentMetaDataTools
     {
-        public static IDTSInputColumn100 GetInputColumnByColumnName(IDTSInputColumnCollection100 inputColumns, string colName)
-        {
 
-            try
-            {
-                return inputColumns[colName];
-            }
-            catch (Exception)
-            {
-                
-                return null;
-            }          
-        }
-
+        /// <summary>
+        /// Returns SSIS imput column by lineageId
+        /// </summary>
+        /// <param name="inputColumns">input column collection</param>
+        /// <param name="lineageId">lineageId</param>
+        /// <returns>SSIS input column</returns>
         public static IDTSInputColumn100 GetInputColumnByLineageId(IDTSInputColumnCollection100 inputColumns, int lineageId)
         {
 
@@ -37,17 +33,11 @@ namespace DataConverter
             return result;
         }
 
-        public static IDTSInputColumn100 GetInputIdByColumnName(string columnName, IDTSComponentMetaData100 componentMetaData)
-        {
-
-            foreach (IDTSInputColumn100 column in componentMetaData.InputCollection[Constants.INPUT_NAME].InputColumnCollection)
-            {
-                if (column.Name == columnName) return column;
-            }
-
-            return null;
-        }
-
+        /// <summary>
+        /// Returns all input column collection with their name
+        /// </summary>
+        /// <param name="componentMetaData">components metadata</param>
+        /// <returns>Dictionary (key: input name, value SSIS Input)</returns>
         public static Dictionary<string, IDTSInputColumn100> GetInputDictionary(IDTSComponentMetaData100 componentMetaData)
         {
             Dictionary<string, IDTSInputColumn100> result = new Dictionary<string, IDTSInputColumn100>();
@@ -59,6 +49,12 @@ namespace DataConverter
             return result;
         }
 
+        /// <summary>
+        /// Returns output column by name
+        /// </summary>
+        /// <param name="columnName">output column name</param>
+        /// <param name="outputColumns">SSIS output column collection</param>
+        /// <returns></returns>
         public static IDTSOutputColumn100 GetOutputColumnByColumnName(string columnName, IDTSOutputColumnCollection100 outputColumns)
         {
 
@@ -70,6 +66,12 @@ namespace DataConverter
             return null;
         }
 
+        /// <summary>
+        /// Does a virtual input contains a column with a given lineageId?
+        /// </summary>
+        /// <param name="vInput">SSIS virtual input</param>
+        /// <param name="lineageId">lineageId</param>
+        /// <returns></returns>
         public static bool HasVirtualInputColumn(IDTSVirtualInput100 vInput, int lineageId)
         {
             bool result = false;
@@ -82,34 +84,11 @@ namespace DataConverter
             return result;
         }
 
-        public static void SetUsageTypeReadOnly(IDTSVirtualInput100 virtualInput)
-        {
-            for (int i = 0; i < virtualInput.VirtualInputColumnCollection.Count; i++)
-            {
-                virtualInput.SetUsageType(virtualInput.VirtualInputColumnCollection[i].LineageID, DTSUsageType.UT_READONLY);
-            }
-        }
-
-        public static void RemoveCollections(IDTSComponentMetaData100 componentMetaData)
-        {
-            try
-            {
-                componentMetaData.OutputCollection[Constants.OUTPUT_ERROR_NAME].OutputColumnCollection.RemoveAll();
-            }
-            catch (Exception)
-            {
-                //Die Spalten ErrorCode und ErrorColumn können nicht entfernt werden
-            }
-            componentMetaData.OutputCollection[Constants.OUTPUT_NAME].OutputColumnCollection.RemoveAll();
-
-            componentMetaData.InputCollection[Constants.INPUT_NAME].InputColumnCollection.RemoveAll();
-        }
-
         /// <summary>
-        /// Metadaten Version auf DLL-Version setzen 
+        /// Sets metadata version to assemblies current version
         /// </summary>
-        /// <param name="component"></param>
-        /// <param name="componentMetaData"></param>
+        /// <param name="component">pipeline component</param>
+        /// <param name="componentMetaData">components metdadata</param>
         public static void UpdateVersion(PipelineComponent component, IDTSComponentMetaData100 componentMetaData)
         {
             DtsPipelineComponentAttribute componentAttr =
@@ -118,6 +97,11 @@ namespace DataConverter
             componentMetaData.Version = binaryVersion;
         }
 
+        /// <summary>
+        /// Gets SSIS datatype from string 
+        /// </summary>
+        /// <param name="name">string representation of SSIS datatype</param>
+        /// <returns></returns>
         public static DataType GetDataType(string name)
         {
             switch (name)
@@ -179,6 +163,12 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// Returns value of a variable
+        /// </summary>
+        /// <param name="variableDispenser">SSIS variable dispenser</param>
+        /// <param name="variableName">variable name</param>
+        /// <returns></returns>
         public static string GetValueFromVariable(IDTSVariableDispenser100 variableDispenser, string variableName)
         {
             string result;
@@ -191,6 +181,17 @@ namespace DataConverter
             return result;
         }
 
+        /// <summary>
+        /// Returns if a value can be converted to a specified datatype
+        /// (fills errorMessage if conversion fails)
+        /// </summary>
+        /// <param name="value">value to convert</param>
+        /// <param name="dataType">destination datatype</param>
+        /// <param name="length">datatype length</param>
+        /// <param name="scale">datatype scale</param>
+        /// <param name="precision">datatype precision</param>
+        /// <param name="errorMessage">errorMessage that is filled if conversion fails</param>
+        /// <returns>Returns if a value can be converted to a specified datatype</returns>
         public static bool CanConvertTo(object value, DataType dataType, int length, int scale, int precision, out string errorMessage)
         {
             errorMessage = "";
@@ -223,10 +224,10 @@ namespace DataConverter
                         return true;
                     case DataType.DT_DECIMAL:
                         if (!IsValidDecimal(Convert.ToDecimal(value), scale, 0))
-                            throw new Exception(String.Format("Konvertierung nach DT.Decimal [Scale={0}] gescheitert.", scale));
+                            throw new Exception(String.Format("Conversion to DT_Decimal [Scale={0}] failed.", scale));
                         return true;
                     case DataType.DT_FILETIME:
-                        throw new Exception("Typ " + dataType.ToString() + " wird nicht unterstützt.");
+                        throw new Exception("Datatype " + dataType.ToString() + " is not supported.");
                     case DataType.DT_GUID:
                         Guid g = (Guid)value;
                         return true;
@@ -256,7 +257,7 @@ namespace DataConverter
                         return (value == null);
                     case DataType.DT_NUMERIC:
                         if (!IsValidDecimal(Convert.ToDecimal(value), scale, precision)) 
-                            throw new Exception(String.Format("Konvertierung nach DT.Numeric [Scale={0}, Precision={1}] gescheitert.", scale, precision));
+                            throw new Exception(String.Format("Conversion to DT_Numeric [Scale={0}, Precision={1}] failed.", scale, precision));
                         return true;
                     case DataType.DT_R4:
                         Convert.ToSingle(value);
@@ -266,7 +267,7 @@ namespace DataConverter
                         return true;
                     case DataType.DT_STR:
                         string s = value.ToString();
-                        if (s.Length > length) throw new Exception(string.Format("Konvertierung nach DT_STR[Length={0}] gescheitert.", length));
+                        if (s.Length > length) throw new Exception(string.Format("Conversion to DT_STR[Length={0}] failed.", length));
                         return true;
                     case DataType.DT_TEXT:
                         BlobColumn colDT_TEXT = (BlobColumn)value;
@@ -287,24 +288,21 @@ namespace DataConverter
                         return true;
                     case DataType.DT_WSTR:
                         string ws = value.ToString();
-                        if (ws.Length > length) throw new Exception(string.Format("Konvertierung nach DT_WSTR [Length={0}] gescheitert.", length));
+                        if (ws.Length > length) throw new Exception(string.Format("Conversion to DT_WSTR [Length={0}] failed.", length));
                         return true;
                     default:
-                        throw new Exception("Typ " + dataType.ToString() + " wird nicht unterstützt.");
+                        throw new Exception("Datatype " + dataType.ToString() + " is not supported.");
                 }
-
             }
             catch (Exception ex)
             {
                 errorMessage = ex.Message;
                 return false;
-            }
-
-            
+            }            
         }
         /// <summary>
-        /// Prüft ob ein Decimal Wert einen Scale von "scale" und eine Precision von "precision" hat. 
-        /// (precision = 0 gibt an, dass jede precision gültig ist)
+        /// Checks if decimal value is valid for a specified scale and precision
+        /// (precision = 0: any precision is valid)
         /// </summary>
         /// <param name="value">the decimal to validate</param>
         /// <param name="scale">number of digits to the right of the decimal point</param>
@@ -313,16 +311,17 @@ namespace DataConverter
         /// 
         private static bool IsValidDecimal(decimal value, int scale, int precision)
         {
-            value = Math.Abs(value); //Negatives Vorzeichen entfernen
+            value = Math.Abs(value); //remove negative sign
 
             if (precision != 0)
             {
+                //get values precision: string value without ,
                 int digitsCount = value.ToString().Contains(",") ? value.ToString().Length - 1 : value.ToString().Length;
                 if (digitsCount > precision) return false;
             }
 
-            decimal floor = (value - Math.Floor(value)); //Umwandeln in 0.xxx oder 0
-            if (floor.ToString().Length > 2 && //auf 0 ohne Nachkommastelle prüfen
+            decimal floor = (value - Math.Floor(value)); //convert to 0.xxx or 0
+            if (floor.ToString().Length > 2 && //ignore 0 / 0.0
                 floor.ToString().Length > scale + 2) return false;
 
             return true;

@@ -9,14 +9,30 @@ using DataConverter.FrameWork.Mapping;
 
 namespace DataConverter
 {
+    /// <summary>
+    /// DataConverter (special) conversion types
+    /// </summary>
     public enum DateConvertTypes { None, YYYYMMDD, YYYYMM, YYYY, Point2Comma, Comma2Point, AmericanDecimal, GermanDecimal, STR2YYYYMMDD }
+
+    /// <summary>
+    /// attributes datatype characteristic
+    /// </summary>
     public enum DataTypeKind { TextDate, NumberDate, Date, None };
 
-    public class ColumnConfig: IXmlSerializable, INotifyPropertyChanged
-    {
-
+    /// <summary>
+    /// configuration for a conversion of an input column
+    /// </summary>
+    public class ColumnConfig: IXmlSerializable, INotifyPropertyChanged {
+        
+        /// <summary>
+        /// interface for INotifyPropertyChanged
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// triggers PropertyChangedEventHandler
+        /// </summary>
+        /// <param name="info">property name</param>
         private void NotifyPropertyChanged(String info)
         {
             if (PropertyChanged != null)
@@ -27,7 +43,13 @@ namespace DataConverter
 
         #region Properties
 
+        /// <summary>
+        /// input column name
+        /// </summary>
         private string _inputColumnName;
+        /// <summary>
+        /// input column name
+        /// </summary>
         [DisplayName("Input Column Name"), ReadOnly(true)]
         public string InputColumnName
         {
@@ -35,7 +57,13 @@ namespace DataConverter
             set { _inputColumnName = value; }
         }
 
+        /// <summary>
+        /// convert column value?
+        /// </summary>
         private bool _convert;
+        /// <summary>
+        /// convert column value?
+        /// </summary>
         [DisplayName("Convert")]
         public bool Convert
         {
@@ -54,7 +82,13 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// output column name
+        /// </summary>
         private string _outputAlias;
+        /// <summary>
+        /// output column name
+        /// </summary>
         [DisplayName("Output Alias")]
         public string OutputAlias
         {
@@ -66,7 +100,13 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// input datatype as string
+        /// </summary>
         private string _dataTypeInput;
+        /// <summary>
+        /// input datatype as string
+        /// </summary>
         [DisplayName("DataType (Input)"), ReadOnly(true)]
         public string DataTypeInput
         {
@@ -81,7 +121,13 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// output datatype as string
+        /// </summary>
         private string _dataType;
+        /// <summary>
+        /// output datatype as string
+        /// </summary>
         [DisplayName("DataType (Output)")]
         public string DataType
         {
@@ -104,7 +150,13 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// default value for null values
+        /// </summary>
         private string _default;
+        /// <summary>
+        /// default value for null values
+        /// </summary>
         [DisplayName("OnNull")]
         public string Default
         {
@@ -116,7 +168,13 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// output datatype length
+        /// </summary>
         private string _length;
+        /// <summary>
+        /// output datatype length
+        /// </summary>
         [DisplayName("Length")]
         public string Length
         {
@@ -124,7 +182,13 @@ namespace DataConverter
             set { _length = value; NotifyPropertyChanged("Length"); }
         }
 
+        /// <summary>
+        /// output datatype precision
+        /// </summary>
         private string _precision;
+        /// <summary>
+        /// output datatype precision
+        /// </summary>
         [DisplayName("Precision")]
         public string Precision
         {
@@ -132,7 +196,13 @@ namespace DataConverter
             set { _precision = value; NotifyPropertyChanged("Precision"); }
         }
 
+        /// <summary>
+        /// output datatype scale
+        /// </summary>
         private string _scale;
+        /// <summary>
+        /// output datatype scale
+        /// </summary>
         [DisplayName("Scale")]
         public string Scale
         {
@@ -140,7 +210,13 @@ namespace DataConverter
             set { _scale = value; NotifyPropertyChanged("Scale"); }
         }
 
+        /// <summary>
+        /// output datatype codepage
+        /// </summary>
         private string _codepage;
+        /// <summary>
+        /// output datatype codepage
+        /// </summary>
         [DisplayName("Codepage")]
         public string Codepage
         {
@@ -148,8 +224,13 @@ namespace DataConverter
             set { _codepage = value; NotifyPropertyChanged("Codepage"); }
         }
 
-
+        /// <summary>
+        /// DataConverter conversion type (DateConvertTypes)
+        /// </summary>
         private DateConvertTypes _date2string;
+        /// <summary>
+        /// DataConverter conversion type (DateConvertTypes)
+        /// </summary>
         [BrowsableAttribute(false)]
         public DateConvertTypes Date2string
         {
@@ -161,7 +242,13 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// destination format for conversion type (DateConvertTypes) STR2YYYYMMDD
+        /// </summary>
         private string _strConversionByFormat;
+        /// <summary>
+        /// destination format for conversion type (DateConvertTypes) STR2YYYYMMDD
+        /// </summary>
         [BrowsableAttribute(false)]
         public string StrConversionByFormat
         {
@@ -173,6 +260,10 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// DataConverter conversion type (DateConvertTypes) as string
+        /// exception: conversion type STR2YYYYMMDD is replaced with StrConversionByFormat
+        /// </summary>
         [DisplayName("Conversion")]
         public string ConversionAsString
         {
@@ -206,7 +297,13 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// regular expression (value has to match this expression)
+        /// </summary>
         private string _regEx;
+        /// <summary>
+        /// regular expression (value has to match this expression)
+        /// </summary>
         [DisplayName("RegEx")]
         public string RegEx
         {
@@ -214,7 +311,13 @@ namespace DataConverter
             set { _regEx = value; NotifyPropertyChanged("RegEx"); }
         }
 
+        /// <summary>
+        /// compare expression (value is compared to antother value (i.e. another column)
+        /// </summary>
         private string _compare;
+        /// <summary>
+        /// compare expression (value is compared to antother value (i.e. another column)
+        /// </summary>
         [DisplayName("Compare")]
         public string Compare
         {
@@ -222,9 +325,13 @@ namespace DataConverter
             set { _compare = value; NotifyPropertyChanged("Compare"); }
         }
 
-
-
+        /// <summary>
+        /// replacement value is conversion is not successful
+        /// </summary>
         private string _onErrorValue;
+        /// <summary>
+        /// replacement value is conversion is not successful
+        /// </summary>
         [DisplayName("OnError")]
         public string OnErrorValue
         {
@@ -243,9 +350,15 @@ namespace DataConverter
 
         }
 
+        /// <summary>
+        /// Are null values allowed?
+        /// </summary>
         [DisplayName("Allow Null")]
         public bool AllowNull { get; set; }
 
+        /// <summary>
+        /// Errorhandling (ignore, failure, redirect)
+        /// </summary>
         private IsagCustomProperties.ErrorRowHandling _errorHandling;
         [DisplayName("ErrorHandling")]
         public IsagCustomProperties.ErrorRowHandling ErrorHandling
@@ -264,8 +377,13 @@ namespace DataConverter
             }
         }
 
-
+        /// <summary>
+        /// Is column used as an errorCounter)
+        /// </summary>
         private bool _isErrorCounter;
+        /// <summary>
+        /// Is column used as an errorCounter)
+        /// </summary>
         [DisplayName("IsErrorCounter")]
         public bool IsErrorCounter
         {
@@ -280,14 +398,26 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// input column id
+        /// </summary>
         private string _inputId;
+        /// <summary>
+        /// input column id
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public string InputId
         {
             get { return _inputId; }
             set { _inputId = value; }
         }
+        /// <summary>
+        /// input column idString
+        /// </summary>
         private string _inputIdString;
+        /// <summary>
+        /// input column idString
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public string InputIdString
         {
@@ -302,21 +432,39 @@ namespace DataConverter
             set { _inputLineageId = value; }
         }
 
+        /// <summary>
+        /// output column id
+        /// </summary>
         private string _outputId;
+        /// <summary>
+        /// output column id
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public string OutputId
         {
             get { return _outputId; }
             set { _outputId = value; }
         }
+        /// <summary>
+        /// output column idString
+        /// </summary>
         private string _outputIdString;
+        /// <summary>
+        /// output column idString
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public string OutputIdString
         {
             get { return _outputIdString; }
             set { _outputIdString = value; }
         }
+        /// <summary>
+        /// output column lineageId
+        /// </summary>
         private string _outputLineageId;
+        /// <summary>
+        /// output column lineageId
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public string OutputLineageId
         {
@@ -324,21 +472,41 @@ namespace DataConverter
             set { _outputLineageId = value; }
         }
 
+        /// <summary>
+        /// output column (logoutput) id
+        /// </summary>
         private string _outputErrorId;
+        /// <summary>
+        /// output column (logoutput) id
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public string OutputErrorId
         {
             get { return _outputErrorId; }
             set { _outputErrorId = value; }
         }
+
+        /// <summary>
+        /// output column (logoutput) idString
+        /// </summary>
         private string _outputErrorIdString;
+        /// <summary>
+        /// output column (logoutput) idString
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public string OutputErrorIdString
         {
             get { return _outputErrorIdString; }
             set { _outputErrorIdString = value; }
         }
+
+        /// <summary>
+        /// output column (logoutput) lineageId
+        /// </summary>
         private string _outputErrorLineageId;
+        /// <summary>
+        /// output column (logoutput) lineageId
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public string OutputErrorLineageId
         {
@@ -346,7 +514,13 @@ namespace DataConverter
             set { _outputErrorLineageId = value; }
         }
 
+        /// <summary>
+        /// input columns custom id (GUID)  
+        /// </summary>
         private string _customId;
+        /// <summary>
+        /// input columns custom id (GUID)  
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public string CustomId
         {
@@ -358,8 +532,9 @@ namespace DataConverter
 
         #region Conversion
 
-
-
+        /// <summary>
+        /// Datatype characteristic for DataConverter conversion type 
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public DataTypeKind OutputDataTypeKindForDate
         {
@@ -379,12 +554,18 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// Do current column setting allow usage of DataConveter conversion types?
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public bool SupportsConversion
         {
             get { return (SupportsConversionDate || SupportsConversionNumeric || SupportsConversionStrByFormat) && !IsErrorCounter && Convert; }
         }
 
+        /// <summary>
+        /// Do column input and output datatype allow usage of DataConverter conversion types YYYYMMDD, YYYYMM, YYYY?
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public bool SupportsConversionDate
         {
@@ -395,6 +576,9 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// Do column input and output datatype allow usage of DataConverter conversion types Point2Comma, Comma2Point, AmericanDecimal, GermanDecimal?
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public bool SupportsConversionNumeric
         {
@@ -407,6 +591,9 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// Do column input and output datatype allow usage of DataConverter conversion type STR2YYYYMMDD?
+        /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
         public bool SupportsConversionStrByFormat
         {
@@ -419,8 +606,12 @@ namespace DataConverter
                         DataType.StartsWith("DT_DATE") || DataType.StartsWith("DT_DBDATE") || DataType.StartsWith("DT_DBTIMESTAMP"));
             }
         }
-        [BrowsableAttribute(false), ReadOnly(true)]
 
+        /// <summary>
+        /// List of supported DataConverter conversion types
+        /// (STR2YYYYMMDD is replaced by Constants.STRING_CONVERSION_TYPES, i.e. "YYYY.MM.DD")
+        /// </summary>
+        [BrowsableAttribute(false), ReadOnly(true)]        
         BindingList<object> _supportedConversions;
         [BrowsableAttribute(false), ReadOnly(true), XmlIgnore]
         public BindingList<object> SupportedConversions
@@ -456,7 +647,6 @@ namespace DataConverter
                     {
                         _supportedConversions.Add(item);
                     }
-                    //result.AddRange(Constants.STRING_CONVERSION_TYPES);
                 }
 
                 _supportedConversions.RaiseListChangedEvents = true;
@@ -465,7 +655,9 @@ namespace DataConverter
             }
         }
 
-
+        /// <summary>
+        /// Sets conversion type to None / StrConversionByFormat to "" if current setting does not allow usage of that conversion
+        /// </summary>
         private void UpdateConversion()
         {
 
@@ -481,6 +673,9 @@ namespace DataConverter
 
         #endregion
 
+        /// <summary>
+        /// Does this column has a compare condition?
+        /// </summary>
         [BrowsableAttribute(false)]
         public bool HasCompare
         {
@@ -491,8 +686,37 @@ namespace DataConverter
 
         #region Constructor
 
+        /// <summary>
+        /// constructor
+        /// </summary>
         public ColumnConfig() { }
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="inputColumnName">input column name</param>
+        /// <param name="convert">convert column value?</param>
+        /// <param name="outputAlias">outpu column name</param>
+        /// <param name="dataTypeInput">input column datatype</param>
+        /// <param name="dataType">output column datatype</param>
+        /// <param name="length">output column datatype length</param>
+        /// <param name="precision">output column datatype precision</param>
+        /// <param name="scale">output column datatype scale</param>
+        /// <param name="codepage">output column datatype codepage</param>
+        /// <param name="defaultValue">deault value for null values</param>
+        /// <param name="inputId">input column id</param>
+        /// <param name="inputIdString">input column idString</param>
+        /// <param name="inputLineageId">input column lineageId</param>
+        /// <param name="outputId">output column id</param>
+        /// <param name="outputIdString">output column idString</param>
+        /// <param name="outputLineageId">output column lineageId</param>
+        /// <param name="outpuErrortId">log output column id</param>
+        /// <param name="outputErrorIdString">log output column idString</param>
+        /// <param name="outputErrorLineageId">log output column lineageId</param>
+        /// <param name="allowNull">are null values allowed?</param>
+        /// <param name="inputCol">SSIS input column</param>
+        /// <param name="outCol">SSIS output column</param>
+        /// <param name="outLogCol">SSIS log output column</param>
         public ColumnConfig(string inputColumnName, bool convert, string outputAlias, string dataTypeInput,
                            string dataType, string length, string precision, string scale, string codepage, string defaultValue,
                            string inputId, string inputIdString, string inputLineageId,
@@ -509,6 +733,33 @@ namespace DataConverter
                             allowNull, DateConvertTypes.None,
                             inputCol, outCol, outLogCol);
         }
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="inputColumnName">input column name</param>
+        /// <param name="convert">convert column value?</param>
+        /// <param name="outputAlias">outpu column name</param>
+        /// <param name="dataTypeInput">input column datatype</param>
+        /// <param name="dataType">output column datatype</param>
+        /// <param name="length">output column datatype length</param>
+        /// <param name="precision">output column datatype precision</param>
+        /// <param name="scale">output column datatype scale</param>
+        /// <param name="codepage">output column datatype codepage</param>
+        /// <param name="defaultValue">deault value for null values</param>
+        /// <param name="inputId">input column id</param>
+        /// <param name="inputIdString">input column idString</param>
+        /// <param name="inputLineageId">input column lineageId</param>
+        /// <param name="outputId">output column id</param>
+        /// <param name="outputIdString">output column idString</param>
+        /// <param name="outputLineageId">output column lineageId</param>
+        /// <param name="outpuErrortId">log output column id</param>
+        /// <param name="outputErrorIdString">log output column idString</param>
+        /// <param name="outputErrorLineageId">log output column lineageId</param>
+        /// <param name="allowNull">are null values allowed?</param>
+        /// <param name="dateConverttype">Dataconverte conversion type</param>
+        /// <param name="inputCol">SSIS input column</param>
+        /// <param name="outCol">SSIS output column</param>
+        /// <param name="outLogCol">SSIS log output column</param>
         public ColumnConfig(string inputColumnName, bool convert, string outputAlias, string dataTypeInput,
                             string dataType, string length, string precision, string scale, string codepage, string defaultValue,
                             string inputId, string inputIdString, string inputLineageId,
@@ -526,6 +777,33 @@ namespace DataConverter
                             inputCol, outCol, outLogCol);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputColumnName">input column name</param>
+        /// <param name="convert">convert column value?</param>
+        /// <param name="outputAlias">outpu column name</param>
+        /// <param name="dataTypeInput">input column datatype</param>
+        /// <param name="dataType">output column datatype</param>
+        /// <param name="length">output column datatype length</param>
+        /// <param name="precision">output column datatype precision</param>
+        /// <param name="scale">output column datatype scale</param>
+        /// <param name="codepage">output column datatype codepage</param>
+        /// <param name="defaultValue">deault value for null values</param>
+        /// <param name="inputId">input column id</param>
+        /// <param name="inputIdString">input column idString</param>
+        /// <param name="inputLineageId">input column lineageId</param>
+        /// <param name="outputId">output column id</param>
+        /// <param name="outputIdString">output column idString</param>
+        /// <param name="outputLineageId">output column lineageId</param>
+        /// <param name="outpuErrortId">log output column id</param>
+        /// <param name="outputErrorIdString">log output column idString</param>
+        /// <param name="outputErrorLineageId">log output column lineageId</param>
+        /// <param name="allowNull">are null values allowed?</param>
+        /// <param name="dateConverttype">Dataconverte conversion type</param>
+        /// <param name="inputCol">SSIS input column</param>
+        /// <param name="outCol">SSIS output column</param>
+        /// <param name="outLogCol">SSIS log output column</param>
         private void Init(string inputColumnName, bool convert, string outputAlias, string dataTypeInput,
                             string dataType, string length, string precision, string scale, string codepage, string defaultValue,
                             string inputId, string inputIdString, string inputLineageId,
@@ -573,6 +851,16 @@ namespace DataConverter
                 Mapping.SetIdProperty(_customId, outLogCol.CustomPropertyCollection);
 
         }
+
+        /// <summary>
+        /// Get input column datatype as string
+        /// </summary>
+        /// <param name="dataType">output column datatype</param>
+        /// <param name="length">output column datatype length</param>
+        /// <param name="precision">output column datatype precision</param>
+        /// <param name="scale">output column datatype scale</param>
+        /// <param name="codepage">output column datatype codepage</param>
+        /// <returns></returns>
         public string CreateInputDataTypeString(string dataType, string length, string precision, string scale, string codepage)
         {
             return dataType + " (" + length + "," + precision + "," + scale + "," + codepage.ToString() + ")";
@@ -582,16 +870,23 @@ namespace DataConverter
 
         #region IXmlSerializable
 
+        /// <summary>
+        /// Gets XML schema (not used, so null is returned)
+        /// </summary>
+        /// <returns>XmlSchema (null)</returns>
         public System.Xml.Schema.XmlSchema GetSchema() { return null; }
 
+        /// <summary>
+        /// Reads a ColumnConfig from an XML reader
+        /// </summary>
+        /// <param name="reader"></param>
         public void ReadXml(System.Xml.XmlReader reader)
         {
 
             reader.MoveToContent();
 
             try
-            {
-                // _use = (reader.GetAttribute("Use") == "True");
+            {;
                 _inputColumnName = reader.GetAttribute("InputColumnName");
                 _convert = (reader.GetAttribute("Convert") == "True");
                 _outputAlias = reader.GetAttribute("OutputAlias");
@@ -655,10 +950,12 @@ namespace DataConverter
 
         }
 
+        /// <summary>
+        /// Writes this ColumnConfig to an XML writer
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteXml(System.Xml.XmlWriter writer)
         {
-
-            // writer.WriteAttributeString("Use", _use.ToString());
             writer.WriteAttributeString("InputColumnName", _inputColumnName);
             writer.WriteAttributeString("Convert", _convert.ToString());
             writer.WriteAttributeString("OutputAlias", _outputAlias);
@@ -691,14 +988,16 @@ namespace DataConverter
             writer.WriteAttributeString("OutputErrorLineageId", _outputErrorLineageId);
 
             writer.WriteAttributeString("CustomId", _customId);
-
-
         }
 
         #endregion
 
         #region Helper
 
+        /// <summary>
+        /// Output column dataType has length attribute?
+        /// </summary>
+        /// <returns>Output column dataType has length attribute?</returns>
         public bool HasLength()
         {
             ArrayList length = new ArrayList(Constants.DATATYPE_LENGTH);
@@ -707,6 +1006,10 @@ namespace DataConverter
             return (length.Contains(DataType) || lengthCodepage.Contains(DataType));
         }
 
+        /// <summary>
+        /// Output column dataType has precision attribute?
+        /// </summary>
+        /// <returns>Output column dataType has precision attribute?</returns>
         public bool HasPrecision()
         {
             ArrayList precisionScale = new ArrayList(Constants.DATATYPE_PRECISION_SCALE);
@@ -714,6 +1017,10 @@ namespace DataConverter
             return precisionScale.Contains(DataType);
         }
 
+        /// <summary>
+        /// Output column dataType has scale attribute?
+        /// </summary>
+        /// <returns>Output column dataType has scale attribute?</returns>
         public bool HasScale()
         {
             ArrayList precisionScale = new ArrayList(Constants.DATATYPE_PRECISION_SCALE);
@@ -722,6 +1029,10 @@ namespace DataConverter
             return (precisionScale.Contains(DataType) || scale.Contains(DataType));
         }
 
+        /// <summary>
+        /// Output column dataType has codepage attribute?
+        /// </summary>
+        /// <returns>Output column dataType has codepage attribute?</returns>
         public bool HasCodePage()
         {
             ArrayList lengthCodepage = new ArrayList(Constants.DATATYPE_LENGTH_CODEPAGE);
@@ -731,6 +1042,10 @@ namespace DataConverter
             return (lengthCodepage.Contains(DataType) || codepage.Contains(DataType));
         }
 
+
+        /// <summary>
+        /// If output column datatype has changed, reset of datatype attributes might be necessary
+        /// </summary>
         private void ReactOnDataTypeChanged()
         {
             if (!HasLength())
@@ -743,16 +1058,9 @@ namespace DataConverter
                 Codepage = "0";
         }
 
-        //public bool HasOutput()
-        //{
-        //    return !string.IsNullOrEmpty(OutputId);
-        //}
-
-        //public bool HasErrorOutput()
-        //{
-        //    return !string.IsNullOrEmpty(OutputErrorId);
-        //}
-
+        /// <summary>
+        /// Removes output IDs 
+        /// </summary>
         public void RemoveOutput()
         {
             _outputId = "";
@@ -760,22 +1068,37 @@ namespace DataConverter
             _outputLineageId = "";
         }
 
+        /// <summary>
+        /// Are input and out datatypes equal?
+        /// </summary>
+        /// <returns>Are input and out datatypes equal?</returns>
         public bool HasSameInputAndOutputDataType()
         {
             return (DataTypeInput == CreateInputDataTypeString(DataType, Length, Precision, Scale, Codepage));
         }
 
+        /// <summary>
+        /// Has default value for null values?
+        /// </summary>
+        /// <returns>Has default value for null values?</returns>
         public bool HasDefaultValue()
         {
             return (Default != null && Default != "");
         }
 
-
+        /// <summary>
+        /// Has value that replaces values that cannot be converted?
+        /// </summary>
+        /// <returns>Has value that replaces values that cannot be converted?</returns>
         public bool HasOnErrorValue()
         {
             return (OnErrorValue != null && OnErrorValue != "");
         }
 
+        /// <summary>
+        /// Has regular expression?
+        /// </summary>
+        /// <returns>Has regular expression?</returns>
         public bool HasRegEx()
         {
             return (RegEx != null && RegEx != "" && Convert);

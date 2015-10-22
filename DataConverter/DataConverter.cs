@@ -307,7 +307,7 @@ namespace DataConverter
             Constants.CreateStandardLogOutput(ComponentMetaData);
 
             ////Error Output
-            Constants.CreateStandardErrorOutput(ComponentMetaData, input.ID);
+            Constants.CreateStandardErrorOutput(ComponentMetaData);
 
             //Custom Property: Version
             IDTSCustomProperty100 prop = ComponentMetaData.CustomPropertyCollection.New();
