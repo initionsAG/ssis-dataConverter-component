@@ -14,17 +14,41 @@ using DataConverter.FrameWork.Mapping;
 
 
 
-namespace DataConverter
-{
-    public partial class frmDataConverterUI : Form
-    {
+namespace DataConverter {
+    /// <summary>
+    /// The GUI for the DataConverter component
+    /// </summary>
+    public partial class frmDataConverterUI: Form {
+        /// <summary>
+        /// SSIS metadata for the component
+        /// </summary>
         private IDTSComponentMetaData100 _metadata;
+
+        /// <summary>
+        /// SSIS variables
+        /// </summary>
         private Variables _variables;
+
+        /// <summary>
+        /// custom properties for the component
+        /// </summary>
         private IsagCustomProperties _IsagCustomProperties;
 
+        /// <summary>
+        /// Dictionary of input column names and SSIS input columns
+        /// </summary>
         private Dictionary<string, IDTSInputColumn100> _inputColumnsDictionary;
+
+        /// <summary>
+        /// Abort closing the GUI?
+        /// </summary>
         private bool _abortClosing = false;
 
+        /// <summary>
+        /// constructor of the GUI
+        /// </summary>
+        /// <param name="metadata">SSIS metadata for the component</param>
+        /// <param name="variables">SSIS variables</param>
         public frmDataConverterUI(IDTSComponentMetaData100 metadata, Variables variables)
         {
             InitializeComponent();
@@ -51,12 +75,19 @@ namespace DataConverter
 
         }
 
+        /// <summary>
+        /// After Windows Form has been loaded the grid cells readonly property has to be set
+        /// </summary>
+        /// <param name="sender">event sender</param>
+        /// <param name="e">event arguments</param>
         private void frmDataConverterUI_Load(object sender, EventArgs e)
         {
             SetGridColumnsActivationState();
         }
 
-
+        /// <summary>
+        /// Show compare expression editor
+        /// </summary>
         private void ShowEditor()
         {
             string inputColumnName = dgvMapping.Rows[dgvMapping.CurrentCell.RowIndex].Cells["InputColumnName"].Value.ToString();
@@ -66,16 +97,17 @@ namespace DataConverter
                 dgvMapping.CurrentCell.Value = editor.Value;
         }
 
-
-
-
-
+        /// <summary>
+        /// - Adds data and events to the grid.
+        /// - Prefix and regular Expression combobox is set 
+        /// - Set readonly property of grid cells for conversions  
+        /// </summary>
         private void PopulateMappingGrid()
         {
             //Grid
-            dgvMapping.DataSource = _IsagCustomProperties.ColumnConfigList;            
+            dgvMapping.DataSource = _IsagCustomProperties.ColumnConfigList;
 
-            dgvMapping.AddCellBoundedComboBox("DataType", Constants.DATATYPE_LIST(),true);
+            dgvMapping.AddCellBoundedComboBox("DataType", Constants.DATATYPE_LIST(), true);
             dgvMapping.AddCellBoundedComboBox("ErrorHandling", typeof(IsagCustomProperties.ErrorRowHandling), false);
 
             Dictionary<object, BindingList<object>> itemListSource = new Dictionary<object, BindingList<object>>();
@@ -84,34 +116,40 @@ namespace DataConverter
                 itemListSource.Add(config, config.SupportedConversions);
             }
 
-            dgvMapping.AddCellBoundedComboBox("ConversionAsString",itemListSource, IsagDataGridView.ComboboxConfigType.MARK_INVALID, false);
-     
+            dgvMapping.AddCellBoundedComboBox("ConversionAsString", itemListSource, IsagDataGridView.ComboboxConfigType.MARK_INVALID, false);
+
             dgvMapping.CellValueChanged += dgvMapping_CellValueChanged;
-            dgvMapping.MouseDown +=dgvMapping_MouseDown;
-            
+            dgvMapping.MouseDown += dgvMapping_MouseDown;
+
             //Prefix
             tbPrefix.DataBindings.Add("Text", _IsagCustomProperties, "AliasPrefix");
 
             //Regular Expressions
-            cmbRegEx.DataSource=  RegularExpressions.LoadFromXml(Constants.PATH_REGEX);
+            cmbRegEx.DataSource = RegularExpressions.LoadFromXml(Constants.PATH_REGEX);
             cmbRegEx.DisplayMember = "Name";
-            cmbRegEx.ValueMember = "Pattern";           
+            cmbRegEx.ValueMember = "Pattern";
 
-            //conversion Column            
+            //Set readonly property of grid cells for conversions       
             SetConversionColumnState();
 
         }
 
+        /// <summary>
+        /// Populate Error Name combobox with variables
+        /// </summary>
         private void PopulateComboVariables()
         {
             foreach (Variable variable in _variables)
             {
                 cmbErrorName.Items.Add(variable.QualifiedName);
-            }           
+            }
 
-            cmbErrorName.Text  = _IsagCustomProperties.ErrorName;
+            cmbErrorName.Text = _IsagCustomProperties.ErrorName;
         }
 
+        /// <summary>
+        /// Set tool tips
+        /// </summary>
         private void SetToolTips()
         {
             dgvMapping.Columns["Default"].ToolTipText = "Replaces NULL values with the OnNull value.";
@@ -120,6 +158,9 @@ namespace DataConverter
             dgvMapping.Columns["IsErrorCounter"].ToolTipText = "If selected the column will never be converted. \n For each Row the error counter will be increased for each error.";
         }
 
+        /// <summary>
+        /// Fill grid cell comboboxes itemlists for row dispositions 
+        /// </summary>
         private void PopulateRowDisposition()
         {
             cbErrorHandling.Items.Add(DTSRowDisposition.RD_FailComponent);
@@ -129,6 +170,10 @@ namespace DataConverter
             cbErrorHandling.SelectedItem = _metadata.InputCollection[Constants.INPUT_NAME].ErrorRowDisposition;
         }
 
+        /// <summary>
+        /// Sets output datatype by using input column datatype
+        /// </summary>
+        /// <param name="row">datagridview row</param>
         private void SetOuputDataTypeAsInputDataType(DataGridViewRow row)
         {
             IDTSInputColumn100 inputColumn = _inputColumnsDictionary[row.Cells["InputColumnName"].Value.ToString()];
@@ -140,7 +185,11 @@ namespace DataConverter
             row.Cells["Codepage"].Value = inputColumn.CodePage;
         }
 
-        private void DisableOutputColumnData(DataGridViewRow row)
+        /// <summary>
+        /// Set readonly property of grid cells containing output column datatype
+        /// </summary>
+        /// <param name="row">datagridview row</param>
+        private void DisableOutputColumnDataType(DataGridViewRow row)
         {
             SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "DataType"], true);
             SetCellEnabledStatus(row.Cells["Length"], true);
@@ -149,6 +198,10 @@ namespace DataConverter
             SetCellEnabledStatus(row.Cells["Codepage"], true);
         }
 
+        /// <summary>
+        /// Set readonly property of grid cell containing the conversion type (for a single row)    
+        /// </summary>
+        /// <param name="row">grid row</param>
         private void SetConversionColumnState(DataGridViewRow row)
         {
             ColumnConfig column = _IsagCustomProperties.GetColumnConfigByInputColumnName(row.Cells["InputColumnName"].Value.ToString());
@@ -156,6 +209,10 @@ namespace DataConverter
             DataGridViewCell cell = row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ConversionAsString"];
             SetCellEnabledStatus(cell, !column.SupportsConversion);
         }
+
+        /// <summary>
+        /// Set readonly property of all grid cells containing the conversion type
+        /// </summary>
         private void SetConversionColumnState()
         {
             foreach (DataGridViewRow row in dgvMapping.Rows)
@@ -164,32 +221,39 @@ namespace DataConverter
             }
         }
 
-
-
-
+        /// <summary>
+        /// Set readonly property of a grid cell
+        /// </summary>
+        /// <param name="cell">grid cell</param>
+        /// <param name="readOnly">readonly?</param>
         private void SetCellEnabledStatus(DataGridViewCell cell, bool readOnly)
         {
             cell.ReadOnly = readOnly;
-
-            //cell.Style.BackColor = readOnly ? Color.LightGray : Color.White;
         }
 
-
+        /// <summary>
+        /// Set readonly property for cells of all rows
+        /// </summary>
         public void SetGridColumnsActivationState()
         {
             foreach (DataGridViewRow row in dgvMapping.Rows)
             {
-                SetGridColumnsActivationState(row);
+                SetGridColumnsReadonlyState(row);
             }
         }
-        public void SetGridColumnsActivationState(DataGridViewRow row)
+
+        /// <summary>
+        /// Set readonly property for cell of a single grid row
+        /// </summary>
+        /// <param name="row">grid row</param>
+        public void SetGridColumnsReadonlyState(DataGridViewRow row)
         {
 
             //Always readonly:
             SetCellEnabledStatus(row.Cells["DataTypeInput"], true);
             SetCellEnabledStatus(row.Cells["InputColumnName"], true);
 
-            if ((bool)row.Cells["IsErrorCounter"].Value)
+            if ((bool) row.Cells["IsErrorCounter"].Value)
             {
 
                 SetCellEnabledStatus(row.Cells["Convert"], true);
@@ -200,7 +264,7 @@ namespace DataConverter
                 SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ErrorHandling"], true);
                 SetCellEnabledStatus(row.Cells[IsagDataGridView.CMB_COLUMN_PREFIX + "ConversionAsString"], true);
 
-                DisableOutputColumnData(row);
+                DisableOutputColumnDataType(row);
                 SetOuputDataTypeAsInputDataType(row);
 
                 SetCellEnabledStatus(row.Cells["OutputAlias"], false);
@@ -209,9 +273,9 @@ namespace DataConverter
                 return;
             }
 
-            if (!(bool)row.Cells["Convert"].Value)
+            if (!(bool) row.Cells["Convert"].Value)
             {
-                DisableOutputColumnData(row);
+                DisableOutputColumnDataType(row);
                 SetOuputDataTypeAsInputDataType(row);
 
                 SetCellEnabledStatus(row.Cells["Default"], true);
@@ -254,10 +318,15 @@ namespace DataConverter
 
             _IsagCustomProperties = IsagCustomProperties.Load(configuration);
 
-            if (_IsagCustomProperties == null) _IsagCustomProperties = new IsagCustomProperties();
+            if (_IsagCustomProperties == null)
+                _IsagCustomProperties = new IsagCustomProperties();
 
         }
 
+        /// <summary>
+        /// Saves the custom properties
+        /// </summary>
+        /// <returns>saving succesful?</returns>
         private bool save()
         {
             IDTSOutput100 output = _metadata.OutputCollection[Constants.OUTPUT_NAME];
@@ -280,12 +349,14 @@ namespace DataConverter
 
             try
             {
-                //Inputspalten + Convert
+                //input columns + convert
                 foreach (ColumnConfig config in _IsagCustomProperties.ColumnConfigList)
                 {
                     IDTSInputColumn100 inputColumn = input.InputColumnCollection[config.InputColumnName];
-                    if (config.IsErrorCounter) vInput.SetUsageType(inputColumn.LineageID, DTSUsageType.UT_READWRITE);
-                    else vInput.SetUsageType(inputColumn.LineageID, DTSUsageType.UT_READONLY);
+                    if (config.IsErrorCounter)
+                        vInput.SetUsageType(inputColumn.LineageID, DTSUsageType.UT_READWRITE);
+                    else
+                        vInput.SetUsageType(inputColumn.LineageID, DTSUsageType.UT_READONLY);
 
                     if (config.Convert)
                     {
@@ -322,10 +393,11 @@ namespace DataConverter
                         }
 
                     }
-                    else config.RemoveOutput();
+                    else
+                        config.RemoveOutput();
                 }
 
-                //Neue Spalten
+                //new columns (not used anymore)
                 foreach (NewColumnConfig config in _IsagCustomProperties.NewColumnConfigList)
                 {
                     IDTSOutputColumn100 outputColumn = null;
@@ -346,7 +418,7 @@ namespace DataConverter
                         config.OutputLineageId = outputColumn.LineageID.ToString();
                     }
 
-                    //DataType setzen
+                    //set datatype
                     try
                     {
                         outputColumn.SetDataTypeProperties(
@@ -388,50 +460,81 @@ namespace DataConverter
 
         #region Events
 
+        /// <summary>
+        /// When OK button is clicked the user may abort leaving the GUI if saving is impossible due to errors
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOK_Click(object sender, EventArgs e)
         {
             _abortClosing = !save();
         }
 
+        /// <summary>
+        /// Sets all output column names to prefix + input column name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnApplyPrefix_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dgvMapping.Rows)
             {
-                if (((bool)row.Cells["Convert"].Value))
+                if (((bool) row.Cells["Convert"].Value))
                     row.Cells["OutputAlias"].Value = tbPrefix.Text + row.Cells["InputColumnName"].Value.ToString();
             }
         }
 
+        /// <summary>
+        /// Reacts on datagridview cell value changed
+        /// - if error handling cell changed the all row disposition are recalculated
+        /// - if output datatype, IsErrorCounter or Convert cell has changed, readonly state is changed
+        /// - readonly state of conversion columns is set
+        /// </summary>
+        /// <param name="sender">event sender</param>
+        /// <param name="e">event arguments</param>
         private void dgvMapping_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewColumn col = dgvMapping.Columns[e.ColumnIndex];
             DataGridViewRow row = dgvMapping.Rows[e.RowIndex];
-            if (col.Name == IsagDataGridView.CMB_COLUMN_PREFIX + "DataType" || col.Name == "IsErrorCounter" || col.Name == "Convert") SetGridColumnsActivationState(row);
-            else if (col.Name == "ErrorHandling") cbErrorHandling.SelectedItem = _IsagCustomProperties.GetRowDisposition();
+            if (col.Name == IsagDataGridView.CMB_COLUMN_PREFIX + "DataType" || col.Name == "IsErrorCounter" || col.Name == "Convert")
+                SetGridColumnsReadonlyState(row);
+            else if (col.Name == "ErrorHandling")
+                cbErrorHandling.SelectedItem = _IsagCustomProperties.GetRowDisposition();
 
             SetConversionColumnState(row);
         }
 
-        private void TestRegEx(DataGridViewRow row)
-        {
-            //^(2[0-3]|[0-1]?[0-9])(:[0-5][0-9]){2}$(2[0-3]|[0-1]?[0-9])
-            string pattern = row.Cells["RegEx"].Value.ToString();
-            string value = row.Cells["OnErrorValue"].Value.ToString();
-            Regex rgx = new Regex(pattern, RegexOptions.IgnoreCase);
-            MessageBox.Show(rgx.IsMatch(value).ToString());
+        //private void TestRegEx(DataGridViewRow row)
+        //{
+        //    //^(2[0-3]|[0-1]?[0-9])(:[0-5][0-9]){2}$(2[0-3]|[0-1]?[0-9])
+        //    string pattern = row.Cells["RegEx"].Value.ToString();
+        //    string value = row.Cells["OnErrorValue"].Value.ToString();
+        //    Regex rgx = new Regex(pattern, RegexOptions.IgnoreCase);
+        //    MessageBox.Show(rgx.IsMatch(value).ToString());
 
-        }
+        //}
 
+        /// <summary>
+        /// Set row disposition if ErrorHandling value changed
+        /// </summary>
+        /// <param name="sender">event sender</param>
+        /// <param name="e">event arguments</param>
         private void cbErrorHandling_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _IsagCustomProperties.SetRowDisposition((DTSRowDisposition)cbErrorHandling.SelectedItem);
-        } 
+            _IsagCustomProperties.SetRowDisposition((DTSRowDisposition) cbErrorHandling.SelectedItem);
+        }
 
-        
+
 
         #endregion
 
         #region ContextMenu
+
+        /// <summary>
+        /// If left mouse button is pressed, context menu is updated and shown
+        /// </summary>
+        /// <param name="sender">event sender</param>
+        /// <param name="e">event arguments</param>
         private void dgvMapping_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
@@ -451,9 +554,14 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// If menu item has been click proper method is called
+        /// </summary>
+        /// <param name="sender">event sender</param>
+        /// <param name="e">event arguments</param>
         private void menuItem_Click(object sender, EventArgs e)
         {
-            MenuItem item = (MenuItem)sender;
+            MenuItem item = (MenuItem) sender;
 
             switch (item.Text)
             {
@@ -480,6 +588,10 @@ namespace DataConverter
                     break;
             }
         }
+
+        /// <summary>
+        /// Initializes the context menu
+        /// </summary>
         private void InitializeContextMenu()
         {
             dgvMapping.ContextMenu = new ContextMenu();
@@ -496,31 +608,42 @@ namespace DataConverter
             MenuItem item = new MenuItem("DebugMode", menuItem_Click);
             item.Checked = _IsagCustomProperties.DebugModus;
 
-
             dgvMapping.ContextMenu.MenuItems.Add(item);
         }
 
         #endregion
 
-    
+        /// <summary>
+        /// If GUI is about to be closed and configuration contains errors the user has to decide if closing the window is aborted
+        /// </summary>
+        /// <param name="sender">event sender</param>
+        /// <param name="e">event arguments</param>
         private void frmDataConverterUI_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (_abortClosing && this.DialogResult == System.Windows.Forms.DialogResult.OK &&
-                MessageBox.Show("Error while saving. Changes would be lost. Abort closing the window?", "DataConverter",MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                MessageBox.Show("Error while saving. Changes would be lost. Abort closing the window?", "DataConverter", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 e.Cancel = _abortClosing;
         }
 
+        /// <summary>
+        /// Set Error Name if user changed the value
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmbErrorName_TextChanged(object sender, EventArgs e)
         {
             _IsagCustomProperties.ErrorName = cmbErrorName.Text;
         }
 
-
+        /// <summary>
+        /// Inserts selected regular expression into current cell
+        /// </summary>
         private void InsertRegEx()
         {
-            if (cmbRegEx.SelectedValue != null) dgvMapping.CurrentCell.Value = cmbRegEx.SelectedValue.ToString();
+            if (cmbRegEx.SelectedValue != null)
+                dgvMapping.CurrentCell.Value = cmbRegEx.SelectedValue.ToString();
         }
-       
+
 
     }
 }
