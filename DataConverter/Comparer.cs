@@ -15,7 +15,7 @@ namespace DataConverter
         public bool HasInvalidOp { get; set; }
 
         /// <summary>
-        /// Dictionary(Key: column name, value: 2 column values)
+        /// Dictionary(Key: column name, value: 2 column values)C:\Visual Studio\Visual Studio TFS\initions-BI\Henry Components\DataConverter\Dev\Dev\DataConverter\ColumnConfig.cs
         /// </summary>
         private Dictionary<string, ColumnValues> _columnValues = new Dictionary<string, ColumnValues>();
         /// <summary>

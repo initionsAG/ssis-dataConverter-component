@@ -12,7 +12,21 @@ namespace DataConverter
     /// </summary>
     public static class Converter
     {
-
+        /// <summary>
+        /// Convertes a string with a given format to a string with format YYYYMMDD
+        /// </summary>
+        /// <param name="dataTypeKind">Conversion types datatype characteristic</param>
+        /// <param name="outputDataType">output datatype</param>
+        /// <param name="posY">index of year (inside string of value)</param>
+        /// <param name="posM">index of month (inside string of value)</param>
+        /// <param name="posD">index of day (inside string of value)</param>
+        /// <param name="posSplitterFirst">index of first splitter (inside string of value)</param>
+        /// <param name="posSplitterSecond">index of second splitter (inside string of value)</param>
+        /// <param name="splitterFirst">first splitter</param>
+        /// <param name="splitterSecond">second splitter</param>
+        /// <param name="value">value to convert</param>
+        /// <param name="status">filled if conversion fails</param>
+        /// <returns>string with format YYYYMMDD</returns>
         public static object String2YearMonthDayByFormat(DataTypeKind dataTypeKind, DataType outputDataType,
             int posY, int posM, int posD, int posSplitterFirst, int posSplitterSecond, string splitterFirst, string splitterSecond,
             object value, ref StatusConvert status)
@@ -65,6 +79,13 @@ namespace DataConverter
 
         }
 
+        /// <summary>
+        /// Converts an int to a date
+        /// (int must have format YYYYMMDD)
+        /// </summary>
+        /// <param name="value">value to convert</param>
+        /// <param name="status">filled if conversion fails</param>
+        /// <returns>date</returns>
         public static object IntToDate(object value, ref StatusConvert status)
         {
             object result = null;
@@ -97,6 +118,13 @@ namespace DataConverter
             return result;
         }
 
+        /// <summary>
+        /// Converts an a date to a specified number datatype
+        /// </summary>
+        /// <param name="value">value to convert</param>
+        /// <param name="dataType">output datatype</param>
+        /// <param name="status">filled if conversion fails</param>
+        /// <returns>number with the specified datatype</returns>
         public static object DateToInt(object value, DataType dataType, ref StatusConvert status)
         {
             try
@@ -131,12 +159,16 @@ namespace DataConverter
                 status.SetError(ex.ToString());
             }
 
-
-
             return null;
-
         }
 
+        /// <summary>
+        /// Converts a date to string with a given format (YYYYMMDD, YYYYMM, YYYY)
+        /// </summary>
+        /// <param name="value">date to convert</param>
+        /// <param name="date2stringType">output format (YYYYMMDD, YYYYMM, YYYY)</param>
+        /// <param name="status">filled if conversion fails</param>
+        /// <returns>converted value as string</returns>
         public static object DateToString(object value, DateConvertTypes date2stringType, ref StatusConvert status)
         {
             try
@@ -176,11 +208,12 @@ namespace DataConverter
 
         /// <summary>
         /// Konvertiert einen string nach einer ausgewählten Regel in eine Zahl
+        /// Converts a string into a number using a conversion rule
         /// </summary>
-        /// <param name="value">Der zu konvertierende string</param>
-        /// <param name="date2stringType">Die Konvertierungsregel</param>
-        /// <param name="dataType">Der Zieldatentyp (muss DT_I4, DT_I8, DT_UI4, DT_UI8 oder DT_NUMERIC sein) </param>
-        /// <returns>den konvertierten Wert</returns>
+        /// <param name="value">string to convert</param>
+        /// <param name="date2stringType">conversion rule</param>
+        /// <param name="dataType">output datatype (DT_I4, DT_I8, DT_UI4, DT_UI8 or DT_NUMERIC) </param>
+        /// <returns>converted value</returns>
         public static object String2Numeric(object value, DateConvertTypes date2stringType, DataType dataType, ref StatusConvert status)
         {
             if (dataType != DataType.DT_I4 && dataType != DataType.DT_I8 && dataType != DataType.DT_UI4 && dataType != DataType.DT_UI8 && dataType != DataType.DT_NUMERIC)
@@ -226,7 +259,14 @@ namespace DataConverter
             return result;
         }
 
-
+        /// <summary>
+        /// Converts a value to a specified datatype
+        /// </summary>
+        /// <param name="value">value to convert</param>
+        /// <param name="dataType">output datatype</param>
+        /// <param name="status">conversion status</param>
+        /// <param name="convertFromString">Is input datatype == string?</param>
+        /// <returns>converted value</returns>
         public static object GetConvertedValue(object value, DataType dataType, ref StatusConvert status, bool convertFromString)
         {
             if (value == null) return null;

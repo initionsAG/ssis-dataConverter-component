@@ -14,12 +14,26 @@ using DataConverter.Framework;
 
 namespace DataConverter
 {
+    /// <summary>
+    /// custom properties for this component
+    /// </summary>
     public class IsagCustomProperties: INotifyPropertyChanged
     {
+        /// <summary>
+        /// SSIS Error handling
+        /// </summary>
         public enum ErrorRowHandling { RedirectRow, FailComponent, IgnoreFailure }
 
+        /// <summary>
+        /// Property changed event
+        /// (implements Interface of INotifyPropertyChanged)
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Announces that a properties value has changed
+        /// </summary>
+        /// <param name="info">property name</param>
         private void NotifyPropertyChanged(String info)
         {
             if (PropertyChanged != null)
@@ -31,6 +45,9 @@ namespace DataConverter
 
         #region Properties
 
+        /// <summary>
+        /// file version of the assembly
+        /// </summary>
         [BrowsableAttribute(false)]
         public string Version
         {
@@ -42,26 +59,51 @@ namespace DataConverter
             }
         }
 
-
+        /// <summary>
+        /// List of column conversions
+        /// </summary>
         public SortableBindingList<ColumnConfig> ColumnConfigList { get; set; }
 
+        /// <summary>
+        /// not used
+        /// </summary>
         public List<NewColumnConfig> NewColumnConfigList { get; set; }
 
+        /// <summary>
+        /// output column name
+        /// </summary>
         public string AliasPrefix { get; set; }
 
+        /// <summary>
+        /// Is debug modus enabled?
+        /// (debug modus: data of log output contains more informations
+        /// </summary>
         public bool DebugModus { get; set; }
 
+        /// <summary>
+        /// Error name that is written to the error output
+        /// (if error name is a SSIS variable name the variables value be written to the error output)
+        /// </summary>
         public string ErrorName { get; set; }
 
         #endregion
 
         #region Constructor
 
+        /// <summary>
+        /// constructor
+        /// (initializes column config list)
+        /// </summary>
         public IsagCustomProperties()
         {
             this.ColumnConfigList = new SortableBindingList<ColumnConfig>();
         }
 
+        /// <summary>
+        /// construtcor
+        /// (initializes column config list and alias prefix)
+        /// </summary>
+        /// <param name="aliasPrefix">alias prefix</param>
         public IsagCustomProperties(string aliasPrefix)
         {
             this.AliasPrefix = aliasPrefix;
@@ -87,8 +129,14 @@ namespace DataConverter
         }
         #endregion
 
+
         #region NewColumnsConfig
 
+        /// <summary>
+        /// not used
+        /// </summary>
+        /// <param name="name">not used</param>
+        /// <returns>not used</returns>
         public NewColumnConfig GetNewColumnConfigByName(string name)
         {
             foreach (NewColumnConfig config in NewColumnConfigList)
@@ -103,17 +151,23 @@ namespace DataConverter
 
         #region ColumnConfig
 
+        /// <summary>
+        /// Adds a configuration to the column config list.
+        /// </summary>
+        /// <param name="configRow">column configuration</param>
         public void AddColumnConfig(ColumnConfig configRow)
         {
             this.ColumnConfigList.Add(configRow);
         }
 
-        //public void AddColumnConfig(IDTSVirtualInputColumn100 vCol, IDTSVirtualInput100 vInput,
-        //                            IDTSInput100 input, IDTSOutput100 output, IDTSOutput100 outputError)
-        //{
-        //    this.ColumnConfigList.Add(InsertColumn(vCol, vInput, input, output, outputError));
-        //}
-
+        /// <summary>
+        /// Creates a column configuration from each SSIS virtual input column and
+        /// adds it to the column config list.
+        /// </summary>
+        /// <param name="vInput">SSIS virtual input</param>
+        /// <param name="input">SSIS input</param>
+        /// <param name="output">SSIS output</param>
+        /// <param name="outputLog">SSIS log output</param>
         public void AddColumnConfig(IDTSVirtualInput100 vInput, IDTSInput100 input, IDTSOutput100 output, IDTSOutput100 outputLog)
         {
             for (int i = 0; i < vInput.VirtualInputColumnCollection.Count; i++)
@@ -122,6 +176,11 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// Gets a column configuration from an input column name
+        /// </summary>
+        /// <param name="inputColumnName"></param>
+        /// <returns></returns>
         public ColumnConfig GetColumnConfigByInputColumnName(string inputColumnName)
         {
             foreach (ColumnConfig config in ColumnConfigList)
@@ -132,16 +191,11 @@ namespace DataConverter
             return null;
         }
 
-        //public ColumnConfig GetColumnConfigByLineageId(string inputLienageId)
-        //{
-        //    foreach (ColumnConfig config in ColumnConfigList)
-        //    {
-        //        if (config.InputLineageId == inputLienageId) return config;
-        //    }
-
-        //    return null;
-        //}
-
+        /// <summary>
+        /// Gets a column configuration from an output column name
+        /// </summary>
+        /// <param name="outputColName"></param>
+        /// <returns></returns>
         public ColumnConfig GetColumnConfigByOutputAlias(string outputColName)
         {
             foreach (ColumnConfig config in ColumnConfigList)
@@ -152,6 +206,11 @@ namespace DataConverter
             return null;
         }
 
+        /// <summary>
+        /// Gets a column configuration from an output column lineageId
+        /// </summary>
+        /// <param name="outputLienageId"></param>
+        /// <returns></returns>
         public ColumnConfig GetColumnConfigByOutputLineageId(string outputLienageId)
         {
             foreach (ColumnConfig config in ColumnConfigList)
@@ -162,6 +221,9 @@ namespace DataConverter
             return null;
         }
 
+        /// <summary>
+        /// Sets output column names (prefix + input column name)
+        /// </summary>
         public void AddPrefix()
         {
             foreach (ColumnConfig config in ColumnConfigList)
@@ -174,11 +236,19 @@ namespace DataConverter
 
         #region Save & Load
 
+        /// <summary>
+        /// Saves this custom properties
+        /// </summary>
+        /// <param name="componentMetaData">the components metddata</param>
         public void Save(IDTSComponentMetaData100 componentMetaData)
         {
             componentMetaData.CustomPropertyCollection[Constants.PROP_CONFIG].Value = SaveToXml();
         }
 
+        /// <summary>
+        /// Saves this properties to an xml string
+        /// </summary>
+        /// <returns>xml string</returns>
         public string SaveToXml()
         {
             StringBuilder builder;
@@ -196,7 +266,11 @@ namespace DataConverter
             return builder.ToString().Replace("/>", "/>" + Environment.NewLine);
         }
 
-
+        /// <summary>
+        /// load this properties from an xml string
+        /// </summary>
+        /// <param name="xml">xml string</param>
+        /// <returns>this properties (IsagCustomProperties)</returns>
         public static IsagCustomProperties LoadFromXml(string xml)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(IsagCustomProperties));
@@ -213,6 +287,11 @@ namespace DataConverter
 
         #region Validate
 
+        /// <summary>
+        /// Is this component configuration valid?
+        /// </summary>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns>Is this component configuration valid?</returns>
         public bool IsValid(IDTSComponentMetaData100 componentMetaData)
         {
             IDTSInput100 input = componentMetaData.InputCollection[Constants.INPUT_NAME];
@@ -225,14 +304,14 @@ namespace DataConverter
 
             if (!hastStandardLogOutput)
             {
-                Events.Fire(componentMetaData, Events.Type.Error, "Der Log Ouput ist ungültig!");
+                Events.Fire(componentMetaData, Events.Type.Error, "The log ouput is invalid!");
                 return false;
             }
             else outputLog = componentMetaData.OutputCollection[Constants.OUTPUT_LOG_NAME];
 
             if (!hastStandardErrorOutput)
             {
-                Events.Fire(componentMetaData, Events.Type.Error, "Der Error Ouput ist ungültig!");
+                Events.Fire(componentMetaData, Events.Type.Error, "The error output is invalid!");
                 return false;
             }
 
@@ -247,9 +326,12 @@ namespace DataConverter
 
         }
 
-        //HasCompareColumnWithoutInputColumn
 
-
+        /// <summary>
+        /// Is configuration for DateConvertTypes.STR2YYYYMMDD valid?
+        /// </summary>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns>Is configuration for DateConvertTypes.STR2YYYYMMDD valid?</returns>
         private bool IsStrConversionByFormatValid(IDTSComponentMetaData100 componentMetaData)
         {
             foreach (ColumnConfig config in ColumnConfigList)
@@ -261,7 +343,7 @@ namespace DataConverter
                         !Common.ContainsOnce(config.StrConversionByFormat, "DD"))
                     {
                         Events.Fire(componentMetaData, Events.Type.Error,
-                                   string.Format("Das Konvertierungsformat {0} ist ungültig.", config.StrConversionByFormat));
+                                   string.Format("The conversion format {0} is invalid.", config.StrConversionByFormat));
                         return false;
                     }
                 }
@@ -272,42 +354,46 @@ namespace DataConverter
 
         
         /// <summary>
-        /// Prüft ob alle "Compares" korrekt sind:
-        /// 1. Wird auf nicht vorhandene Spalte verwiesen?
-        /// 2. Können alle Datentypen verglichen werden?
+        /// Ckecks if all compare expressions are correct.:
+        /// 1. Does the compare expressions contain an invalid operator?
+        /// 2. Does an expression contain an invalid column? 
+        /// 3. Are all datatypes compareable?
         /// </summary>
-        /// <param name="componentMetaData"></param>
-        /// <returns></returns>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns>Are all compare expression valid?</returns>
         private bool IsCompareValid(IDTSComponentMetaData100 componentMetaData)
         {
-            //Compare aufbauen
-            Comparer compare = new Comparer();
+            
+            Comparer comparer = new Comparer();
 
-            if (compare.HasInvalidOp)
+            //Fill comparer
+            foreach (ColumnConfig config in ColumnConfigList)
+            {
+                if (config.HasCompare) comparer.AddCompare(config.Compare, config.InputColumnName);
+            }
+
+            //Does the compare expression contain an invalid operator?
+            if (comparer.HasInvalidOp)
             {
                 Events.Fire(componentMetaData, Events.Type.Error,
-                                    string.Format("Ein Compare enthält einen ungültigen Operator."));
+                                    string.Format("At least one compare expression contains an invalid operator."));
                 return false;
             }
 
-            foreach (ColumnConfig config in ColumnConfigList)
-            {
-                if (config.HasCompare) compare.AddCompare(config.Compare, config.InputColumnName);
-            }
-
-            
-            foreach (string col in compare.UsedColumns)
+            //Does an expression contain an invalid column? 
+            foreach (string col in comparer.UsedColumns)
             {
                 if (GetColumnConfigByInputColumnName(col) == null)
                 {
                     Events.Fire(componentMetaData, Events.Type.Error,
-                                string.Format("Ein Compare enthält die ungültige Spalte {0}. ", col));
+                                string.Format("At least one compare expression contains the imvalid colum {0}. ", col));
                     return false;
                 }
             }
 
+            //Are all datatypes compareable?
             string errorMessage = "";
-            if (!compare.AreDataTypesComparable(this, ref errorMessage))
+            if (!comparer.AreDataTypesComparable(this, ref errorMessage))
             {
                 Events.Fire(componentMetaData, Events.Type.Error, errorMessage);
                 return false;
@@ -316,6 +402,11 @@ namespace DataConverter
             return true;
         }
 
+        /// <summary>
+        /// Is OnError value valid?
+        /// </summary>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns>Is OnError value valid?</returns>
         private bool IsOnErrorValid(IDTSComponentMetaData100 componentMetaData)
         {
             string errorMessage;
@@ -327,7 +418,7 @@ namespace DataConverter
                     config.HasOnErrorValue() && !ComponentMetaDataTools.CanConvertTo(config.OnErrorValue, col.DataType, col.Length, col.Scale, col.Precision, out errorMessage))
                 {
                     Events.Fire(componentMetaData, Events.Type.Error,
-                                string.Format("Spalte [Input={0}] enthält einen ungültigen OnError Wert: " + errorMessage, config.InputColumnName));
+                                string.Format("Spalte [input column={0}] contains an invalid OnError value: " + errorMessage, config.InputColumnName));
                     return false;
                 }
             }
@@ -335,6 +426,11 @@ namespace DataConverter
             return true;
         }
 
+        /// <summary>
+        /// Is OnNull value valid?
+        /// </summary>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns>Is OnNull value valid?</returns>
         private bool IsOnNullValid(IDTSComponentMetaData100 componentMetaData)
         {
             string errorMessage;
@@ -346,14 +442,19 @@ namespace DataConverter
                     config.HasDefaultValue() && !ComponentMetaDataTools.CanConvertTo(config.Default, col.DataType, col.Length, col.Scale, col.Precision, out errorMessage))
                 {
                     Events.Fire(componentMetaData, Events.Type.Error,
-                                string.Format("Spalte [Input={0}] enthält einen ungültigen OnNull Wert: " + errorMessage, config.InputColumnName));
+                                string.Format("Spalte [input column={0}] contains an invalid OnNull value: " + errorMessage, config.InputColumnName));
                     return false;
                 }
             }
 
             return true;
         }
-
+        /// <summary>
+        /// Are all column name and their datatypes valid?
+        /// </summary>
+        /// <param name="input">SSIS input</param>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns>Are all column name and their datatypes valid?</returns>
         private bool AreColumnNamesAndDataTypesValid(IDTSInput100 input, IDTSComponentMetaData100 componentMetaData)
         {
             try
@@ -377,14 +478,19 @@ namespace DataConverter
             catch (Exception)
             {
                 Events.Fire(componentMetaData, Events.Type.Error,
-                            "Im Mapping existiert mind. eine Spalte mit einem Namen, der vom Namen der Inputspalte abweicht!");
+                            "The mapping contains at least one column with a name differing from the mapped input columns name!");
                 return false;
             }
 
-
             return true;
-
         }
+
+        /// <summary>
+        /// Does the column configuration list contain a column that does not exist in the SSIS input column list?
+        /// </summary>
+        /// <param name="vInput">SSIS virtual input</param>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns>Does the column configuration list contain a column that does not exist in the SSIS input column list?</returns>
         private bool ContainsColumnConfigWithoutInput(IDTSVirtualInput100 vInput, IDTSComponentMetaData100 componentMetaData)
         {
             foreach (ColumnConfig config in this.ColumnConfigList)
@@ -400,6 +506,12 @@ namespace DataConverter
             return false;
         }
 
+        /// <summary>
+        /// Does the SSIS input column collection contain a column that is not part of the column configuration list?
+        /// </summary>
+        /// <param name="vInput">SSIS virtual input</param>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns>Does the SSIS input column collection contain a column that is not part of the column configuration list?</returns>
         private bool ContainsInputWithoutColumnConfig(IDTSVirtualInput100 vInput, IDTSComponentMetaData100 componentMetaData)
         {
             for (int i = 0; i < vInput.VirtualInputColumnCollection.Count; i++)
@@ -415,6 +527,12 @@ namespace DataConverter
             return false;
         }
 
+        /// <summary>
+        /// Does the column configuration list contain a column that does not exist in the SSIS output column list?
+        /// </summary>
+        /// <param name="output">SSIS output</param>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns></returns>
         private bool ContainsColumnConfigWithoutOutput(IDTSOutput100 output, IDTSComponentMetaData100 componentMetaData)
         {
             foreach (ColumnConfig config in this.ColumnConfigList)
@@ -425,21 +543,26 @@ namespace DataConverter
                         output.OutputColumnCollection.GetOutputColumnByLineageID(Int32.Parse(config.OutputLineageId)) == null)
                     {
                         Events.Fire(componentMetaData, Events.Type.Error,
-                                    "Im Mapping existiert mind. eine Spalte ohne Bezug zu einer Outputspalte!");
+                                    "The mapping contains at least one column that is not contained in the SSIS output column list!");
                         return true;
                     }
                 }
                 catch (Exception)
                 {
-                    //GetOutputColumnByLineageID schmeißt eine Exception wenn es keine OutputColumn zur LineageId gibt
+                    //GetOutputColumnByLineageID throws an exception if no output column with the given lineageId can be found
                     return true;
                 }
-
             }
 
             return false;
         }
 
+        /// <summary>
+        /// Does the SSIS output column collection contain a column that is not part of the column configuration list?
+        /// </summary>
+        /// <param name="output">SSIS output</param>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns></returns>
         private bool ContainsOutputWithoutColumnConfig(IDTSOutput100 output, IDTSComponentMetaData100 componentMetaData)
         {
             for (int i = 0; i < output.OutputColumnCollection.Count; i++)
@@ -457,6 +580,12 @@ namespace DataConverter
             return false;
         }
 
+        /// <summary>
+        /// Does the column configuration list contain a column that does not exist in the SSIS log output column list?
+        /// </summary>
+        /// <param name="logOutput">log output</param>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns>Does the column configuration list contain a column that does not exist in the SSIS log output column list?</returns>
         private bool ContainsColumnConfigWithoutLogOutput(IDTSOutput100 logOutput, IDTSComponentMetaData100 componentMetaData)
         {
             foreach (ColumnConfig config in this.ColumnConfigList)
@@ -478,6 +607,12 @@ namespace DataConverter
             return false;
         }
 
+        /// <summary>
+        ///  Does the SSIS log output column collection contain a column that is not part of the column configuration list?
+        /// </summary>
+        /// <param name="logOutput">log output</param>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns> Does the SSIS log output column collection contain a column that is not part of the column configuration list?</returns>
         private bool ContainsLogOutputWithoutColumnConfig(IDTSOutput100 logOutput, IDTSComponentMetaData100 componentMetaData)
         {
             for (int i = 3; i < logOutput.OutputColumnCollection.Count; i++)
@@ -494,6 +629,12 @@ namespace DataConverter
             return false;
         }
 
+        /// <summary>
+        /// Does the input column collecction contains a column with an invalid usage type?
+        /// </summary>
+        /// <param name="vInputColumnCollection">virtual input collection</param>
+        /// <param name="componentMetaData">the components metadata</param>
+        /// <returns>Does the input column collecction contains a column with an invalid usage type?</returns>
         public bool ContainsWrongUsageType(IDTSVirtualInputColumnCollection100 vInputColumnCollection, IDTSComponentMetaData100 componentMetaData)
         {
             for (int i = 0; i < vInputColumnCollection.Count; i++)
@@ -520,6 +661,11 @@ namespace DataConverter
 
         #region Helper
 
+        /// <summary>
+        /// Does the column config list contain a configuration with the specified error output column lineageId?
+        /// </summary>
+        /// <param name="lineageId">the lineageId to search for</param>
+        /// <returns> Does the column config list contain a configuration with the specified error output column lineageId?</returns>
         public bool HasLogOutputColumn(string lineageId)
         {
             foreach (ColumnConfig config in this.ColumnConfigList)
@@ -529,6 +675,12 @@ namespace DataConverter
 
             return false;
         }
+
+        /// <summary>
+        ///  Does the column config list contain a configuration with the specified output column lineageId?
+        /// </summary>
+        /// <param name="lineageId">the lineageId to search for</param>
+        /// <returns>Does the column config list contain a configuration with the specified output column lineageId??</returns>
         public bool HasOutputColumn(string lineageId)
         {
             foreach (ColumnConfig config in this.ColumnConfigList)
@@ -539,6 +691,10 @@ namespace DataConverter
             return false;
         }
 
+        /// <summary>
+        /// Does the column config list contain at least one configuration with a compare expression?
+        /// </summary>
+        /// <returns>Does the column config list contain at least one configuration with a compare expression?</returns>
         public bool HasCompareColumn()
         {
             foreach (ColumnConfig config in ColumnConfigList)
@@ -549,6 +705,11 @@ namespace DataConverter
             return false;
         }
 
+        /// <summary>
+        /// Does the column configuration list contain a configuration with the specified input column lineageId?
+        /// </summary>
+        /// <param name="lineageId">the lineageId to search for</param>
+        /// <returns></returns>
         private bool HasVirtualInputColumn(string lineageId)
         {
             foreach (ColumnConfig config in this.ColumnConfigList)
@@ -557,8 +718,13 @@ namespace DataConverter
             }
 
             return false;
-
         }
+
+        /// <summary>
+        /// New output columns are not used
+        /// </summary>
+        /// <param name="lineageId">not used</param>
+        /// <returns>not used</returns>
         public bool HasNewOutputColumn(string lineageId)
         {
             foreach (NewColumnConfig config in this.NewColumnConfigList)
@@ -570,6 +736,10 @@ namespace DataConverter
 
         }
 
+        /// <summary>
+        /// Gets the configured row disposition
+        /// </summary>
+        /// <returns>the configured row disposition</returns>
         public DTSRowDisposition GetRowDisposition()
         {
             if (ColumnConfigList.Count == 0) return DTSRowDisposition.RD_RedirectRow;
@@ -587,6 +757,10 @@ namespace DataConverter
 
         }
 
+        /// <summary>
+        /// Sets the row disposition
+        /// </summary>
+        /// <param name="rowDisposition">row disposition</param>
         public void SetRowDisposition(DTSRowDisposition rowDisposition)
         {
             ErrorRowHandling errorHandling = ErrorRowHandling.RedirectRow;
@@ -613,6 +787,10 @@ namespace DataConverter
 
         }
 
+        /// <summary>
+        /// Gets an array of all input column names
+        /// </summary>
+        /// <returns>array of all input column names</returns>
         public string[] GetInputColumns()
         {
             List<string> result = new List<string>();
@@ -629,7 +807,10 @@ namespace DataConverter
         #region Rebuild Configuration
 
 
-
+        /// <summary>
+        /// Tries to fix metadata errors
+        /// </summary>
+        /// <param name="componentMetaData">the components metadata</param>
         public void FixError(IDTSComponentMetaData100 componentMetaData)
         {
             IDTSInput100 input = componentMetaData.InputCollection[Constants.INPUT_NAME];
@@ -798,21 +979,28 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// Creates a new column configuration, adds a column to the logout and sets the input column usage type
+        /// </summary>
+        /// <param name="vColumn">SSIS virtual input column</param>
+        /// <param name="vInput">SSIS virtual input</param>
+        /// <param name="input">input</param>
+        /// <param name="outputLog">log output</param>
+        /// <returns>a new column configuration</returns>
         public ColumnConfig InsertColumn(IDTSVirtualInputColumn100 vColumn, IDTSVirtualInput100 vInput,
                                                            IDTSInput100 input, IDTSOutput100 outputLog)
         {
 
+            //Sets the input columns usage type
             vInput.SetUsageType(vColumn.LineageID, DTSUsageType.UT_READONLY);
             IDTSInputColumn100 inputColumn = ComponentMetaDataTools.GetInputColumnByLineageId(input.InputColumnCollection, vColumn.LineageID);
 
-            //IDTSOutputColumn100 outCol = output.OutputColumnCollection.New();
-            //outCol.Name = vColumn.Name;
-            //outCol.SetDataTypeProperties(vColumn.DataType, vColumn.Length, vColumn.Precision, vColumn.Scale, vColumn.CodePage);
-
+            //Adds new column to the log output
             IDTSOutputColumn100 outLogCol = outputLog.OutputColumnCollection.New();
             outLogCol.Name = vColumn.Name;
             outLogCol.SetDataTypeProperties(vColumn.DataType, vColumn.Length, vColumn.Precision, vColumn.Scale, vColumn.CodePage);
 
+            //creates a column configuration
             ColumnConfig config = new ColumnConfig(vColumn.Name, false, "", vColumn.DataType.ToString(), vColumn.DataType.ToString(),
                                                    vColumn.Length.ToString(), vColumn.Precision.ToString(), vColumn.Scale.ToString(), vColumn.CodePage.ToString(),
                                                    Constants.PREFIX_OUTPUT_COL_NAME_DEFAULT,
@@ -821,14 +1009,9 @@ namespace DataConverter
                                                    outLogCol.ID.ToString(), outLogCol.IdentificationString, outLogCol.LineageID.ToString(), true,
                                                    inputColumn, null, outLogCol);
 
-
             return config;
         }
 
-
-
         #endregion
-
-
     }
 }

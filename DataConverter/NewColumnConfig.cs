@@ -7,6 +7,9 @@ using System.Collections;
 
 namespace DataConverter
 {
+    /// <summary>
+    /// New SSIS columns are no longer supperted
+    /// </summary>
     public class NewColumnConfig : IXmlSerializable
     {
         #region Properties (external)

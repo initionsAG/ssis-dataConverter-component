@@ -25,8 +25,6 @@ namespace DataConverter
         private Dictionary<string, IDTSInputColumn100> _inputColumnsDictionary;
         private bool _abortClosing = false;
 
-        //private IsagDataGridView dgvMapping = new IsagDataGridView();
-
         public frmDataConverterUI(IDTSComponentMetaData100 metadata, Variables variables)
         {
             InitializeComponent();

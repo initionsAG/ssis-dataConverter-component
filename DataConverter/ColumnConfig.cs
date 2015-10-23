@@ -15,7 +15,7 @@ namespace DataConverter
     public enum DateConvertTypes { None, YYYYMMDD, YYYYMM, YYYY, Point2Comma, Comma2Point, AmericanDecimal, GermanDecimal, STR2YYYYMMDD }
 
     /// <summary>
-    /// attributes datatype characteristic
+    /// Conversion types datatype characteristic
     /// </summary>
     public enum DataTypeKind { TextDate, NumberDate, Date, None };
 
