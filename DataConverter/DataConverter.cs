@@ -12,179 +12,8 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using DataConverter.FrameWork.Mapping;
 
-namespace DataConverter
-{
-    /// <summary>
-    ///  04.04.2011, Dennis Weise
-    ///     - Version 1.0.0.0 [Von ConvertAll 1.0.0.14 abgeleitet]
-    ///  04.04.2011, Dennis Weise
-    ///     - Icon geändert
-    ///     - Version 1.0.0.0
-    ///  04.04.2011, Dennis Weise
-    ///     - Setup bzgl. Icon geändert
-    ///     - Version 1.0.0.0
-    ///  05.04.2011, Dennis Weise
-    ///     - Icon geändert
-    ///  06.04.2011, Dennis Weise
-    ///     - Icon geändert
-    ///     - Die GUI öffnet sich nun schneller
-    ///  06.04.2011, Dennis Weise
-    ///     - Version 1.0.1
-    ///  06.04.2011, Dennis Weise
-    ///     - Scrollbar aktualisiert Grid schon beim Scrollen
-    ///  06.04.2011, Dennis Weise
-    ///     - Version 1.0.2
-    ///  07.04.2011, Dennis Weise
-    ///     - Grid Column "ErrorCounter" in "IsErrorCounter" umbenannt.
-    ///     - Grid-Verhalten überarbeitet
-    ///  20.04.2011, Dennis Weise
-    ///     - Dem Konfigurations-String wurden Zeilenumbrüche nach jeder Spalte hinzugefügt
-    ///  20.04.2011, Dennis Weise
-    ///     - Version 1.0.3
-    ///  05.05.2011. Dennis Weise
-    ///     - Es können nun neue Spalten angelegt werden
-    ///  05.05.2011, Dennis Weise
-    ///     - Version 1.0.4
-    ///  21.06.2011, Dennis Weise
-    ///     - Fehlermeldung bei fehlendem ErrorOutput ist nun aussagekräftiger
-    ///     - Spaltennamen des LOG Outputs mit isETL-Präfix erweitert
-    ///  21.06.2011, Dennis Weise
-    ///     - Version 1.0.5
-    ///  23.06.2011, Dennis Weise
-    ///     - Im ErrorOuput werden nur noch die Columnnames und Exceptions der Fehler geloggt
-    ///     - Spaltennamen des Error Outputs mit isETL-Präfix erweitert 
-    ///  23.06.2011, Dennis Weise
-    ///     - Version 1.0.6
-    ///  20.07.2011, Dennis Weise
-    ///     - Ist nur Use angeklickt und ist der Input Wert Null, so wird nun explizit Null in den Output geschrieben
-    ///  20.07.2011, Dennis Weise
-    ///     - Version 1.0.7
-    ///  01.09.2011, Dennis Weise
-    ///     - Konvertierung von DateTime nach Int32/Int64 (unsigned & signed) und umgekehrt erfolgt nach DateTime Int-Format "yyyymmtt"
-    ///  01.09.2011, Dennis Weise
-    ///     - Version 1.0.8
-    ///  19.10.2011, Dennis Weise
-    ///     - Der Dataconverter ist nun eine synchrone Komponente, es werden alle Daten durchgereicht. Bei Konvertierung wird der konvertierte Wert in eine neue Spalte geschrieben
-    ///  19.10.2011, Dennis Weise
-    ///     - Version 1.0.9
-    ///  22.11.2011, Dennis Weise
-    ///     - Wird eine InputColumn umbenannt, so wird der Spaltenname auch im OuputLog übernommen
-    ///  22.11.2011, Dennis Weise
-    ///     - Version 1.0.10
-    ///  25.11.2011, Dennis Weise
-    ///     - ErrorColumns/Messages werden wieder in den Error- und LogOutput geschrieben
-    ///     - OnError wird wieder berücksichtigt
-    ///  12.01.2012, Dennis Weise
-    ///     - Version 1.0.11
-    ///  30.01.2012, Dennis Weise
-    ///     - IsErrorCount: Funktionierte nur mit Integer
-    ///  16.02.2012, Dennis Weise
-    ///     - Wurde in ein DT_I4/DT_I8 konvertiert, so schlug eine Konvertierung bei negativen Werten fehl.
-    ///     - Version 1.0.12
-    ///  07.06.2012, Dennis Weise
-    ///     Optional kann ein Datum in ein String mit dem Format YYYY, YYYYMM oder YYYYMMDD konvertiert werden
-    ///  07.06.2012, Dennis Weise  
-    ///     Version 1.0.13
-    ///  11.06.2012, Dennis Weise
-    ///     Umbenennung Spaltenüberschrift von "Date->Str“ nach "Conversion"
-    ///  11.06.2012, Dennis Weise  
-    ///     Version 1.0.14 
-    ///  15.06.2012, Dennis Weise  
-    ///     Optionanl kann ein string unter Anwendung einer Regel (Point2Comma, Comma2Point, AmericanDecimal, GermanDecimal) in ein Integer/Numeric konvertiert werden
-    ///  15.06.2012, Dennis Weise  
-    ///     Version 1.0.15
-    ///  13.07.2012, Dennis Weise  
-    ///     - Konvertierung "AmericanDecimal" bedeutet nun, das von AmericanDecimal nach GermanDecimal konvertiert wird
-    ///  13.07.2012, Dennis Weise  
-    ///     Version 1.0.16
-    ///  10.08.2012, Dennis Weise  
-    ///     - Der DC funktioniert nun auch ohne Log- und/oder Error-Output, wenn RunInOptimized Mode = True
-    ///  10.08.2012, Dennis Weise  
-    ///     Version 1.0.17
-    ///  17.08.2012, Dennis Weise 
-    ///     - Bei den Konvertierungsoptionen Poit2Comma/Comma2Point werden die Nachkommastellen bei der Konvertierung in ein Integer abgeschnitten
-    ///  17.08.2012, Dennis Weise  
-    ///     Version 1.0.18
-    ///  23.08.2012, Dennis Weise 
-    ///     - Klasse Constants ist nun public (für ComponentUpdater)
-    ///  23.08.2012, Dennis Weise  
-    ///     - Version 1.0.19
-    ///  21.09.2012, Dennis Weise
-    ///     - Beim Konvertieren von einem Datum nach DT_NUMERIC war das Ergebnis immer 0
-    ///  21.09.2012, Dennis Weise  
-    ///     - Version 1.0.20
-    ///  19.10.2012, Dennis Weise  
-    ///     - Spalte "USE" entfernt
-    ///  19.10.2012, Dennis Weise  
-    ///     - Spalte "Conversion": Nur in Bezug auf Input- und Outputdatentyp gültige Werte können ausgewählt werden
-    ///  19.10.2012, Dennis Weise  
-    ///     - Der DC verliert seine Einstellungen nicht mehr, wenn der InputPath entfernt wird
-    ///  19.10.2012, Dennis Weise  
-    ///     - Version 1.0.21
-    ///  02.11.2012, Dennis Weise
-    ///     - Performance Verbesserung in Bezug auf Konvertierungsfehler
-    ///  16.11.2012, Dennis Weise
-    ///     - Performance Verbesserung in Bezug auf Konvertierungsfehler
-    ///     - Treten beim Speichern in der GUI Fehler auf, so wird der Nutzer darauf hingewiesen
-    ///  16.11.2012, Dennis Weise  
-    ///     - Version 1.0.22     
-    ///  23.11.2012, Dennis Weise
-    ///     - Korrektur zu: Performance Verbesserung in Bezug auf Konvertierungsfehler 
-    ///  23.11.2012, Dennis Weise  
-    ///     - Version 1.0.23  
-    ///  30.11.2012, Dennis Weise 
-    ///     - Ist kein Error-Output vorhanden und kann ein Datensatz zur Laufzeit nicht in den Standard-Output geschrieben werden, so bricht der DC mit einem Fehler ab.
-    ///  30.11.2012, Dennis Weise  
-    ///     - Version 1.0.24  
-    ///  31.05.2013, Dennis Weise 
-    ///     - Unterstützung von SSIS 2012 vorbereitet
-    ///  31.05.2013, Dennis Weise
-    ///     - Version 1.1.0
-    ///  04.10.2013, Dennis Weise
-    ///     - Setup angepaßt: Installationsverzeichnis wird geprüft
-    ///  10.01.2014, Dennis Weise
-    ///     - ColumnCompare hinzugefügt
-    ///  10.01.2014, Dennis Weise
-    ///     - Version 1.1.1
-    ///  10.01.2014, Dennis Weise
-    ///     - ColumnCompare: In die Error Tabelle wird isETL_ErrorColumnNames korrekt gefüllt
-    ///  10.01.2014, Dennis Weise
-    ///     - Version 1.1.2
-    ///  17.01.2014, Dennis Weise
-    ///     - Compare von unterschiedlichen Datentypen wird nun unterstützt
-    ///     - Wird der OnError- oder OnNUll-Wert einer Spalte verwendet, so werden Compares, die diese Spalte nutzen, ignoriert
-    ///     - Wird in einem Compare eine nicht vorhandene Spalte genutzt, so wird zur Design-Zeit ein Fehler ausgegeben
-    ///     - Ändert sich ein Spaltenname im Datenfluss, so werden Compares entsprechend korrigiert
-    ///  17.01.2014, Dennis Weise
-    ///     - Version 1.1.3
-    ///  24.01.2014, Dennis Weise
-    ///     - Korrektur: OnError/OnNull führt nicht mehr zum Abbruch, wenn im DC kein Compare genutzt wird
-    ///  24.01.2014, Dennis Weise
-    ///     - Compare: Prüfung auf Kompatibilität der Datentypen der zu vergleichenden spalten hinzugefügt
-    ///  24.01.2014, Dennis Weise
-    ///     - Version 1.1.4
-    ///  31.01.2014, Dennis Weise
-    ///     - Editor für "Compare" hinzugefügt
-    ///     - Ein falscher Vergleichsoperator für "Compare" führt nicht mehr zu korrupten Metadaten
-    ///     - Validate: Wurde ein falscher Vergleichsoperator, führt das zu einer Fehlermeldung
-    ///  31.01.2014, Dennis Weise
-    ///     - Version 1.1.5
-    ///  28.03.2014, Dennis Weise
-    ///     - Konvertierungen von formatiertem string (z.B. DD.MM.YYYY) nach string/int hinzugefügt
-    ///  28.03.2014, Dennis Weise
-    ///     - Version 1.1.6
-    ///  11.04.2014, Dennis Weise
-    ///     - Konvertierungen von formatiertem string (z.B. DD.MM.YYYY) nach date hinzugefügt
-    ///  11.04.2014, Dennis Weise
-    ///     - Version 1.1.7
-    ///  13.06.2014, Dennis Weise
-    ///     - Konvertierungen von formatierten strings (z.B. DD.MM.YYYY): Zur kurze Werte führten bei der Konvertierung zum Abbruch des DC
-    ///  13.06.2014, Dennis Weise
-    ///     - Version 1.1.8
-    /// 09.07.2014, Dennis Weise  
-    ///     - PerformUpgrade: Upgrade von 2008 auf 2012/2014 ist nun möglich 
-    /// </summary>
-   
+namespace DataConverter {
+
 #if     (SQL2008)
     [DtsPipelineComponent(DisplayName = "DataConverter",
     ComponentType = ComponentType.Transform,
@@ -210,56 +39,102 @@ namespace DataConverter
     IconResource = "DataConverter.Resources.DataConverter_DC.ico",
     UITypeName = "DataConverter.DataConverterUI, DataConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8a91e54220f9b6ce")]
 #endif
-    public class DataConverter : PipelineComponent
-    {
+    /// <summary>
+    /// the pipeline component DataConverter
+    /// </summary>
+    public class DataConverter: PipelineComponent {
+        /// <summary>
+        /// SSIS error output buffer
+        /// </summary>
         private PipelineBuffer _outputErrorBuffer;
+        /// <summary>
+        /// SSIS log output buffer
+        /// </summary>
         private PipelineBuffer _outputLogBuffer;
+        /// <summary>
+        /// SSIS output ID
+        /// </summary>
         private int _outputID;
+        /// <summary>
+        /// SSIS dummy output ID
+        /// </summary>
         private int _outputDummyID;
+        /// <summary>
+        /// SSIS error output ID
+        /// </summary>
         private int _outputErrorID;
+        /// <summary>
+        /// SSIS log output ID
+        /// </summary>
         private int _outputLogID;
+        /// <summary>
+        /// buffer mapping (conatins informations gathered in pre execute phase)
+        /// </summary>
         private BufferMapping[] _bufferMappings;
+        /// <summary>
+        /// not used
+        /// </summary>
         private NewColumnMapping[] _newColumnMappings;
+        /// <summary>
+        /// SSIS variable values that are written to the error output
+        /// </summary>
         private VariableValues _varValues;
+        /// <summary>
+        /// Column Comparer
+        /// </summary>
         private Comparer _comparer;
 
+        /// <summary>
+        /// If debug mode is set, additional info is written to log output
+        /// </summary>
         private bool _debugMode;
-        //private int[] _inputColumnBufferIndexes;
-        //private int[] _outputColumnBufferIndexes;
 
-        private IsagCustomProperties _IsagCustomProperties;
+        /// <summary>
+        /// custom properties of this component
+        /// </summary>
+        private IsagCustomProperties _isagCustomProperties;
 
         #region Validate & Reinitialize
 
+        /// <summary>
+        /// Validates the component metadata
+        /// </summary>
+        /// <returns>Is component configuration valid?</returns>
         public override DTSValidationStatus Validate()
         {
             InitProperties();
 
-            _IsagCustomProperties.Save(ComponentMetaData);
+            _isagCustomProperties.Save(ComponentMetaData);
 
-            Mapping.UpdateInputIdProperties(ComponentMetaData, _IsagCustomProperties);
-            Mapping.AddOutputIdProperties(ComponentMetaData.OutputCollection[Constants.OUTPUT_NAME], ComponentMetaData, _IsagCustomProperties);
-            Mapping.AddOutputIdProperties(ComponentMetaData.OutputCollection[Constants.OUTPUT_LOG_NAME], ComponentMetaData, _IsagCustomProperties);
+            Mapping.UpdateInputIdProperties(ComponentMetaData, _isagCustomProperties);
+            Mapping.AddOutputIdProperties(ComponentMetaData.OutputCollection[Constants.OUTPUT_NAME], ComponentMetaData, _isagCustomProperties);
+            Mapping.AddOutputIdProperties(ComponentMetaData.OutputCollection[Constants.OUTPUT_LOG_NAME], ComponentMetaData, _isagCustomProperties);
 
             DTSValidationStatus status = base.Validate();
-            if (status != DTSValidationStatus.VS_ISVALID) return status;
+            if (status != DTSValidationStatus.VS_ISVALID)
+                return status;
 
-            if (!_IsagCustomProperties.IsValid(ComponentMetaData)) return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+            if (!_isagCustomProperties.IsValid(ComponentMetaData))
+                return DTSValidationStatus.VS_NEEDSNEWMETADATA;
 
-            if (!this.ComponentMetaData.AreInputColumnsValid) return DTSValidationStatus.VS_NEEDSNEWMETADATA;
+            if (!this.ComponentMetaData.AreInputColumnsValid)
+                return DTSValidationStatus.VS_NEEDSNEWMETADATA;
 
             return DTSValidationStatus.VS_ISVALID;
         }
 
+        /// <summary>
+        /// Reiniitalized the components metadata
+        /// </summary>
         public override void ReinitializeMetaData()
         {
             base.ReinitializeMetaData();
             this.ComponentMetaData.RemoveInvalidInputColumns();
 
             InitProperties();
-            _IsagCustomProperties.FixError(ComponentMetaData);
+            _isagCustomProperties.FixError(ComponentMetaData);
 
-            _IsagCustomProperties.Save(ComponentMetaData);
+            _isagCustomProperties.Save(ComponentMetaData);
         }
 
 
@@ -268,13 +143,15 @@ namespace DataConverter
         #endregion
 
         #region DesignTime
-
+        /// <summary>
+        /// Provides the component properties
+        /// </summary>
         public override void ProvideComponentProperties()
         {
             base.ProvideComponentProperties();
 
             //initProperties();
-            _IsagCustomProperties = new IsagCustomProperties();
+            _isagCustomProperties = new IsagCustomProperties();
 
             //Metadaten Version auf DLL-Version setzen 
             ComponentMetaDataTools.UpdateVersion(this, ComponentMetaData);
@@ -312,58 +189,74 @@ namespace DataConverter
             //Custom Property: Version
             IDTSCustomProperty100 prop = ComponentMetaData.CustomPropertyCollection.New();
             prop.Name = Constants.PROP_VERSION;
-            prop.Value = _IsagCustomProperties.Version;
+            prop.Value = _isagCustomProperties.Version;
 
             //Custom Property: Configuration
             prop = ComponentMetaData.CustomPropertyCollection.New();
             prop.Name = Constants.PROP_CONFIG;
         }
 
-
+        /// <summary>
+        /// Remove all input columns and all output&log column that are mapped to input columns
+        /// </summary>
         private void ResetCollections()
         {
+            //remove all but 3 columns from logOutput (-> columns mapped to input columns are removed)
             IDTSOutputColumnCollection100 outputLogColumns = ComponentMetaData.OutputCollection[Constants.OUTPUT_LOG_NAME].OutputColumnCollection;
-            while (outputLogColumns.Count > 3) outputLogColumns.RemoveObjectByIndex(outputLogColumns.Count - 1);
+            while (outputLogColumns.Count > 3)
+                outputLogColumns.RemoveObjectByIndex(outputLogColumns.Count - 1);
 
+            //remove all output columns that are mapped to intput columns
             IDTSOutput100 output = ComponentMetaData.OutputCollection[Constants.OUTPUT_NAME];
 
             for (int i = output.OutputColumnCollection.Count - 1; i >= 0; i--)
             {
                 IDTSOutputColumn100 col = output.OutputColumnCollection[i];
 
-                if (!_IsagCustomProperties.HasNewOutputColumn(col.LineageID.ToString()))
+                //new outputcolumnd are not used
+                if (!_isagCustomProperties.HasNewOutputColumn(col.LineageID.ToString()))
                 {
                     output.OutputColumnCollection.RemoveObjectByID(col.ID);
                 }
             }
 
             //ComponentMetaData.OutputCollection[Constants.OUTPUT_NAME].OutputColumnCollection.RemoveAll();
+            //remove all input columns
             ComponentMetaData.InputCollection[Constants.INPUT_NAME].InputColumnCollection.RemoveAll();
         }
 
+        /// <summary>
+        /// React if input path has been attached
+        /// </summary>
+        /// <param name="inputID">SSIS input ID</param>
         public override void OnInputPathAttached(int inputID)
         {
             base.OnInputPathAttached(inputID);
 
             InitProperties();
 
-            //Initialisierung falls zuvor noch keine Inputcolumns angebunden waren
-            if (_IsagCustomProperties.ColumnConfigList.Count == 0)
+            //Initialize IsagCustomProperties if column config list is empty
+            //(so detaching and attaching an input path does not delete all connfingurations)
+            if (_isagCustomProperties.ColumnConfigList.Count == 0)
             {
                 ResetCollections();
-                _IsagCustomProperties.ColumnConfigList.Clear();
+                _isagCustomProperties.ColumnConfigList.Clear();
 
                 IDTSOutput100 output = this.ComponentMetaData.OutputCollection[Constants.OUTPUT_NAME];
                 IDTSOutput100 outputLog = this.ComponentMetaData.OutputCollection[Constants.OUTPUT_LOG_NAME];
                 IDTSInput100 input = ComponentMetaData.InputCollection.GetObjectByID(inputID);
                 IDTSVirtualInput100 vInput = input.GetVirtualInput();
 
-                _IsagCustomProperties.AddColumnConfig(vInput, input, output, outputLog);
+                _isagCustomProperties.AddColumnConfig(vInput, input, output, outputLog);
 
-                _IsagCustomProperties.Save(ComponentMetaData);
+                _isagCustomProperties.Save(ComponentMetaData);
             }
         }
 
+        /// <summary>
+        /// Reacts if input path is detached
+        /// </summary>
+        /// <param name="inputID"></param>
         public override void OnInputPathDetached(int inputID)
         {
             base.OnInputPathDetached(inputID);
@@ -379,45 +272,93 @@ namespace DataConverter
 
         #region RunTime
 
-        private class BufferRow
-        {
+        /// <summary>
+        /// Holds informations (logs, errors,...) for a SSIS buffer row
+        /// </summary>
+        private class BufferRow {
+            /// <summary>
+            /// error exceptions (as string) thrown while processing input data
+            /// </summary>
             public string ErrorExceptions { get; set; }
+
+            /// <summary>
+            /// columns that causes error exceptions
+            /// </summary>
             public string ErrorColumns { get; set; }
+
+            /// <summary>
+            /// log exceptions (as string) thrown while processing input data
+            /// </summary>
             public string LogExceptions { get; set; }
+
+            /// <summary>
+            /// columns that causes log exceptions
+            /// </summary>
             public string LogColumns { get; set; }
+
+            /// <summary>
+            /// Error count
+            /// </summary>
             public int ErrorCount { get; set; }
+
+            /// <summary>
+            /// Has buffer row an error?
+            /// </summary>
             public bool HasError { get; set; }
+
+            /// <summary>
+            /// Has buffer row a log entry that has to be sent to log output?
+            /// </summary>
             public bool Log { get; set; }
+
+            /// <summary>
+            /// Error handling 
+            /// </summary>
             public IsagCustomProperties.ErrorRowHandling ErrorHandling { get; set; }
 
+            /// <summary>
+            /// Has column list for log?
+            /// </summary>
             public bool HasLog { get { return LogColumns != null && LogColumns != ""; } }
 
+            /// <summary>
+            /// Concatination of log and error exceptions
+            /// </summary>
             public string AllExceptions
             {
                 get
                 {
                     if (!string.IsNullOrEmpty(ErrorExceptions) && !string.IsNullOrEmpty(LogExceptions))
                         return ErrorExceptions + ";" + LogExceptions;
-                    else return ErrorExceptions + LogExceptions;
+                    else
+                        return ErrorExceptions + LogExceptions;
                 }
             }
 
+            //Concatination of log and error columns
             public string AllColumns
             {
                 get
                 {
                     if (!string.IsNullOrEmpty(ErrorColumns) && !string.IsNullOrEmpty(LogColumns))
                         return ErrorColumns + ";" + LogColumns;
-                    else return ErrorColumns + LogColumns;
+                    else
+                        return ErrorColumns + LogColumns;
                 }
 
             }
 
+            /// <summary>
+            /// constructor
+            /// </summary>
             public BufferRow()
             {
                 Reset();
             }
 
+            /// <summary>
+            /// Reset/Initialized properties
+            /// </summary>
             public void Reset()
             {
                 ErrorExceptions = "";
@@ -430,12 +371,22 @@ namespace DataConverter
                 ErrorHandling = IsagCustomProperties.ErrorRowHandling.IgnoreFailure;
             }
 
+            /// <summary>
+            /// Add error or log 
+            /// </summary>
+            /// <param name="errorHandling">error handling</param>
+            /// <param name="hasError">add error?</param>
+            /// <param name="log">add log?</param>
+            /// <param name="ex">exception</param>
+            /// <param name="columnName">column name that caused the exception</param>
+            /// <param name="debugMode">Dataconverter debug moder enabled?</param>
             public void AddError(IsagCustomProperties.ErrorRowHandling errorHandling, bool hasError, bool log, Exception ex, string columnName, bool debugMode)
             {
 
                 Log = Log || log;
                 HasError = HasError || hasError;
-                if (log || hasError) ErrorCount++;
+                if (log || hasError)
+                    ErrorCount++;
 
                 if (hasError)
                 {
@@ -460,15 +411,18 @@ namespace DataConverter
                     LogColumns += columnName;
                 }
 
-                if (errorHandling == IsagCustomProperties.ErrorRowHandling.RedirectRow) ErrorHandling = IsagCustomProperties.ErrorRowHandling.RedirectRow;
+                if (errorHandling == IsagCustomProperties.ErrorRowHandling.RedirectRow)
+                    ErrorHandling = IsagCustomProperties.ErrorRowHandling.RedirectRow;
 
             }
 
 
         }
 
-        private struct VariableValues
-        {
+        /// <summary>
+        /// SSIS variable values that are written to the error output 
+        /// </summary>
+        private struct VariableValues {
             public string TaskID;
             public string TaskName;
             public string PackageID;
@@ -477,67 +431,184 @@ namespace DataConverter
             public string Name;
         }
 
-        private struct BufferMapping
-        {
+        /// <summary>
+        /// information needed to process each cell of a buffer row
+        /// (gathered in pre execute phase)
+        /// </summary>
+        private struct BufferMapping {
+            /// <summary>
+            /// buffer index of input column
+            /// </summary>
             public int inputBufferIndex;
+
+            /// <summary>
+            /// buffer index of output column
+            /// </summary>
             public int outputBufferIndex;
+            
+            /// <summary>
+            /// buffer index of log output column
+            /// </summary>
             public int outputLogBufferIndex;
+
+            /// <summary>
+            /// Is input and output datatype equal?
+            /// </summary>
             public bool hasSameDataType;
+
+            /// <summary>
+            /// output column  datatype
+            /// </summary>
             public DataType outputDataType;
+
+            /// <summary>
+            /// length of string
+            /// </summary>
             public int lengthOfString;
+
+            /// <summary>
+            /// default value to replace null values
+            /// </summary>
             public object onNullValue;
+
+            /// <summary>
+            /// Has OnNull value? (onNullValue is not empty or null)
+            /// </summary>
             public bool hasOnNullValue;
-            //public bool useColumn;
+
+            /// <summary>
+            /// Are null values allowed?
+            /// </summary>
             public bool AllowNull;
+
+            /// <summary>
+            /// default value to replace values that cannot be converted
+            /// </summary>
             public object onErrorValue;
+
+            /// <summary>
+            /// Has OnErrorValue? 
+            /// </summary>
             public bool hasOnErrorValue;
+
+            /// <summary>
+            /// Error Handling
+            /// </summary>
             public IsagCustomProperties.ErrorRowHandling errorHandling;
 
+            /// <summary>
+            /// Convert column?
+            /// </summary>
             public bool convert;
-            public bool compare;
+
+            /// <summary>
+            /// Has regular expression?
+            /// </summary>
             public bool hasRegEx;
+
+            /// <summary>
+            /// Regular expression
+            /// </summary>
             public string RegEx;
 
+            /// <summary>
+            /// Conversion from int to date?
+            /// </summary>
             public bool ConvertFromIntToDate;
+            /// <summary>
+            /// Conversion from date to int?
+            /// </summary>
             public bool ConvertFromDateToInt;
-            public bool ConvertFromDateToNumeric;
+            /// <summary>
+            /// Conversion to string?
+            /// </summary>
             public bool ConvertToString;
+            /// <summary>
+            /// Conversion to nummeric with conversion rules?
+            /// </summary>
             public bool ConvertToNumericByUsingConversionRules;
+            /// <summary>
+            /// Conversion from string to numeric?
+            /// </summary>
             public DateConvertTypes ConvertFromStringToNumericType;
+            /// <summary>
+            /// Conversion from date to string?
+            /// </summary>
             public DateConvertTypes ConvertFromDateToStringType;
+            /// <summary>
+            /// Conversion from formatted string?
+            /// </summary>
             public string ConvertFromStringFormat;
+            /// <summary>
+            /// Output column datatype characteristic for date
+            /// </summary>
             public DataTypeKind OutputDataTypeKindForDate;
 
-
+            /// <summary>
+            /// Convert from string?
+            /// </summary>
             public bool ConvertFromString;
+            /// <summary>
+            /// Convert from formatted string?
+            /// </summary>
             public bool ConvertFromStringByFormat;
+            /// <summary>
+            /// column name
+            /// </summary>
             public string ColumnName;
+            /// <summary>
+            /// Is column marked as an error counter?
+            /// </summary>
             public bool isErrorCounter;
 
+            /// <summary>
+            /// Index of year in date string
+            /// </summary>
             public int dateYYYYIndex;
+            /// <summary>
+            /// Index of month in date string
+            /// </summary>
             public int dateMMIndex;
+            /// <summary>
+            /// Index od day in date string
+            /// </summary>
             public int dateDDIndex;
+            /// <summary>
+            /// First index of splitter in string (i.e. 2 for DD.MM.YYYY)
+            /// </summary>
             public int dateFirstSplitterIndex;
+            /// <summary>
+            /// Second index of splitter in string (i.e. 5 for DD.MM.YYYY)
+            /// </summary>
             public int dateSecondSpitterIndex;
+            /// <summary>
+            /// First date spliter (i.e. "." in DD.MM.YYYY)
+            /// </summary>
             public string dateFirstSplitter;
+            /// <summary>
+            /// Second date spliter (i.e. "." in DD.MM.YYYY)
+            /// </summary>
             public string dateSecondSpitter;
         }
 
-        private struct NewColumnMapping
-        {
+        //not used
+        private struct NewColumnMapping {
             public int outputBufferIndex;
             public object value;
         }
 
         #region PreExecute
 
+        /// <summary>
+        /// PreExecute phase: Gather all needed informations
+        /// </summary>
         public override void PreExecute()
         {
             base.PreExecute();
 
             InitProperties();
 
-            _debugMode = _IsagCustomProperties.DebugModus;
+            _debugMode = _isagCustomProperties.DebugModus;
 
             InitVariables();
 
@@ -546,8 +617,10 @@ namespace DataConverter
             IDTSOutput100 outputError = ComponentMetaData.OutputCollection[Constants.OUTPUT_ERROR_NAME];
             IDTSOutput100 outputLog = ComponentMetaData.OutputCollection[Constants.OUTPUT_LOG_NAME];
 
-            if (!outputError.IsAttached) Events.Fire(ComponentMetaData, Events.Type.Warning, "Error Output is missing.");
-            if (!outputLog.IsAttached) Events.Fire(ComponentMetaData, Events.Type.Warning, "Log Output is missing.");
+            if (!outputError.IsAttached)
+                Events.Fire(ComponentMetaData, Events.Type.Warning, "Error Output is missing.");
+            if (!outputLog.IsAttached)
+                Events.Fire(ComponentMetaData, Events.Type.Warning, "Log Output is missing.");
 
             InitBufferMapping(input, output, outputLog);
             InitNewColumnMapping(input, output);
@@ -559,6 +632,9 @@ namespace DataConverter
 
         }
 
+        /// <summary>
+        /// Get variable values needed for error output 
+        /// </summary>
         private void InitVariables()
         {
             try
@@ -571,30 +647,37 @@ namespace DataConverter
                 _varValues.ExecutionID = ComponentMetaDataTools.GetValueFromVariable(this.VariableDispenser, "ExecutionInstanceGUID"); //ExecID
                 try
                 {
-                    _varValues.Name = ComponentMetaDataTools.GetValueFromVariable(VariableDispenser, _IsagCustomProperties.ErrorName);
+                    _varValues.Name = ComponentMetaDataTools.GetValueFromVariable(VariableDispenser, _isagCustomProperties.ErrorName);
                 }
                 catch (Exception)
                 {
-                    _varValues.Name = _IsagCustomProperties.ErrorName;
+                    _varValues.Name = _isagCustomProperties.ErrorName;
                 }
             }
             catch (Exception ex)
             {
-                Events.Fire(ComponentMetaData, Events.Type.Error, "Fehler beim Einlesen der Variablen für den Error Output: " + ex.Message);
+                Events.Fire(ComponentMetaData, Events.Type.Error, "Reading variable values for error output caused an error: " + ex.Message);
                 throw;
             }
         }
 
+        /// <summary>
+        /// Fills Buffermapping
+        /// </summary>
+        /// <param name="input">SSIS input</param>
+        /// <param name="output">SSIS output</param>
+        /// <param name="outputLog">SSIS log output</param>
         private void InitBufferMapping(IDTSInput100 input, IDTSOutput100 output, IDTSOutput100 outputLog)
         {
-            bool needsComparer = _IsagCustomProperties.HasCompareColumn();
+            bool needsComparer = _isagCustomProperties.HasCompareColumn();
 
-            if (needsComparer) _comparer = new Comparer();
+            if (needsComparer)
+                _comparer = new Comparer();
             List<BufferMapping> mappingList = new List<BufferMapping>();
 
             for (int i = 0; i < input.InputColumnCollection.Count; i++)
             {
-                ColumnConfig config = _IsagCustomProperties.GetColumnConfigByInputColumnName(input.InputColumnCollection[i].Name);
+                ColumnConfig config = _isagCustomProperties.GetColumnConfigByInputColumnName(input.InputColumnCollection[i].Name);
 
                 BufferMapping bufferMapping = new BufferMapping();
 
@@ -607,7 +690,8 @@ namespace DataConverter
                             outputLog.Buffer,
                             outputLog.OutputColumnCollection[config.InputColumnName].LineageID
                         );
-                else bufferMapping.outputLogBufferIndex = -1;
+                else
+                    bufferMapping.outputLogBufferIndex = -1;
 
                 if (config.Convert)
                 {
@@ -617,13 +701,12 @@ namespace DataConverter
                             output.OutputColumnCollection[config.OutputAlias].LineageID
                         );
 
-                    //Prüfen ob Input- und OutputDataType identisch sind
+                    //Are input and output datatypes equal?
                     bufferMapping.hasSameDataType = config.HasSameInputAndOutputDataType();
 
-                    //OutputDataType ermitteln & DefaultWert nach Output Datatype konvertieren 
+                    //get output datatype & convert default values to output datatype
                     try
                     {
-                        //bufferMapping.outputDataType = output.OutputColumnCollection[config.OutputAlias].DataType;
                         bufferMapping.OutputDataTypeKindForDate = config.OutputDataTypeKindForDate;
 
                         DataType inputType = input.InputColumnCollection[i].DataType;
@@ -657,7 +740,8 @@ namespace DataConverter
                              (inputType == DataType.DT_DBTIMESTAMP || inputType == DataType.DT_DBDATE || inputType == DataType.DT_DATE) &&
                              (outputType == DataType.DT_WSTR || outputType == DataType.DT_STR))
                             bufferMapping.ConvertFromDateToStringType = config.Date2string;
-                        else bufferMapping.ConvertFromDateToStringType = DateConvertTypes.None;
+                        else
+                            bufferMapping.ConvertFromDateToStringType = DateConvertTypes.None;
 
                         bufferMapping.ConvertFromStringByFormat = config.Date2string == DateConvertTypes.STR2YYYYMMDD;
                         bufferMapping.ConvertFromStringFormat = config.StrConversionByFormat;
@@ -703,7 +787,7 @@ namespace DataConverter
                             }
                         }
                     }
-                    catch (Exception) { } //Column ist nicht im Output vorhanden
+                    catch (Exception) { } //output does not contain column 
 
                     bufferMapping.hasOnNullValue = config.HasDefaultValue();
                     bufferMapping.hasOnErrorValue = config.HasOnErrorValue();
@@ -712,9 +796,11 @@ namespace DataConverter
                     bufferMapping.hasRegEx = config.HasRegEx();
 
 
-                    if (bufferMapping.hasRegEx) bufferMapping.RegEx = config.RegEx;
+                    if (bufferMapping.hasRegEx)
+                        bufferMapping.RegEx = config.RegEx;
 
-                    if (_comparer != null && config.HasCompare) _comparer.AddCompare(config.Compare, config.InputColumnName);
+                    if (_comparer != null && config.HasCompare)
+                        _comparer.AddCompare(config.Compare, config.InputColumnName);
                 }
 
                 bufferMapping.ColumnName = config.InputColumnName;
@@ -723,17 +809,18 @@ namespace DataConverter
 
                 mappingList.Add(bufferMapping);
 
-
                 _bufferMappings = mappingList.ToArray();
-
-
-
             }
         }
 
+        /// <summary>
+        /// not used
+        /// </summary>
+        /// <param name="input">SSIS input</param>
+        /// <param name="output">SSIS output</param>
         private void InitNewColumnMapping(IDTSInput100 input, IDTSOutput100 output)
         {
-            _newColumnMappings = new NewColumnMapping[_IsagCustomProperties.NewColumnConfigList.Count];
+            _newColumnMappings = new NewColumnMapping[_isagCustomProperties.NewColumnConfigList.Count];
 
 
 
@@ -765,6 +852,13 @@ namespace DataConverter
 
         #endregion
 
+        /// <summary>
+        /// SSIS prime output phase:
+        /// Get pipeline output buffers
+        /// </summary>
+        /// <param name="outputs">buffer count</param>
+        /// <param name="outputIDs">output IDs</param>
+        /// <param name="buffers">pipeline buffers</param>
         public override void PrimeOutput(int outputs, int[] outputIDs, PipelineBuffer[] buffers)
         {
             base.PrimeOutput(outputs, outputIDs, buffers);
@@ -775,8 +869,10 @@ namespace DataConverter
             {
                 for (int i = 0; i < outputs; i++)
                 {
-                    if (outputIDs[i] == _outputErrorID) _outputErrorBuffer = buffers[i];
-                    else if (outputIDs[i] == _outputLogID) _outputLogBuffer = buffers[i];
+                    if (outputIDs[i] == _outputErrorID)
+                        _outputErrorBuffer = buffers[i];
+                    else if (outputIDs[i] == _outputLogID)
+                        _outputLogBuffer = buffers[i];
                 }
             }
 
@@ -785,6 +881,11 @@ namespace DataConverter
 
         #region ProcessInput
 
+        /// <summary>
+        /// process input phase
+        /// </summary>
+        /// <param name="inputID">ID of the SSIS input</param>
+        /// <param name="buffer">SSIS pipeline buffer</param>
         public override void ProcessInput(int inputID, PipelineBuffer buffer)
         {
             base.ProcessInput(inputID, buffer);
@@ -794,8 +895,9 @@ namespace DataConverter
             while (buffer.NextRow())
             {
 
-                row.Reset();  //Vorhandene Fehlermeldungen der letzten Zeile löschen               
-                if (_comparer != null) _comparer.Reset(); //Gespeicherte Werte der letzten Zeile löschen              
+                row.Reset();  //remove error messages from last buffer row
+                if (_comparer != null)
+                    _comparer.Reset(); //remove stored values from last buffer row
 
 
                 try
@@ -803,29 +905,34 @@ namespace DataConverter
                     for (int colIdx = 0; colIdx < _bufferMappings.Length; colIdx++)
                     {
                         StatusConvert status = new StatusConvert();
-                        BufferMapping config = _bufferMappings[colIdx]; //Konfiguration der aktuellen Spalte laden                       
+                        BufferMapping config = _bufferMappings[colIdx]; //load current columns configuration
 
                         if (config.convert)
                         {
-                            object value = getBufferValue(buffer[config.inputBufferIndex]); //Wert der Zelle ermitteln
+                            object value = GetBufferValue(buffer[config.inputBufferIndex]); //get cell value
 
-                            //Den OnNull Value verwenden?
+                            //Use OnNull value 
                             if ((value == null || (config.ConvertFromIntToDate && value.ToString() == "0")) && config.hasOnNullValue)
                             {
                                 ProcessInputOnNull(buffer, row, config);
-                                if (_comparer != null) _comparer.SkipColumn(config.ColumnName);
+                                if (_comparer != null)
+                                    _comparer.SkipColumn(config.ColumnName);
                             }
                             else
                             {
-                                if (value == null && config.AllowNull) buffer.SetNull(config.outputBufferIndex); //Null weiterleiten
-                                else ProcessInputConvert(buffer, row, config, value, ref status, ref _comparer); //Konvertieren                             
+                                if (value == null && config.AllowNull)
+                                    buffer.SetNull(config.outputBufferIndex); //Null weiterleiten
+                                else
+                                    ProcessInputConvert(buffer, row, config, value, ref status, ref _comparer); //Konvertieren                             
                             }
                         }
 
                         if (_comparer != null)
                         {
-                            if (config.convert) _comparer.AddColumnValue(_bufferMappings[colIdx].ColumnName, buffer[config.inputBufferIndex], buffer[config.outputBufferIndex]);
-                            else _comparer.AddColumnValue(_bufferMappings[colIdx].ColumnName, buffer[config.inputBufferIndex]);
+                            if (config.convert)
+                                _comparer.AddColumnValue(_bufferMappings[colIdx].ColumnName, buffer[config.inputBufferIndex], buffer[config.outputBufferIndex]);
+                            else
+                                _comparer.AddColumnValue(_bufferMappings[colIdx].ColumnName, buffer[config.inputBufferIndex]);
                         }
                     }
 
@@ -841,8 +948,10 @@ namespace DataConverter
                         buffer[config.outputBufferIndex] = config.value;
                     }
 
-                    if (row.Log && row.ErrorHandling == IsagCustomProperties.ErrorRowHandling.RedirectRow) ProcessInputLog(row, buffer);
-                    else buffer.DirectRow(_outputID);
+                    if (row.Log && row.ErrorHandling == IsagCustomProperties.ErrorRowHandling.RedirectRow)
+                        ProcessInputLog(row, buffer);
+                    else
+                        buffer.DirectRow(_outputID);
                 }
                 catch (Exception ex)
                 {
@@ -853,13 +962,20 @@ namespace DataConverter
 
             if (buffer.EndOfRowset)
             {
-                if (_outputErrorBuffer != null) _outputErrorBuffer.SetEndOfRowset();
-                if (_outputLogBuffer != null) _outputLogBuffer.SetEndOfRowset();
+                if (_outputErrorBuffer != null)
+                    _outputErrorBuffer.SetEndOfRowset();
+                if (_outputLogBuffer != null)
+                    _outputLogBuffer.SetEndOfRowset();
             }
 
             Events.Fire(ComponentMetaData, Events.Type.Information, "ProcessInput finished: " + DateTime.Now.ToLongTimeString());
         }
 
+        /// <summary>
+        /// Process input phase: Write data to log output
+        /// </summary>
+        /// <param name="row">bufferrow</param>
+        /// <param name="buffer">pipelinebuffer</param>
         private void ProcessInputLog(BufferRow row, PipelineBuffer buffer)
         {
             if (_outputLogBuffer != null)
@@ -870,7 +986,7 @@ namespace DataConverter
                 {
                     BufferMapping config = _bufferMappings[i];
 
-                    object value = getBufferValue(buffer[_bufferMappings[i].inputBufferIndex]);
+                    object value = GetBufferValue(buffer[_bufferMappings[i].inputBufferIndex]);
                     //buffer.GetInt32(_bufferMappings[i].inputBufferIndex);
                     //Spalten umleiten
                     if (_bufferMappings[i].isErrorCounter) //ErrorCounter berechnen, wenn nötig
@@ -890,8 +1006,10 @@ namespace DataConverter
 
                     if (config.outputLogBufferIndex != -1)
                     {
-                        if (value == null) _outputLogBuffer.SetNull(config.outputLogBufferIndex);
-                        else _outputLogBuffer[config.outputLogBufferIndex] = value;
+                        if (value == null)
+                            _outputLogBuffer.SetNull(config.outputLogBufferIndex);
+                        else
+                            _outputLogBuffer[config.outputLogBufferIndex] = value;
                     }
 
                     _outputLogBuffer[0] = row.HasError ? 1 : 0; ///Fehlerart (0 = konnte korrigiert werden, 1 = keine Korrektur möglich)
@@ -928,29 +1046,43 @@ namespace DataConverter
                 else
                     throw new Exception("Error Output is missing | ErrorColumns: " + row.ErrorColumns + " | Exceptions: " + row.ErrorExceptions);
             }
-            else buffer.DirectRow(_outputID);
+            else
+                buffer.DirectRow(_outputID);
         }
 
+        /// <summary>
+        /// process input phase: 
+        /// convert values if input and output column datatype are not equal
+        /// throws exception if conversion fails
+        /// </summary>
+        /// <param name="buffer">pipelinebuffer</param>
+        /// <param name="row">bufferrow</param>
+        /// <param name="config"><buffermapping/param>
+        /// <param name="value">value to convert</param>
+        /// <param name="status">conversion status for current bufferrow</param>
+        /// <param name="comparer"></param>
         private void ProcessInputConvert(PipelineBuffer buffer, BufferRow row, BufferMapping config, object value, ref StatusConvert status, ref Comparer comparer)
         {
-
-            //Konvertieren falls Datentypen Input&Output nicht identisch
-            //Exception wenn Fehler bei Konvertierung
-
-            if (value == null && !config.AllowNull) status.SetError("Null values are not allowed.");
-            //throw new Exception("Null values are not allowed.");
+            if (value == null && !config.AllowNull)
+                status.SetError("Null values are not allowed.");
 
             if (!status.HasError && (!config.hasSameDataType || config.ConvertFromStringByFormat))
             {
-                if (config.ConvertFromStringByFormat) value = Converter.String2YearMonthDayByFormat(config.OutputDataTypeKindForDate, config.outputDataType, config.dateYYYYIndex,
-                                                                                                    config.dateMMIndex, config.dateDDIndex, config.dateFirstSplitterIndex,
-                                                                                                    config.dateSecondSpitterIndex, config.dateFirstSplitter, config.dateSecondSpitter,
-                                                                                                    value, ref status);
-                else if (config.ConvertFromIntToDate) value = Converter.IntToDate(value, ref status);
-                else if (config.ConvertFromDateToInt) value = Converter.DateToInt(value, config.outputDataType, ref status);
-                else if (config.ConvertFromDateToStringType != DateConvertTypes.None) value = Converter.DateToString(value, config.ConvertFromDateToStringType, ref status);
-                else if (config.ConvertToNumericByUsingConversionRules) value = Converter.String2Numeric(value, config.ConvertFromStringToNumericType, config.outputDataType, ref status);
-                else value = Converter.GetConvertedValue(value, config.outputDataType, ref status, config.ConvertFromString);
+                if (config.ConvertFromStringByFormat)
+                    value = Converter.String2YearMonthDayByFormat(config.OutputDataTypeKindForDate, config.outputDataType, config.dateYYYYIndex,
+                                                                  config.dateMMIndex, config.dateDDIndex, config.dateFirstSplitterIndex,
+                                                                  config.dateSecondSpitterIndex, config.dateFirstSplitter, config.dateSecondSpitter,
+                                                                  value, ref status);
+                else if (config.ConvertFromIntToDate)
+                    value = Converter.IntToDate(value, ref status);
+                else if (config.ConvertFromDateToInt)
+                    value = Converter.DateToInt(value, config.outputDataType, ref status);
+                else if (config.ConvertFromDateToStringType != DateConvertTypes.None)
+                    value = Converter.DateToString(value, config.ConvertFromDateToStringType, ref status);
+                else if (config.ConvertToNumericByUsingConversionRules)
+                    value = Converter.String2Numeric(value, config.ConvertFromStringToNumericType, config.outputDataType, ref status);
+                else
+                    value = Converter.GetConvertedValue(value, config.outputDataType, ref status, config.ConvertFromString);
 
                 if ((config.outputDataType == DataType.DT_WSTR || config.outputDataType == DataType.DT_STR) && value != null && value.ToString().Length > config.lengthOfString)
                 {
@@ -958,22 +1090,21 @@ namespace DataConverter
                 }
             }
 
-            //RegEx Prüfung
-            // Expception schmeißen wenn nicht gültig, sonst Schreiben in Output
+            //check regular expression and write to output 
             if (!status.HasError)
             {
                 if (config.hasRegEx && !RegularExpressions.IsMatch(value.ToString(), config.RegEx))
                     status.SetError(value.ToString() + " entspricht nicht der Regular Expression.");
-                //throw new Exception(value.ToString() + " entspricht nicht der Regular Expression.");
-                else buffer[config.outputBufferIndex] = value;
+                else
+                    buffer[config.outputBufferIndex] = value;
             }
-
 
             if (status.HasError)
             {
-                if (_comparer != null) _comparer.SkipColumn(config.ColumnName);
+                if (_comparer != null)
+                    _comparer.SkipColumn(config.ColumnName);
 
-                if (config.hasOnErrorValue) //OnError verwenden
+                if (config.hasOnErrorValue) //Use OnError value
                 {
                     try
                     {
@@ -987,7 +1118,7 @@ namespace DataConverter
                         throw exOnError;
                     }
                 }
-                else //Convert der Row fehlgeschlagen
+                else //converion of buffer row failed
                 {
                     if (config.errorHandling == IsagCustomProperties.ErrorRowHandling.IgnoreFailure)
                     {
@@ -1011,6 +1142,13 @@ namespace DataConverter
             }
         }
 
+        /// <summary>
+        /// Process input phase:
+        /// Use OnNullValue
+        /// </summary>
+        /// <param name="buffer">pipelinebuffer</param>
+        /// <param name="row">buffer row</param>
+        /// <param name="config">buffermapping</param>
         private void ProcessInputOnNull(PipelineBuffer buffer, BufferRow row, BufferMapping config)
         {
             try
@@ -1029,17 +1167,18 @@ namespace DataConverter
 
 
         /// <summary>
-        ///     Die Datentypen D_NTEXT, D_NVARCHARMAX, D_TEXT, D_XML übernimmt SSIS als BlobColumn. Das führt zu einen Typkonflikt. 
-        ///     Workaround: Es wird auf den Typ BlobColumn geprüft und ggfs. in ein Byte-Array konvertiert
+        /// 
+        ///     SSIS datatypes D_NTEXT, D_NVARCHARMAX, D_TEXT, D_XML are handled as BlobColumns. 
+        ///     Those datatypes have to be converted to byte arrays
         /// </summary>
-        /// <param name="bufferValue"></param>
-        /// <returns></returns>
-        private object getBufferValue(object bufferValue)
+        /// <param name="bufferValue">buffer value</param>
+        /// <returns>converted buffer value</returns>
+        private object GetBufferValue(object bufferValue)
         {
             if (bufferValue != null && bufferValue.GetType() == typeof(BlobColumn))
             {
-                BlobColumn bc = (BlobColumn)bufferValue;
-                bufferValue = bc.GetBlobData(0, (int)bc.Length);
+                BlobColumn bc = (BlobColumn) bufferValue;
+                bufferValue = bc.GetBlobData(0, (int) bc.Length);
             }
 
             return bufferValue;
@@ -1048,12 +1187,16 @@ namespace DataConverter
 
         #endregion
 
-
+        /// <summary>
+        /// Initializes buffer value
+        /// </summary>
         private void InitProperties()
         {
             object configuration = this.ComponentMetaData.CustomPropertyCollection[Constants.PROP_CONFIG].Value;
-            if (configuration != null) _IsagCustomProperties = IsagCustomProperties.Load(configuration);
-            else _IsagCustomProperties = new IsagCustomProperties();
+            if (configuration != null)
+                _isagCustomProperties = IsagCustomProperties.Load(configuration);
+            else
+                _isagCustomProperties = new IsagCustomProperties();
         }
 
 
@@ -1062,7 +1205,7 @@ namespace DataConverter
         /// <summary>
         /// Upgrade von SSIS 2008 auf 2012/2014
         /// </summary>
-        /// <param name="pipelineVersion"></param>
+        /// <param name="pipelineVersion">components pipeline verion</param>
         public override void PerformUpgrade(int pipelineVersion)
         {
             try
@@ -1071,21 +1214,23 @@ namespace DataConverter
                 {
                     InitProperties();
 
-                    foreach (ColumnConfig config in _IsagCustomProperties.ColumnConfigList)
+                    foreach (ColumnConfig config in _isagCustomProperties.ColumnConfigList)
                     {
-                        if (string.IsNullOrEmpty(config.CustomId)) config.CustomId = Guid.NewGuid().ToString();
+                        if (string.IsNullOrEmpty(config.CustomId))
+                            config.CustomId = Guid.NewGuid().ToString();
 
                         AddInputColumnCustomProperty(config.InputColumnName, config.CustomId, Mapping.IdPropertyName);
-                        if (config.Convert) AddOutputColumnCustomProperty(config.OutputAlias, config.CustomId, Mapping.IdPropertyName, Constants.OUTPUT_NAME);
+                        if (config.Convert)
+                            AddOutputColumnCustomProperty(config.OutputAlias, config.CustomId, Mapping.IdPropertyName, Constants.OUTPUT_NAME);
                         AddOutputColumnCustomProperty(config.InputColumnName, config.CustomId, Mapping.IdPropertyName, Constants.OUTPUT_LOG_NAME);
                     }
 
-                    Mapping.UpdateInputIdProperties(this.ComponentMetaData, _IsagCustomProperties);
-                    _IsagCustomProperties.Save(this.ComponentMetaData);
+                    Mapping.UpdateInputIdProperties(this.ComponentMetaData, _isagCustomProperties);
+                    _isagCustomProperties.Save(this.ComponentMetaData);
                 }
 
                 DtsPipelineComponentAttribute attr =
-                    (DtsPipelineComponentAttribute)Attribute.GetCustomAttribute(this.GetType(), typeof(DtsPipelineComponentAttribute), false);
+                    (DtsPipelineComponentAttribute) Attribute.GetCustomAttribute(this.GetType(), typeof(DtsPipelineComponentAttribute), false);
                 ComponentMetaData.Version = attr.CurrentVersion;
             }
             catch (Exception ex)
