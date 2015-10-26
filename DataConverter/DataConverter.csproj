@@ -97,7 +97,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\DataConverter_DC.ico</ApplicationIcon>
+    <ApplicationIcon>Rescources\DataConverter_DC.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -295,11 +295,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Setup\2008\createSetup.bat" />
-    <None Include="Setup\2012\createSetup.bat" />
-    <None Include="Setup\2014\createSetup.bat" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -317,12 +312,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Setup\2012\setup.wxs">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Setup\2014\setup.wxs">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Resources\DataConverter.snk" />
     <None Include="Resources\DataConverter_2012.snk" />
     <None Include="Resources\DataConverter_2014.snk" />
@@ -343,9 +332,6 @@
     <Content Include="Lib\2008\Microsoft.SqlServer.Dts.Design.dll" />
     <Content Include="Lib\2008\Microsoft.SqlServer.ManagedDTS.dll" />
     <Content Include="Lib\2008\x64\Microsoft.SqlServer.DTSRuntimeWrap.dll" />
-    <None Include="Setup\2008\setup.wxs">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataConverterFW\DataConverterFW.csproj">
