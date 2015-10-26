@@ -42,28 +42,28 @@
   <Choose>
     <When Condition="'$(Configuration)' == 'Sql2008'">
       <PropertyGroup>
-        <AssemblyOriginatorKeyFile>DataConverter.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>Resources\DataConverter.snk</AssemblyOriginatorKeyFile>
         <AssemblyName>DataConverter</AssemblyName>
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
       </PropertyGroup>
     </When>
     <When Condition="'$(Configuration)' == 'Sql2012'">
       <PropertyGroup>
-        <AssemblyOriginatorKeyFile>DataConverter_2012.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>Resources\DataConverter_2012.snk</AssemblyOriginatorKeyFile>
         <AssemblyName>DataConverter2</AssemblyName>
         <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
       </PropertyGroup>
     </When>
     <When Condition="'$(Configuration)' == 'Sql2014'">
       <PropertyGroup>
-        <AssemblyOriginatorKeyFile>DataConverter_2014.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>ResourcesDataConverter_2014.snk</AssemblyOriginatorKeyFile>
         <AssemblyName>DataConverter3</AssemblyName>
         <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
       </PropertyGroup>
     </When>
     <Otherwise>
       <PropertyGroup>
-        <AssemblyOriginatorKeyFile>DataConverter.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>Resources\DataConverter.snk</AssemblyOriginatorKeyFile>
         <AssemblyName>DataConverter</AssemblyName>
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
       </PropertyGroup>
