@@ -56,7 +56,7 @@
     </When>
     <When Condition="'$(Configuration)' == 'Sql2014'">
       <PropertyGroup>
-        <AssemblyOriginatorKeyFile>ResourcesDataConverter_2014.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>Resources\DataConverter_2014.snk</AssemblyOriginatorKeyFile>
         <AssemblyName>DataConverter3</AssemblyName>
         <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
       </PropertyGroup>
@@ -97,7 +97,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>DataConverter_DC.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\DataConverter_DC.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -323,10 +323,10 @@
     <None Include="Setup\2014\setup.wxs">
       <SubType>Designer</SubType>
     </None>
-    <None Include="DataConverter.snk" />
-    <None Include="DataConverter_2012.snk" />
-    <None Include="DataConverter_2014.snk" />
-    <Content Include="DataConverter_DC.ico" />
+    <None Include="Resources\DataConverter.snk" />
+    <None Include="Resources\DataConverter_2012.snk" />
+    <None Include="Resources\DataConverter_2014.snk" />
+    <!--<Content Include="DataConverter_DC.ico" />-->
     <EmbeddedResource Include="Resources\DataConverter_DC.ico" />
     <Content Include="Lib\2008\Microsoft.SQLServer.DTSPipelineWrap.dll" />
     <Content Include="Lib\2008\Microsoft.SQLServer.PipelineHost.dll" />
