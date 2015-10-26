@@ -879,7 +879,7 @@ namespace DataConverter
         /// <summary>
         /// Reads a ColumnConfig from an XML reader
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="reader">xml reader</param>
         public void ReadXml(System.Xml.XmlReader reader)
         {
 
@@ -953,7 +953,7 @@ namespace DataConverter
         /// <summary>
         /// Writes this ColumnConfig to an XML writer
         /// </summary>
-        /// <param name="writer"></param>
+        /// <param name="writer">xml writer</param>
         public void WriteXml(System.Xml.XmlWriter writer)
         {
             writer.WriteAttributeString("InputColumnName", _inputColumnName);
