@@ -24,7 +24,7 @@ namespace DataConverter
         /// </summary>
         /// <param name="ComponentMetaData">componets SSIS metadata</param>
         /// <param name="eventType">event type</param>
-        /// <param name="sqlType">sql type (always</param>
+        /// <param name="sqlType">sql type (always 1)</param>
         /// <param name="description">SSIS event description</param>
         public static void Fire(IDTSComponentMetaData100 ComponentMetaData, Type eventType, int sqlType, string description)
         {
