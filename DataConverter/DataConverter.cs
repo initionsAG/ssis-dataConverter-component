@@ -153,7 +153,7 @@ namespace DataConverter {
             //initProperties();
             _isagCustomProperties = new IsagCustomProperties();
 
-            //Metadaten Version auf DLL-Version setzen 
+            //Set metadata version to DLL-Version
             ComponentMetaDataTools.UpdateVersion(this, ComponentMetaData);
 
             //Clear out base implmentation

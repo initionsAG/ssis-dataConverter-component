@@ -180,7 +180,7 @@ namespace DataConverter
         /// Gets a column configuration from an input column name
         /// </summary>
         /// <param name="inputColumnName"></param>
-        /// <returns></returns>
+        /// <returns>column configuration</returns>
         public ColumnConfig GetColumnConfigByInputColumnName(string inputColumnName)
         {
             foreach (ColumnConfig config in ColumnConfigList)
@@ -195,7 +195,7 @@ namespace DataConverter
         /// Gets a column configuration from an output column name
         /// </summary>
         /// <param name="outputColName"></param>
-        /// <returns></returns>
+        /// <returns>column configuration</returns>
         public ColumnConfig GetColumnConfigByOutputAlias(string outputColName)
         {
             foreach (ColumnConfig config in ColumnConfigList)
@@ -209,8 +209,8 @@ namespace DataConverter
         /// <summary>
         /// Gets a column configuration from an output column lineageId
         /// </summary>
-        /// <param name="outputLienageId"></param>
-        /// <returns></returns>
+        /// <param name="outputLienageId">output column lineage id</param>
+        /// <returns>column configuration</returns>
         public ColumnConfig GetColumnConfigByOutputLineageId(string outputLienageId)
         {
             foreach (ColumnConfig config in ColumnConfigList)
