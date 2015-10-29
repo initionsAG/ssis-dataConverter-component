@@ -31,7 +31,7 @@ namespace DataConverter
         /// <param name="parentWindow">parentWindow</param>
         /// <param name="variables">SSIS variables</param>
         /// <param name="connections">SSIS connections</param>
-        /// <returns></returns>
+        /// <returns>Save changes?</returns>
         public bool Edit(IWin32Window parentWindow, Variables variables, Connections connections)
         {
             frmDataConverterUI frm = new frmDataConverterUI(_metadata, variables);
