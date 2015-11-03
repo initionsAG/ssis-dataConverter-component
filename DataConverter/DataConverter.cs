@@ -106,9 +106,9 @@ namespace DataConverter {
 
             _isagCustomProperties.Save(ComponentMetaData);
 
-            Mapping.UpdateInputIdProperties(ComponentMetaData, _isagCustomProperties);
-            Mapping.AddOutputIdProperties(ComponentMetaData.OutputCollection[Constants.OUTPUT_NAME], ComponentMetaData, _isagCustomProperties);
-            Mapping.AddOutputIdProperties(ComponentMetaData.OutputCollection[Constants.OUTPUT_LOG_NAME], ComponentMetaData, _isagCustomProperties);
+            LineageMapping.UpdateInputIdProperties(ComponentMetaData, _isagCustomProperties);
+            LineageMapping.AddOutputIdProperties(ComponentMetaData.OutputCollection[Constants.OUTPUT_NAME], ComponentMetaData, _isagCustomProperties);
+            LineageMapping.AddOutputIdProperties(ComponentMetaData.OutputCollection[Constants.OUTPUT_LOG_NAME], ComponentMetaData, _isagCustomProperties);
 
             DTSValidationStatus status = base.Validate();
             if (status != DTSValidationStatus.VS_ISVALID)
@@ -1210,7 +1210,7 @@ namespace DataConverter {
         {
             try
             {
-                if (Mapping.NeedsMapping())
+                if (LineageMapping.NeedsMapping())
                 {
                     InitProperties();
 
@@ -1219,13 +1219,13 @@ namespace DataConverter {
                         if (string.IsNullOrEmpty(config.CustomId))
                             config.CustomId = Guid.NewGuid().ToString();
 
-                        AddInputColumnCustomProperty(config.InputColumnName, config.CustomId, Mapping.IdPropertyName);
+                        AddInputColumnCustomProperty(config.InputColumnName, config.CustomId, LineageMapping.IdPropertyName);
                         if (config.Convert)
-                            AddOutputColumnCustomProperty(config.OutputAlias, config.CustomId, Mapping.IdPropertyName, Constants.OUTPUT_NAME);
-                        AddOutputColumnCustomProperty(config.InputColumnName, config.CustomId, Mapping.IdPropertyName, Constants.OUTPUT_LOG_NAME);
+                            AddOutputColumnCustomProperty(config.OutputAlias, config.CustomId, LineageMapping.IdPropertyName, Constants.OUTPUT_NAME);
+                        AddOutputColumnCustomProperty(config.InputColumnName, config.CustomId, LineageMapping.IdPropertyName, Constants.OUTPUT_LOG_NAME);
                     }
 
-                    Mapping.UpdateInputIdProperties(this.ComponentMetaData, _isagCustomProperties);
+                    LineageMapping.UpdateInputIdProperties(this.ComponentMetaData, _isagCustomProperties);
                     _isagCustomProperties.Save(this.ComponentMetaData);
                 }
 

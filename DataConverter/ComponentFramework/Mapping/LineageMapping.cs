@@ -14,7 +14,7 @@ namespace DataConverter.FrameWork.Mapping
     /// Because these lineage IDs may change when reopneing a package, GUIDs are used for the mapping.
     /// These GUIDs are stored as a custom property for SSIS columns and inside the xml.
     /// </summary>
-    public class Mapping
+    public class LineageMapping
     {
         /// <summary>
         /// The SSIS column custom property name. The property contains the GUIDs

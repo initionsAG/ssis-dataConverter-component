@@ -54,7 +54,7 @@
         <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
       </PropertyGroup>
     </When>
-    <When Condition="'$(Configuration)' == 'Sql2014'">
+    <When Condition="'$(Configuration)' == 'Sql2014' Or '$(Configuration)' == '2014DEBUG'">
       <PropertyGroup>
         <AssemblyOriginatorKeyFile>Resources\DataConverter_2014.snk</AssemblyOriginatorKeyFile>
         <AssemblyName>DataConverter3</AssemblyName>
@@ -87,15 +87,24 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2014|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2014|AnyCPU' Or '$(Configuration)|$(Platform)' == '2014DEBUG|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\..\..\..\..\..\..\Program Files %28x86%29\Microsoft SQL Server\120\DTS\PipelineComponents\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SQL2014</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <!--Output Paths (start)-->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2014|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;SQL2014</DefineConstants>
+    <OutputPath>bin\%24%28Configuration%29\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2014DEBUG|AnyCPU'">
+    <OutputPath>..\..\..\..\..\..\..\..\Program Files %28x86%29\Microsoft SQL Server\120\DTS\PipelineComponents\</OutputPath>
+    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
+    <DefineConstants>TRACE;DEBUG;2014DEBUG</DefineConstants>
+  </PropertyGroup>
+  <!--Output Paths (end)-->
   <PropertyGroup>
     <ApplicationIcon>Resources\DataConverter_DC.ico</ApplicationIcon>
   </PropertyGroup>
@@ -180,7 +189,7 @@
         </Reference>
       </ItemGroup>
     </When>
-    <When Condition="'$(Configuration)' == 'Sql2014'">
+    <When Condition="'$(Configuration)' == 'Sql2014' Or '$(Configuration)' == '2014DEBUG'">
       <ItemGroup>
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="Microsoft.VisualBasic" />
@@ -250,7 +259,7 @@
     <Compile Include="ColumnConfig.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Comparer.cs" />
-    <Compile Include="ComponentFramework\Mapping\Mapping.cs" />
+    <Compile Include="ComponentFramework\Mapping\LineageMapping.cs" />
     <Compile Include="ComponentFramework\SortableBindingList.cs" />
     <Compile Include="ComponentMetaDataTools.cs" />
     <Compile Include="Constants.cs" />
@@ -340,10 +349,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

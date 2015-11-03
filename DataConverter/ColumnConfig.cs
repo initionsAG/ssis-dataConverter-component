@@ -844,11 +844,11 @@ namespace DataConverter
             _date2string = dateConverttype;
             _customId = Guid.NewGuid().ToString();
 
-            Mapping.SetIdProperty(_customId, inputCol.CustomPropertyCollection);
+            LineageMapping.SetIdProperty(_customId, inputCol.CustomPropertyCollection);
             if (outCol != null)
-                Mapping.SetIdProperty(_customId, outCol.CustomPropertyCollection);
+                LineageMapping.SetIdProperty(_customId, outCol.CustomPropertyCollection);
             if (outLogCol != null)
-                Mapping.SetIdProperty(_customId, outLogCol.CustomPropertyCollection);
+                LineageMapping.SetIdProperty(_customId, outLogCol.CustomPropertyCollection);
 
         }
 

@@ -372,7 +372,7 @@ namespace DataConverter {
                             config.OutputLineageId = convertCol.LineageID.ToString();
                             config.OutputId = convertCol.ID.ToString();
                             config.OutputIdString = convertCol.IdentificationString;
-                            Mapping.SetIdProperty(config.CustomId, convertCol.CustomPropertyCollection);
+                            LineageMapping.SetIdProperty(config.CustomId, convertCol.CustomPropertyCollection);
                         }
 
                         convertCol.Name = config.OutputAlias;
