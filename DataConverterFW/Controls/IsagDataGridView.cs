@@ -133,7 +133,6 @@ namespace ComponentFramework.Controls {
                     cmb.DrawItem -= cmb_DrawItem;
                     cmb.DrawItem += cmb_DrawItem;
                 }
-
             }
             base.OnEditingControlShowing(e);
         }
@@ -309,7 +308,11 @@ namespace ComponentFramework.Controls {
             //only one registration is necessary because all datasources are equal
             itemListSource.ListChanged += DataSource_ListChanged;
 
-            return new ComboBoxConfiguration(dataSourceDictionary, configurationType, sortItemList);
+            //Create combobox configuration and add item source template for adding new columns
+            ComboBoxConfiguration comboConfig = new ComboBoxConfiguration(dataSourceDictionary, configurationType, sortItemList);
+            comboConfig.AddItenSourceTemplate(itemListSource);
+
+            return comboConfig;
         }
 
         /// <summary>
@@ -640,6 +643,10 @@ namespace ComponentFramework.Controls {
         //Sort the itemList of the comboBox?
         public bool SortItemList { get; set; }
 
+        /// <summary>
+        /// ItemSource for added columns
+        /// </summary>
+        private BindingList<object> _itemSourceTemplate;
 
         /// <summary>
         /// constructor
@@ -655,14 +662,23 @@ namespace ComponentFramework.Controls {
         }
 
         /// <summary>
-        /// Adds an element from the _itemSource
+        /// Add itemSource for new columns
+        /// </summary>
+        /// <param name="itemSourceTemplate">ItemSource for new columns</param>
+        public void AddItenSourceTemplate(BindingList<object> itemSourceTemplate)
+        {
+            _itemSourceTemplate = itemSourceTemplate;
+        }
+
+        /// <summary>
+        /// Adds an element to the _itemSource
         /// (happens when a row is added to the grid)
         /// </summary>
-        /// <param name="dataBoundItem"></param>
+        /// <param name="dataBoundItem">dataBoundItem</param>
         public void AddItemSourceElement(object dataBoundItem)
         {
-            if (_itemSource.Count > 0 && !_itemSource.ContainsKey(dataBoundItem))
-                _itemSource.Add(dataBoundItem, _itemSource.Values.First());
+            if (!_itemSource.ContainsKey(dataBoundItem))
+                _itemSource.Add(dataBoundItem, _itemSourceTemplate);
         }
 
         /// <summary>
@@ -672,7 +688,7 @@ namespace ComponentFramework.Controls {
         /// <param name="dataBoundItem">dataBoundItem</param>
         public void RemoveItemSourceElement(object dataBoundItem)
         {
-            if (_itemSource.Count > 0 && !_itemSource.ContainsKey(dataBoundItem))
+            if (_itemSource.Count > 0 && _itemSource.ContainsKey(dataBoundItem))
                 _itemSource.Remove(dataBoundItem);
         }
 
