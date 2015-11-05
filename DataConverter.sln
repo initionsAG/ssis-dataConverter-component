@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataConverter", "DataConverter\DataConverter.csproj", "{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -116,14 +116,17 @@ Global
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Release|x86.ActiveCfg = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Release|x86.Build.0 = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2008|Any CPU.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2008|Any CPU.Build.0 = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2008|Mixed Platforms.ActiveCfg = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2008|x86.ActiveCfg = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2008|x86.Build.0 = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2012|Any CPU.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2012|Any CPU.Build.0 = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2012|Mixed Platforms.ActiveCfg = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2012|x86.ActiveCfg = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2012|x86.Build.0 = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2014|Any CPU.ActiveCfg = Release|x86
+		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2014|Any CPU.Build.0 = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2014|Mixed Platforms.ActiveCfg = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2014|x86.ActiveCfg = Release|x86
 		{622499B1-DB2F-442D-83A9-85F4766078D4}.Sql2014|x86.Build.0 = Release|x86
