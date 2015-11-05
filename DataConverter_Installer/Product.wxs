@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <!-- Generate Installer Title Based on Build Configuration -->
-    <?if $(var.DataConverter.Configuration) = Sql2012 ?>
+    <?if $(var.DataConverter.Configuration) = Sql2012 Or $(var.DataConverter.Configuration) = 2012Debug?>
     <?define ProductName = DataConverter !(bind.FileVersion.fil_DataConverter_dll) for Integration Services 2012 ?>
     <?define SsisVersion   = 2012 ?>
     <?define SsisVersionNo = 110 ?>
     <?define UpgradeCode   = 42914EA0-67E4-4375-9C1A-A9FF0FC27399 ?>
-    <?elseif $(var.DataConverter.Configuration) = Sql2014 ?>
+    <?elseif $(var.DataConverter.Configuration) = Sql2014 Or $(var.DataConverter.Configuration) = 2014Debug?>
     <?define ProductName = DataConverter !(bind.FileVersion.fil_DataConverter_dll) for Integration Services 2014 ?>
     <?define SsisVersion   = 2014 ?>
     <?define SsisVersionNo = 120 ?>
     <?define UpgradeCode   = E3A029BB-4F5F-461B-9CCA-A4A4DA910B78 ?>
-    <?elseif $(var.DataConverter.Configuration) = Sql2016 ?>
+    <?elseif $(var.DataConverter.Configuration) = Sql2016 Or $(var.DataConverter.Configuration) = 2016Debug?>
     <?define ProductName = DataConverter !(bind.FileVersion.fil_DataConverter_dll) for Integration Services 2016 ?>
     <?define SsisVersion   = 2016 ?>
     <?define SsisVersionNo = 130 ?>
