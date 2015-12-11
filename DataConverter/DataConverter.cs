@@ -609,8 +609,8 @@ namespace DataConverter {
             InitProperties();
 
             _debugMode = _isagCustomProperties.DebugModus;
-
-            Converter.USED_CULTURE = string.IsNullOrWhiteSpace(_isagCustomProperties.Language) ?
+            
+            Converter.USED_CULTURE = string.IsNullOrEmpty(_isagCustomProperties.Language.Trim()) ?
                Converter.USED_CULTURE : new CultureInfo(_isagCustomProperties.Language); 
 
             InitVariables();
