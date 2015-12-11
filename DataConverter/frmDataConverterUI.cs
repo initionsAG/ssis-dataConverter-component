@@ -65,6 +65,7 @@ namespace DataConverter {
 
             PopulateRowDisposition();
             PopulateComboVariables();
+            PopulateLanguage();
 
             cbErrorHandling.SelectedIndexChanged += new System.EventHandler(cbErrorHandling_SelectedIndexChanged);
 
@@ -168,6 +169,15 @@ namespace DataConverter {
             cbErrorHandling.Items.Add(DTSRowDisposition.RD_RedirectRow);
 
             cbErrorHandling.SelectedItem = _metadata.InputCollection[Constants.INPUT_NAME].ErrorRowDisposition;
+        }
+
+        /// <summary>
+        /// Fill Language / CultureInfo itemlist 
+        /// </summary>
+        private void PopulateLanguage()
+        {
+            cmbLanguage.DataBindings.Add("Text", _IsagCustomProperties, "Language", true, DataSourceUpdateMode.OnPropertyChanged);
+            cmbLanguage.Items.AddRange(_IsagCustomProperties.LanguageItemList);
         }
 
         /// <summary>

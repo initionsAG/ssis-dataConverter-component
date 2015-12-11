@@ -25,6 +25,11 @@ namespace DataConverter
         public enum ErrorRowHandling { RedirectRow, FailComponent, IgnoreFailure }
 
         /// <summary>
+        /// List of CultureInfos (languages for conversions)
+        /// </summary>
+        public string[] LanguageItemList = new string[] { "", "de-de", "en-us" };
+
+        /// <summary>
         /// Property changed event
         /// (implements Interface of INotifyPropertyChanged)
         /// </summary>
@@ -85,6 +90,11 @@ namespace DataConverter
         /// (if error name is a SSIS variable name the variables value be written to the error output)
         /// </summary>
         public string ErrorName { get; set; }
+
+        /// <summary>
+        /// Language (CultureInfo) used for conversions
+        /// </summary>
+        public string Language { get; set; }
 
         #endregion
 

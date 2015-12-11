@@ -610,6 +610,9 @@ namespace DataConverter {
 
             _debugMode = _isagCustomProperties.DebugModus;
 
+            Converter.USED_CULTURE = string.IsNullOrWhiteSpace(_isagCustomProperties.Language) ?
+               Converter.USED_CULTURE : new CultureInfo(_isagCustomProperties.Language); 
+
             InitVariables();
 
             IDTSInput100 input = ComponentMetaData.InputCollection[Constants.INPUT_NAME];

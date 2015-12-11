@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.SqlServer.Dts.Runtime.Wrapper;
 using System.Windows.Forms;
 using Microsoft.SqlServer.Dts.Pipeline;
+using System.Globalization;
 
 namespace DataConverter
 {
@@ -12,6 +13,8 @@ namespace DataConverter
     /// </summary>
     public static class Converter
     {
+        public static CultureInfo USED_CULTURE = CultureInfo.CurrentCulture;
+
         /// <summary>
         /// Convertes a string with a given format to a string with format YYYYMMDD
         /// </summary>
@@ -41,7 +44,7 @@ namespace DataConverter
                 string month = valueStr.Substring(posM, 2);
                 string day = valueStr.Substring(posD, 2);
 
-                DateTime date = new DateTime(Convert.ToInt32(year), Convert.ToInt32(month), Convert.ToInt32(day));
+                DateTime date = new DateTime(Convert.ToInt32(year, USED_CULTURE), Convert.ToInt32(month, USED_CULTURE), Convert.ToInt32(day, USED_CULTURE));
 
                 switch (dataTypeKind)
                 {
@@ -93,7 +96,7 @@ namespace DataConverter
             int date = 0;
             try
             {
-                date = Convert.ToInt32(value);
+                date = Convert.ToInt32(value, USED_CULTURE);
             }
             catch (Exception ex)
             {
@@ -142,15 +145,15 @@ namespace DataConverter
                 switch (dataType)
                 {
                     case DataType.DT_I4:
-                        return Convert.ToInt32(value);
+                        return Convert.ToInt32(value, USED_CULTURE);
                     case DataType.DT_I8:
-                        return Convert.ToInt64(value);
+                        return Convert.ToInt64(value, USED_CULTURE);
                     case DataType.DT_UI4:
-                        return Convert.ToUInt32(value);
+                        return Convert.ToUInt32(value, USED_CULTURE);
                     case DataType.DT_UI8:
-                        return Convert.ToUInt64(value);
+                        return Convert.ToUInt64(value, USED_CULTURE);
                     case DataType.DT_NUMERIC:
-                        return Convert.ToDouble(value);
+                        return Convert.ToDouble(value, USED_CULTURE);
                 }
             }
             catch (Exception ex)
@@ -277,20 +280,20 @@ namespace DataConverter
                     switch (dataType)
                     {
                         case DataType.DT_BOOL:
-                            return Convert.ToBoolean(value);
+                            return Convert.ToBoolean(value, USED_CULTURE);
                         case DataType.DT_BYTES:
                             return (byte[])value;
                         case DataType.DT_CY:
-                            return Convert.ToDecimal(value);
+                            return Convert.ToDecimal(value, USED_CULTURE);
                         case DataType.DT_DATE:
-                            return Convert.ToDateTime(value);
+                            return Convert.ToDateTime(value, USED_CULTURE);
                         case DataType.DT_DBDATE:
                             return (DateTime)value;
                         case DataType.DT_DBTIME:
                             MessageBox.Show("Typ " + dataType + " wird nicht unterstützt.");
                             return null;
                         case DataType.DT_DBTIMESTAMP:
-                            return Convert.ToDateTime(value);
+                            return Convert.ToDateTime(value, USED_CULTURE);
                         case DataType.DT_DECIMAL:
 
                             if (convertFromString)
@@ -299,7 +302,8 @@ namespace DataConverter
                                 if (decimal.TryParse((string)value, out result)) return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to Decimal.");
                             }
-                            else return Convert.ToDecimal(value);
+                            else
+                                return Convert.ToDecimal(value, USED_CULTURE);
 
                             break;
 
@@ -312,10 +316,12 @@ namespace DataConverter
                             if (convertFromString)
                             {
                                 SByte result;
-                                if (SByte.TryParse((string)value, out result)) return result;
+                                if (SByte.TryParse((string) value, NumberStyles.Any, USED_CULTURE, out result))
+                                    return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to SByte.");
                             }
-                            else return Convert.ToSByte(value);
+                            else
+                                return Convert.ToSByte(value, USED_CULTURE);
 
                             break;
 
@@ -324,10 +330,12 @@ namespace DataConverter
                             if (convertFromString)
                             {
                                 Int16 result;
-                                if (Int16.TryParse((string)value, out result)) return result;
+                                if (Int16.TryParse((string) value, NumberStyles.Any, USED_CULTURE, out result))
+                                    return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to Int16.");
                             }
-                            else return Convert.ToInt16(value);
+                            else
+                                return Convert.ToInt16(value, USED_CULTURE);
 
                             break;
 
@@ -336,7 +344,8 @@ namespace DataConverter
                             if (convertFromString)
                             {
                                 Int32 result;
-                                if (Int32.TryParse((string)value, out result)) return result;
+                                if (Int32.TryParse((string) value, NumberStyles.Any, USED_CULTURE, out result))
+                                    return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to Int32.");
                             }
                             else return Convert.ToInt32(value);
@@ -347,20 +356,24 @@ namespace DataConverter
                             if (convertFromString)
                             {
                                 Int64 result;
-                                if (Int64.TryParse((string)value, out result)) return result;
+                                if (Int64.TryParse((string) value, NumberStyles.Any, USED_CULTURE, out result))
+                                    return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to Int64.");
                             }
-                            else return Convert.ToInt64(value);
+                            else
+                                return Convert.ToInt64(value, USED_CULTURE);
 
                             break;
                         case DataType.DT_IMAGE:
                             BlobColumn colDT_IMAGE = (BlobColumn)value;
                             if (colDT_IMAGE.IsNull) return null;
-                            else return Convert.ToInt32(colDT_IMAGE.Length);
+                            else
+                                return Convert.ToInt32(colDT_IMAGE.Length, USED_CULTURE);
                         case DataType.DT_NTEXT:
                             BlobColumn colDT_NTEXT = (BlobColumn)value; //CType(value, BlobColumn)
                             if (colDT_NTEXT.IsNull) return null;
-                            else return Convert.ToInt32(colDT_NTEXT.Length);
+                            else 
+                                return Convert.ToInt32(colDT_NTEXT.Length, USED_CULTURE);
                         case DataType.DT_NULL:
                             return null;
                         case DataType.DT_NUMERIC:
@@ -368,10 +381,12 @@ namespace DataConverter
                             if (convertFromString)
                             {
                                 decimal result;
-                                if (decimal.TryParse((string)value, out result)) return result;
+                                if (decimal.TryParse((string) value, NumberStyles.Any, USED_CULTURE, out result))
+                                    return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to Decimal.");
                             }
-                            else return Convert.ToDecimal(value);
+                            else
+                                return Convert.ToDecimal(value, USED_CULTURE);
 
                             break;
 
@@ -380,10 +395,12 @@ namespace DataConverter
                             if (convertFromString)
                             {
                                 Single result;
-                                if (Single.TryParse((string)value, out result)) return result;
+                                if (Single.TryParse((string) value, NumberStyles.Any, USED_CULTURE, out result))
+                                    return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to Single.");
                             }
-                            else return Convert.ToSingle(value);
+                            else 
+                                return Convert.ToSingle(value, USED_CULTURE);
 
                             break;
 
@@ -392,28 +409,32 @@ namespace DataConverter
                             if (convertFromString)
                             {
                                 Double result;
-                                if (Double.TryParse((string)value, out result)) return result;
+                                if (Double.TryParse((string) value, NumberStyles.Any, USED_CULTURE, out result))
+                                    return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to Double.");
                             }
-                            else return Convert.ToDouble(value);
+                            else 
+                                return Convert.ToDouble(value, USED_CULTURE);
 
                             break;
-
                         case DataType.DT_STR:
                             return value.ToString();
                         case DataType.DT_TEXT:
                             BlobColumn colDT_TEXT = (BlobColumn)value;
                             if (colDT_TEXT.IsNull) return null;
-                            else return Convert.ToInt32(colDT_TEXT.Length);
+                            else
+                                return Convert.ToInt32(colDT_TEXT.Length, USED_CULTURE);
                         case DataType.DT_UI1:
 
                             if (convertFromString)
                             {
                                 Byte result;
-                                if (Byte.TryParse((string)value, out result)) return result;
+                                if (Byte.TryParse((string) value, NumberStyles.Any, USED_CULTURE, out result))
+                                    return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to Byte.");
                             }
-                            else return Convert.ToByte(value);
+                            else 
+                                return Convert.ToByte(value, USED_CULTURE);
 
                             break;
 
@@ -422,10 +443,12 @@ namespace DataConverter
                             if (convertFromString)
                             {
                                 UInt16 result;
-                                if (UInt16.TryParse((string)value, out result)) return result;
+                                if (UInt16.TryParse((string) value, NumberStyles.Any, USED_CULTURE, out result))
+                                    return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to UInt16.");
                             }
-                            else return Convert.ToUInt16(value);
+                            else
+                                return Convert.ToUInt16(value, USED_CULTURE);
 
                             break;
 
@@ -434,10 +457,12 @@ namespace DataConverter
                             if (convertFromString)
                             {
                                 UInt32 result;
-                                if (UInt32.TryParse((string)value, out result)) return result;
+                                if (UInt32.TryParse((string) value, NumberStyles.Any, USED_CULTURE, out result))
+                                    return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to UInt32.");
                             }
-                            else return Convert.ToUInt32(value);
+                            else
+                                return Convert.ToUInt32(value, USED_CULTURE);
 
                             break;
 
@@ -446,10 +471,12 @@ namespace DataConverter
                             if (convertFromString)
                             {
                                 UInt64 result;
-                                if (UInt64.TryParse((string)value, out result)) return result;
+                                if (UInt64.TryParse((string) value, NumberStyles.Any, USED_CULTURE, out result))
+                                    return result;
                                 else status.SetError("Cannot Convert the value " + value.ToString() + " to UInt64.");
                             }
-                            else return Convert.ToUInt64(value);
+                            else
+                                return Convert.ToUInt64(value, USED_CULTURE);
 
                             break;
 
