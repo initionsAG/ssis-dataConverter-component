@@ -12,7 +12,7 @@ namespace DataConverter
     /// <summary>
     /// DataConverter (special) conversion types
     /// </summary>
-    public enum DateConvertTypes { None, YYYYMMDD, YYYYMM, YYYY, Point2Comma, Comma2Point, AmericanDecimal, GermanDecimal, STR2YYYYMMDD }
+    public enum DateConvertTypes { None, YYYYMMDD, YYYYMM, YYYY, Point2Comma, Comma2Point, AmericanDecimal, GermanDecimal, STR2YYYYMMDD, HHMM, HHMMSS }
 
     /// <summary>
     /// Conversion types datatype characteristic
@@ -631,6 +631,8 @@ namespace DataConverter
                     _supportedConversions.Add(DateConvertTypes.YYYY.ToString());
                     _supportedConversions.Add(DateConvertTypes.YYYYMM.ToString());
                     _supportedConversions.Add(DateConvertTypes.YYYYMMDD.ToString());
+                    _supportedConversions.Add(DateConvertTypes.HHMM.ToString());
+                    _supportedConversions.Add(DateConvertTypes.HHMMSS.ToString());
                 }
 
                 if (SupportsConversionNumeric)

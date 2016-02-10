@@ -194,6 +194,10 @@ namespace DataConverter
                         return date.Year.ToString() + month;
                     case DateConvertTypes.YYYY:
                         return date.Year.ToString();
+                    case DateConvertTypes.HHMM:
+                        return date.Hour.ToString().PadLeft(2, '0') + ":" + date.Minute.ToString().PadLeft(2, '0');
+                    case DateConvertTypes.HHMMSS:
+                        return date.Hour.ToString().PadLeft(2, '0') + ":" + date.Minute.ToString().PadLeft(2, '0') + ":" + date.Second.ToString().PadLeft(2, '0');
                     default:
                         break;
                 }
