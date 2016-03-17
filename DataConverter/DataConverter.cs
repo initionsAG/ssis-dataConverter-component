@@ -1099,7 +1099,15 @@ namespace DataConverter {
                 if (config.hasRegEx && !RegularExpressions.IsMatch(value.ToString(), config.RegEx))
                     status.SetError(value.ToString() + " entspricht nicht der Regular Expression.");
                 else
-                    buffer[config.outputBufferIndex] = value;
+                    try
+                    {
+                        buffer[config.outputBufferIndex] = value;
+                    }
+                    catch (Exception)
+                    {
+                        status.SetError(value.ToString() + " kann konvertiert werden, ist aber nicht kompatibel mit dem SSIS Datentypen.");
+                    }
+                   
             }
 
             if (status.HasError)
