@@ -398,7 +398,7 @@ namespace DataConverter {
                         catch (Exception)
                         {
 
-                            MessageBox.Show("Fehler beim Setzen der Datentyp-Eigenschaften für die Spalte " + convertCol.Name + ".", "DataConverter");
+                            MessageBox.Show("Saving datatype properties for column " + convertCol.Name + " failed.", "DataConverter");
                             return false;
                         }
 
@@ -452,6 +452,24 @@ namespace DataConverter {
                     {
                         output.OutputColumnCollection.RemoveObjectByIndex(i);
                     }
+                }
+
+                if (!_IsagCustomProperties.IsOnErrorValid(_metadata))
+                {
+                    MessageBox.Show("The On Error value is invalid", "DataConverter");
+                    return false;
+                }
+
+                if (!_IsagCustomProperties.IsOnNullValid(_metadata))
+                {
+                    MessageBox.Show("The On Null value is invalid", "DataConverter");
+                    return false;
+                }
+
+                if (!_IsagCustomProperties.IsCompareValid(_metadata))
+                {
+                    MessageBox.Show("The compare expression is invalid", "DataConverter");
+                    return false;
                 }
 
                 _metadata.InputCollection[Constants.INPUT_NAME].ErrorRowDisposition = _IsagCustomProperties.GetRowDisposition();

@@ -371,7 +371,7 @@ namespace DataConverter
         /// </summary>
         /// <param name="componentMetaData">the components metadata</param>
         /// <returns>Are all compare expression valid?</returns>
-        private bool IsCompareValid(IDTSComponentMetaData100 componentMetaData)
+        public bool IsCompareValid(IDTSComponentMetaData100 componentMetaData)
         {
             
             Comparer comparer = new Comparer();
@@ -417,7 +417,7 @@ namespace DataConverter
         /// </summary>
         /// <param name="componentMetaData">the components metadata</param>
         /// <returns>Is OnError value valid?</returns>
-        private bool IsOnErrorValid(IDTSComponentMetaData100 componentMetaData)
+        public bool IsOnErrorValid(IDTSComponentMetaData100 componentMetaData)
         {
             string errorMessage;
 
@@ -441,7 +441,7 @@ namespace DataConverter
         /// </summary>
         /// <param name="componentMetaData">the components metadata</param>
         /// <returns>Is OnNull value valid?</returns>
-        private bool IsOnNullValid(IDTSComponentMetaData100 componentMetaData)
+        public bool IsOnNullValid(IDTSComponentMetaData100 componentMetaData)
         {
             string errorMessage;
 
