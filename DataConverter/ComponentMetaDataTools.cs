@@ -214,7 +214,7 @@ namespace DataConverter
                         Convert.ToDateTime(value);
                         return true;
                     case DataType.DT_DBDATE:
-                        DateTime d = (DateTime)value;
+                        Convert.ToDateTime(value);
                         return true;
                     case DataType.DT_DBTIME:
                         MessageBox.Show("Typ " + dataType + " wird nicht unterstützt.");

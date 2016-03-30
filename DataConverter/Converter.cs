@@ -292,7 +292,7 @@ namespace DataConverter
                         case DataType.DT_DATE:
                             return Convert.ToDateTime(value, USED_CULTURE);
                         case DataType.DT_DBDATE:
-                            return (DateTime)value;
+                            return Convert.ToDateTime(value, USED_CULTURE);
                         case DataType.DT_DBTIME:
                             MessageBox.Show("Typ " + dataType + " wird nicht unterstützt.");
                             return null;
