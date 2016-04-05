@@ -2,7 +2,7 @@
 "DataConverter" is a custom component for [SQL Server Integration Services](https://en.wikipedia.org/wiki/SQL_Server_Integration_Services). It can be added to the Data Flow of an SSIS-package to convert datatypes. 
 
 In addition this component is able to perform error-handling on non-convertable values, including default values.  
-For each selected column a new column is added to the Data Flow that contains the converted value.
+For each selected column a new column containing the converted value is added to the Data Flow.
 
 
 ---
@@ -36,7 +36,7 @@ For this example, following conversion was configured in DataConverter:
 	- If input is NULL then return the date 2000-01-01
 	- If conversion is not possible then return the date 2099-12-31
 - The 'numeric_string_column' of datatype string is converted to numeric(5,2) and named numeric_column
-	- If input is a valid numeric then return it as numeric
+	- If input can be converted into a valid numeric value then return the numeric value
 	- If input is NULL then return the number 0,0
 	- If conversion is not possible then return the number -1
 
