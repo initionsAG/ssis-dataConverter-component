@@ -41,13 +41,27 @@
     <AssemblyOriginatorKeyFile>DataConverterFW.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2014Debug|AnyCPU'">
-        <OutputPath>bin\2014Debug\</OutputPath>
-    </PropertyGroup>
+    <OutputPath>bin\2014Debug\</OutputPath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2012Debug|AnyCPU'">
     <OutputPath>bin\2012Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2008Debug|AnyCPU'">
     <OutputPath>bin\2008Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2016|AnyCPU'">
+    <OutputPath>bin\Sql2016\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2016Debug|AnyCPU'">
+    <OutputPath>bin\2016Debug\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -72,14 +86,11 @@
     <None Include="DataConverterFW.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <!--PostBuildEvents (start)-->
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2008Debug|AnyCPU' 
-						   Or '$(Configuration)|$(Platform)' == '2012Debug|AnyCPU' 
-						   Or '$(Configuration)|$(Platform)' == '2014Debug|AnyCPU'
-	">
-        <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
-    </PropertyGroup>
-    <!--PostBuildEvents (end)-->
+  <!--PostBuildEvents (start)-->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2008Debug|AnyCPU' &#xD;&#xA;						   Or '$(Configuration)|$(Platform)' == '2012Debug|AnyCPU' &#xD;&#xA;						   Or '$(Configuration)|$(Platform)' == '2014Debug|AnyCPU'&#xD;&#xA;	">
+    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+  <!--PostBuildEvents (end)-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
