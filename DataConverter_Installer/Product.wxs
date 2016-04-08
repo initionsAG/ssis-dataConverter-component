@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <!-- Generate Installer Title Based on Build Configuration -->
+    <?if $(var.DataConverter.Configuration) = Sql2012 Or $(var.DataConverter.Configuration) = 2012Debug?>
+    <?define ProductName = DataConverter !(bind.FileVersion.fil_DataConverter_dll) for Integration Services 2012 ?>
+    <?define SsisVersion   = 2012 ?>
+    <?define SsisVersionNo = 110 ?>
+    <?define UpgradeCode   = 42914EA0-67E4-4375-9C1A-A9FF0FC27399 ?>
+    <?elseif $(var.DataConverter.Configuration) = Sql2014 Or $(var.DataConverter.Configuration) = 2014Debug?>
+    <?define ProductName = DataConverter !(bind.FileVersion.fil_DataConverter_dll) for Integration Services 2014 ?>
+    <?define SsisVersion   = 2014 ?>
+    <?define SsisVersionNo = 120 ?>
+    <?define UpgradeCode   = E3A029BB-4F5F-461B-9CCA-A4A4DA910B78 ?>
+    <?elseif $(var.DataConverter.Configuration) = Sql2016 Or $(var.DataConverter.Configuration) = 2016Debug?>
+    <?define ProductName = DataConverter !(bind.FileVersion.fil_DataConverter_dll) for Integration Services 2016 ?>
+    <?define SsisVersion   = 2016 ?>
+    <?define SsisVersionNo = 130 ?>
+    <?define UpgradeCode   = 1982ed9c-3d07-44c7-9d50-21fbe143d0fa ?>
+    <?else ?>
+    <?define ProductName = DataConverter !(bind.FileVersion.fil_DataConverter_dll) for Integration Services 2008 ?>
+    <?define SsisVersion   = 2008 ?>
+    <?define SsisVersionNo = 100 ?>
+    <?define UpgradeCode   = D45D6CB6-26C7-486C-8954-8A40E06CE79F ?>
+    <?endif ?>
+    <Product Id="*"
+             Name="$(var.ProductName)"
+             Language="1033"
+             Version="!(bind.FileVersion.fil_DataConverter_dll)"
+             Manufacturer="innovative IT solutions AG"
+             UpgradeCode="$(var.UpgradeCode)">
+
+        <Package InstallerVersion="200"
+             Compressed="yes"
+             InstallScope="perMachine"
+             Description ="DataConverter Installer package"
+             Manufacturer="innovative IT solutions AG"
+             />
+
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+        <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+
+        <Feature Id="ProductFeature" Title="SSIS DataConverter Component" Level="1">
+            <ComponentGroupRef Id="ProductComponents" />
+            <ComponentGroupRef Id="GacComponents" />
+        </Feature>
+
+        <!-- Set the default install path -->
+        <Property Id="WIXUI_INSTALLDIR" Value="PIPELINECOMPONENTS" />
+        <!-- Ui Speficication -->
+        <WixVariable Id="WixUIBannerBmp" Value="Resources\DataConverterInstallerBanner.BMP" />
+        <UI>
+            <UIRef Id="WixUI_InstallDir" />
+            <!-- skip licence dialog -->
+            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">1</Publish>
+            <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
+        </UI>
+
+        <!-- Set the Icon from the LOG Component as the installer icon -->
+        <Icon Id="log.ico" SourceFile="$(var.DataConverter.ProjectDir)\Resources\DataConverter_DC.ico"/>
+        <Property Id="ARPPRODUCTICON" Value="log.ico" />
+    </Product>
+
+    <Fragment>
+        <!-- Getting SSIS Pipeline Components Path from Registry-->
+        <Property Id ="INSTALLFOLDER">
+            <RegistrySearch Id    = "RegDtsPath"
+                            Root  = "HKLM"
+                            Key   = "Software\Microsoft\Microsoft SQL Server\$(var.SsisVersionNo)\SSIS\Setup\DTSPath"
+                            Type  = "raw"
+                            Win64 ="no"
+                      />
+        </Property>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="INSTALLFOLDER" Name="DataConverter_Installer">
+                <Directory Id="PIPELINECOMPONENTS" Name ="PipelineComponents" />
+            </Directory>
+
+
+            <!-- GAC Directory only a Dummy for Deployment to GAC-->
+            <Directory Id="GAC" Name="GAC" />
+        </Directory>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="ProductComponents" Directory="PIPELINECOMPONENTS">
+            <Component Id="cmp_DataConverter_dll" Guid="0c1ca6b3-1116-40d9-9290-e627f607d5f2">
+                <File Id="fil_DataConverter_dll" KeyPath="yes" Source="$(var.DataConverter.TargetPath)"></File>
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="GacComponents" Directory="GAC">
+            <Component Id="cmp_gac_DataConverter_dll" Guid="04a6230f-faaf-473f-a3e7-e113b00e0c26">
+                <!-- Specifing the Assembly Property with .net assures installation to gac-->
+                <File Id="fil_gac_DataConverter_dll" KeyPath="yes" Source="$(var.DataConverter.TargetPath)" Assembly=".net"></File>
+            </Component>
+            <Component Id="cmp_gac_DataConverterFW_dll" Guid="684F5761-063C-4963-A80F-FD5FF4654E9C">
+                <!-- Specifing the Assembly Property with .net assures installation to gac-->
+                <File Id="fil_gac_DataConverterFW_dll" KeyPath="yes" Source="$(var.DataConverterFW.TargetPath)" Assembly=".net"></File>
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>
