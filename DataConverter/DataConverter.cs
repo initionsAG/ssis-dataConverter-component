@@ -32,8 +32,14 @@ namespace DataConverter {
     CurrentVersion = 1,
     IconResource = "DataConverter.Resources.DataConverter_DC.ico",
     UITypeName = "DataConverter.DataConverterUI, DataConverter3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1e7bd12ce9d458f0")]
-#else
+#elif   (SQL2016)
     [DtsPipelineComponent(DisplayName = "DataConverter",
+    ComponentType = ComponentType.Transform,
+    CurrentVersion = 1,
+    IconResource = "DataConverter.Resources.DataConverter_DC.ico",
+    UITypeName = "DataConverter.DataConverterUI, initions.Henry.SSIS.DataConverter2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1e7bd12ce9d458f0")]
+#else
+                            [DtsPipelineComponent(DisplayName = "DataConverter",
     ComponentType = ComponentType.Transform,
     CurrentVersion = 1,
     IconResource = "DataConverter.Resources.DataConverter_DC.ico",
