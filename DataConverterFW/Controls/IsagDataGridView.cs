@@ -43,6 +43,17 @@ namespace ComponentFramework.Controls {
         /// </summary>
         public const string CMB_COLUMN_PREFIX = "BoundedCombo_";
 
+        private string _keyColumnName = "InputColumnName";
+
+        /// <summary>
+        /// Specifies column that identifies a row
+        /// </summary>
+        public string KeyColumnName
+        {
+            get { return _keyColumnName; }
+            set { _keyColumnName = value; }
+        }
+
         /// <summary>
         /// the constructor
         /// </summary>
@@ -59,6 +70,9 @@ namespace ComponentFramework.Controls {
         /// <param name="e">event arguments</param>
         protected override void OnColumnHeaderMouseClick(DataGridViewCellMouseEventArgs e)
         {
+            SuspendGridLayout();
+            TableLayoutBackup layout = new TableLayoutBackup(this, KeyColumnName);
+
             bool sortComboBoxCell = _cmbItemSources.ContainsKey(e.ColumnIndex);
 
             //Get the sort column (if it is a columnbox, the column that is bounded to the datasource has to be sorted)
@@ -101,6 +115,41 @@ namespace ComponentFramework.Controls {
             }
 
             base.OnColumnHeaderMouseClick(e);
+
+            layout.RestoreLayout();
+            ResumeGridLayout();
+        }
+
+        private const int WM_SETREDRAW = 0x000B;
+        /// <summary>
+        /// Suspends layout and additionaly hides grid after layout has been suspended.
+        /// (prevents slow refresh. Native SuspendLayout method does not work)
+        /// </summary>
+        public void SuspendGridLayout()
+        {
+            Message msgSuspendUpdate = Message.Create(this.Handle, WM_SETREDRAW, IntPtr.Zero,
+                IntPtr.Zero);
+
+            NativeWindow window = NativeWindow.FromHandle(this.Handle);
+            window.DefWndProc(ref msgSuspendUpdate);
+            this.Hide();
+        }
+
+        /// <summary>
+        /// Resumes layout and additionaly shows grid before layout is resumed.
+        /// </summary>
+        public void ResumeGridLayout()
+        {
+            this.Show();
+            // Create a C "true" boolean as an IntPtr
+            IntPtr wparam = new IntPtr(1);
+            Message msgResumeUpdate = Message.Create(this.Handle, WM_SETREDRAW, wparam,
+                IntPtr.Zero);
+
+            NativeWindow window = NativeWindow.FromHandle(this.Handle);
+            window.DefWndProc(ref msgResumeUpdate);
+
+            this.Invalidate();
         }
 
         /// <summary>
@@ -801,6 +850,74 @@ namespace ComponentFramework.Controls {
 
             return compareResult;
         }
+    }
+
+    /// <summary>
+    /// Backups/Restores readonly and background color of datagridview
+    /// (properties are lost when datascource is re-binded (i.e. when grid has been sorted)
+    /// </summary>
+    public class TableLayoutBackup: Dictionary<string, Dictionary<string, LayoutBackup>> {
+
+        /// <summary>
+        /// key column name 
+        /// </summary>
+        private string _keyColumnName;
+
+        private DataGridView _grid;
+
+        /// <summary>
+        /// Constuctor that backups layout
+        /// </summary>
+        /// <param name="grid">datagridview</param>
+        /// <param name="keyColumnName">key column name</param>
+        public TableLayoutBackup(DataGridView grid, string keyColumnName)
+        {
+            _keyColumnName = keyColumnName;
+            _grid = grid;
+
+            foreach (DataGridViewRow row in grid.Rows)
+            {
+                Dictionary<string, LayoutBackup> rowLayout = new Dictionary<string, LayoutBackup>();
+
+                foreach (DataGridViewColumn col in grid.Columns)
+                {
+                    DataGridViewCell cell = row.Cells[col.Index];
+                    if (cell.ReadOnly)
+                    {
+                        rowLayout.Add(col.Name, new LayoutBackup() { ReadOnly = true, BackColor = cell.Style.BackColor });
+                    }
+                }
+
+                this.Add(row.Cells["InputColumnName"].Value.ToString(), rowLayout);
+            }
+        }
+
+        /// <summary>
+        /// Restores layout
+        /// </summary>
+        public void RestoreLayout()
+        {
+            foreach (DataGridViewRow row in _grid.Rows)
+            {
+                Dictionary<string, LayoutBackup> rowLayout = this[row.Cells["InputColumnName"].Value.ToString()];
+
+                foreach (DataGridViewColumn col in _grid.Columns)
+                {
+                    if (rowLayout.ContainsKey(col.Name))
+                    {
+                        DataGridViewCell cell = row.Cells[col.Index];
+                        cell.ReadOnly = rowLayout[col.Name].ReadOnly;
+                        cell.Style.BackColor = rowLayout[col.Name].BackColor;
+                    }
+                }
+            }
+        }
+    }
+
+
+    public class LayoutBackup {
+        public bool ReadOnly { get; set; }
+        public Color BackColor { get; set; }
     }
 
 }
