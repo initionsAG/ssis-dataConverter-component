@@ -373,11 +373,15 @@ namespace DataConverter
                             if (colDT_IMAGE.IsNull) return null;
                             else
                                 return Convert.ToInt32(colDT_IMAGE.Length, USED_CULTURE);
-                        case DataType.DT_NTEXT:
-                            BlobColumn colDT_NTEXT = (BlobColumn)value; //CType(value, BlobColumn)
-                            if (colDT_NTEXT.IsNull) return null;
-                            else 
-                                return Convert.ToInt32(colDT_NTEXT.Length, USED_CULTURE);
+                        case DataType.DT_NTEXT:                          
+                            if (value == null)
+                                return new byte[0];
+                            else
+                            {
+                                byte[] bytes = new byte[value.ToString().Length * sizeof(char)];
+                                System.Buffer.BlockCopy(value.ToString().ToCharArray(), 0, bytes, 0, bytes.Length);
+                                return bytes;
+                            }
                         case DataType.DT_NULL:
                             return null;
                         case DataType.DT_NUMERIC:
@@ -424,10 +428,14 @@ namespace DataConverter
                         case DataType.DT_STR:
                             return value.ToString();
                         case DataType.DT_TEXT:
-                            BlobColumn colDT_TEXT = (BlobColumn)value;
-                            if (colDT_TEXT.IsNull) return null;
+                            if (value == null)
+                                return new byte[0];
                             else
-                                return Convert.ToInt32(colDT_TEXT.Length, USED_CULTURE);
+                            {
+                                byte[] bytes = new byte[value.ToString().Length * sizeof(char)];
+                                System.Buffer.BlockCopy(value.ToString().ToCharArray(), 0, bytes, 0, bytes.Length);
+                                return bytes;
+                            }
                         case DataType.DT_UI1:
 
                             if (convertFromString)

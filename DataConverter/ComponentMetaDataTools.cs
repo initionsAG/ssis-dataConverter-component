@@ -248,11 +248,15 @@ namespace DataConverter
                         if (colDT_IMAGE.IsNull) throw new Exception();
                         else Convert.ToInt32(colDT_IMAGE.Length);
                         return true;
-                    case DataType.DT_NTEXT:
-                        BlobColumn colDT_NTEXT = (BlobColumn)value;
-                        if (colDT_NTEXT.IsNull) throw new Exception();
-                        else Convert.ToInt32(colDT_NTEXT.Length);
-                        return true;
+                    case DataType.DT_NTEXT:                       
+                        if (value == null)
+                            return false;
+                        else
+                        {
+                            byte[] bytes = new byte[value.ToString().Length * sizeof(char)];
+                            System.Buffer.BlockCopy(value.ToString().ToCharArray(), 0, bytes, 0, bytes.Length);
+                            return true;
+                        }
                     case DataType.DT_NULL:
                         return (value == null);
                     case DataType.DT_NUMERIC:
@@ -270,10 +274,14 @@ namespace DataConverter
                         if (s.Length > length) throw new Exception(string.Format("Conversion to DT_STR[Length={0}] failed.", length));
                         return true;
                     case DataType.DT_TEXT:
-                        BlobColumn colDT_TEXT = (BlobColumn)value;
-                        if (colDT_TEXT.IsNull) throw new Exception();
-                        else Convert.ToInt32(colDT_TEXT.Length);
-                        return true;
+                        if (value == null)
+                            return false;
+                        else
+                        {
+                            byte[] bytes = new byte[value.ToString().Length * sizeof(char)];
+                            System.Buffer.BlockCopy(value.ToString().ToCharArray(), 0, bytes, 0, bytes.Length);
+                            return true;
+                        }
                     case DataType.DT_UI1:
                         Convert.ToByte(value);
                         return true;

@@ -921,7 +921,9 @@ namespace DataConverter {
                             object value = GetBufferValue(buffer[config.inputBufferIndex]); //get cell value
 
                             //Use OnNull value 
-                            if ((value == null || (config.ConvertFromIntToDate && value.ToString() == "0")) && config.hasOnNullValue)
+                            if (config.hasOnNullValue &&
+                                (value == null || (config.ConvertFromIntToDate && value.ToString() == "0") || (value is byte[] && ((byte[]) value).Length == 0) ) 
+                               )
                             {
                                 ProcessInputOnNull(buffer, row, config);
                                 if (_comparer != null)
@@ -929,7 +931,7 @@ namespace DataConverter {
                             }
                             else
                             {
-                                if (value == null && config.AllowNull)
+                                if (config.AllowNull && (value == null || (value is byte[] && ((byte[]) value).Length == 0)))
                                     buffer.SetNull(config.outputBufferIndex); //Null weiterleiten
                                 else
                                     ProcessInputConvert(buffer, row, config, value, ref status, ref _comparer); //Konvertieren                             
