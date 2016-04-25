@@ -72,7 +72,7 @@ namespace DataConverter
         /// </summary>
         public static readonly string[] DATATYPE_SIMPLE = 
             {"DT_BOOL","DT_CY","DT_DBDATE","DT_UI1","DT_UI2","DT_UI4","DT_UI8",
-             "DT_I1","DT_I2","DT_I4","DT_I8","DT_R4","DT_R8","DT_IMAGE","DT_DATE",
+             "DT_I1","DT_I2","DT_I4","DT_I8","DT_R4","DT_R8","DT_DATE",
              "DT_FILETIME","DT_GUID","DT_NTEXT","DT_DBTIMESTAMP"};
 
         /// <summary>

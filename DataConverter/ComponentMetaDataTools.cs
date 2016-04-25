@@ -192,7 +192,7 @@ namespace DataConverter
         /// <param name="precision">datatype precision</param>
         /// <param name="errorMessage">errorMessage that is filled if conversion fails</param>
         /// <returns>Returns if a value can be converted to a specified datatype</returns>
-        public static bool CanConvertTo(object value, DataType dataType, int length, int scale, int precision, out string errorMessage)
+        public static bool CanConvertTo(object value, DataType dataType, int length, int scale, int precision, out string errorMessage, int codepage)
         {
             errorMessage = "";
 
@@ -253,8 +253,7 @@ namespace DataConverter
                             return false;
                         else
                         {
-                            byte[] bytes = new byte[value.ToString().Length * sizeof(char)];
-                            System.Buffer.BlockCopy(value.ToString().ToCharArray(), 0, bytes, 0, bytes.Length);
+                            byte[] bytes = System.Text.Encoding.Unicode.GetBytes(value.ToString());
                             return true;
                         }
                     case DataType.DT_NULL:
@@ -278,8 +277,7 @@ namespace DataConverter
                             return false;
                         else
                         {
-                            byte[] bytes = new byte[value.ToString().Length * sizeof(char)];
-                            System.Buffer.BlockCopy(value.ToString().ToCharArray(), 0, bytes, 0, bytes.Length);
+                            byte[] bytes = System.Text.Encoding.GetEncoding(codepage).GetBytes(value.ToString());
                             return true;
                         }
                     case DataType.DT_UI1:

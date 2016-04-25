@@ -276,6 +276,18 @@ namespace DataConverter
         /// <returns>converted value</returns>
         public static object GetConvertedValue(object value, DataType dataType, ref StatusConvert status, bool convertFromString)
         {
+            return GetConvertedValue(value, dataType, ref status, convertFromString, string.Empty);
+        }
+        /// <summary>
+        /// Converts a value to a specified datatype
+        /// </summary>
+        /// <param name="value">value to convert</param>
+        /// <param name="dataType">output datatype</param>
+        /// <param name="status">conversion status</param>
+        /// <param name="convertFromString">Is input datatype == string?</param>
+        /// <returns>converted value</returns>
+        public static object GetConvertedValue(object value, DataType dataType, ref StatusConvert status, bool convertFromString, string codepage)
+        {
             if (value == null) return null;
             else
             {
@@ -378,8 +390,7 @@ namespace DataConverter
                                 return new byte[0];
                             else
                             {
-                                byte[] bytes = new byte[value.ToString().Length * sizeof(char)];
-                                System.Buffer.BlockCopy(value.ToString().ToCharArray(), 0, bytes, 0, bytes.Length);
+                                byte[] bytes = System.Text.Encoding.Unicode.GetBytes(value.ToString());
                                 return bytes;
                             }
                         case DataType.DT_NULL:
@@ -432,8 +443,7 @@ namespace DataConverter
                                 return new byte[0];
                             else
                             {
-                                byte[] bytes = new byte[value.ToString().Length * sizeof(char)];
-                                System.Buffer.BlockCopy(value.ToString().ToCharArray(), 0, bytes, 0, bytes.Length);
+                                byte[] bytes = System.Text.Encoding.GetEncoding(Int32.Parse(codepage)).GetBytes(value.ToString());
                                 return bytes;
                             }
                         case DataType.DT_UI1:

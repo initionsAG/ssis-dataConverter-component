@@ -425,7 +425,7 @@ namespace DataConverter
             {
                 IDTSOutputColumn100 col = ComponentMetaDataTools.GetOutputColumnByColumnName(config.OutputAlias, componentMetaData.OutputCollection[Constants.OUTPUT_NAME].OutputColumnCollection);
                 if (col != null && //Dieses wird schon in der Methode ContainsColumnConfigWithoutOutput als Fehler zurückgegeben
-                    config.HasOnErrorValue() && !ComponentMetaDataTools.CanConvertTo(config.OnErrorValue, col.DataType, col.Length, col.Scale, col.Precision, out errorMessage))
+                    config.HasOnErrorValue() && !ComponentMetaDataTools.CanConvertTo(config.OnErrorValue, col.DataType, col.Length, col.Scale, col.Precision, out errorMessage, col.CodePage))
                 {
                     Events.Fire(componentMetaData, Events.Type.Error,
                                 string.Format("Spalte [input column={0}] contains an invalid OnError value: " + errorMessage, config.InputColumnName));
@@ -449,7 +449,7 @@ namespace DataConverter
             {
                 IDTSOutputColumn100 col = ComponentMetaDataTools.GetOutputColumnByColumnName(config.OutputAlias, componentMetaData.OutputCollection[Constants.OUTPUT_NAME].OutputColumnCollection);
                 if (col != null && //Dieses wird schon in der Methode ContainsColumnConfigWithoutOutput als Fehler zurückgegeben
-                    config.HasDefaultValue() && !ComponentMetaDataTools.CanConvertTo(config.Default, col.DataType, col.Length, col.Scale, col.Precision, out errorMessage))
+                    config.HasDefaultValue() && !ComponentMetaDataTools.CanConvertTo(config.Default, col.DataType, col.Length, col.Scale, col.Precision, out errorMessage, col.CodePage))
                 {
                     Events.Fire(componentMetaData, Events.Type.Error,
                                 string.Format("Spalte [input column={0}] contains an invalid OnNull value: " + errorMessage, config.InputColumnName));

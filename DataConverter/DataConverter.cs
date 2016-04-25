@@ -595,6 +595,14 @@ namespace DataConverter {
             /// Second date spliter (i.e. "." in DD.MM.YYYY)
             /// </summary>
             public string dateSecondSpitter;
+            /// <summary>
+            /// Codepage of datatype
+            /// </summary>
+            public string CodePage { get; set; }
+            /// <summary>
+            /// Codepage of source datatype
+            /// </summary>
+            public int InputCodePage { get; set; }
         }
 
         //not used
@@ -773,11 +781,11 @@ namespace DataConverter {
                             bufferMapping.dateFirstSplitter = bufferMapping.ConvertFromStringFormat.Substring(bufferMapping.dateFirstSplitterIndex, 1);
                             bufferMapping.dateSecondSpitter = bufferMapping.ConvertFromStringFormat.Substring(bufferMapping.dateSecondSpitterIndex, 1);
                         }
-
+                        
                         if (config.HasDefaultValue())
                         {
                             StatusConvert status = new StatusConvert();
-                            bufferMapping.onNullValue = Converter.GetConvertedValue(config.Default, bufferMapping.outputDataType, ref status, false);
+                            bufferMapping.onNullValue = Converter.GetConvertedValue(config.Default, bufferMapping.outputDataType, ref status, false, config.Codepage);
                             if (status.HasError)
                             {
                                 Events.Fire(ComponentMetaData, Events.Type.Error, "Der OnNull Wert kann nicht in den Datentyp der Zielspalte konvertiert werden: " + status.ErrorMessage);
@@ -788,7 +796,7 @@ namespace DataConverter {
                         if (config.HasOnErrorValue())
                         {
                             StatusConvert status = new StatusConvert();
-                            bufferMapping.onErrorValue = Converter.GetConvertedValue(config.OnErrorValue, bufferMapping.outputDataType, ref status, false);
+                            bufferMapping.onErrorValue = Converter.GetConvertedValue(config.OnErrorValue, bufferMapping.outputDataType, ref status, false, config.Codepage);
                             if (status.HasError)
                             {
                                 Events.Fire(ComponentMetaData, Events.Type.Error, "Der OnNull Wert kann nicht in den Datentyp der Zielspalte konvertiert werden: " + status.ErrorMessage);
@@ -815,6 +823,8 @@ namespace DataConverter {
                 bufferMapping.ColumnName = config.InputColumnName;
                 bufferMapping.convert = config.Convert;
                 bufferMapping.isErrorCounter = config.IsErrorCounter;
+                bufferMapping.CodePage = config.Codepage;
+                bufferMapping.InputCodePage = input.InputColumnCollection[i].CodePage;
 
                 mappingList.Add(bufferMapping);
 
@@ -919,6 +929,17 @@ namespace DataConverter {
                         if (config.convert)
                         {
                             object value = GetBufferValue(buffer[config.inputBufferIndex]); //get cell value
+
+                            //Convert DT_(N)TEXT to string first
+                            if (value is byte[]) //DataType = DT_(N)TEXT ?
+                            {
+                                if (((byte[]) value).Length == 0)
+                                    value = null;
+                                else if (config.InputCodePage == 0) //DT_NTEXT
+                                    value = Encoding.Unicode.GetString((byte[]) value);
+                                else
+                                    value = Encoding.GetEncoding(config.InputCodePage).GetString((byte[]) value); //DT_TEXT
+                            }
 
                             //Use OnNull value 
                             if (config.hasOnNullValue &&
@@ -1093,7 +1114,7 @@ namespace DataConverter {
                 else if (config.ConvertToNumericByUsingConversionRules)
                     value = Converter.String2Numeric(value, config.ConvertFromStringToNumericType, config.outputDataType, ref status);
                 else
-                    value = Converter.GetConvertedValue(value, config.outputDataType, ref status, config.ConvertFromString);
+                    value = Converter.GetConvertedValue(value, config.outputDataType, ref status, config.ConvertFromString, config.CodePage);
 
                 if ((config.outputDataType == DataType.DT_WSTR || config.outputDataType == DataType.DT_STR) && value != null && value.ToString().Length > config.lengthOfString)
                 {
