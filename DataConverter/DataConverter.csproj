@@ -99,13 +99,13 @@
     </PropertyGroup>
     <!--Output Paths (end)-->
 
-    <Choose>
+    <!--<Choose>
         <When Condition="'$(Configuration)' != 'Sql2008' Or '$(Configuration)' != '2008Debug'">
             <ItemGroup>
-                <Reference Include="Microsoft.CSharp" />
+                
             </ItemGroup>
         </When>
-    </Choose>
+    </Choose>-->
     <ItemGroup>
         <Reference Include="Microsoft.VisualBasic" />
         <Reference Include="System" />
@@ -182,6 +182,7 @@
                     <Private>False</Private>
                     <HintPath>..\packages\Microsoft.SqlServer.DTS.11.0.0\lib\Microsoft.SQLServer.DTSPipelineWrap.dll</HintPath>
                 </Reference>
+                <Reference Include="Microsoft.CSharp" />
             </ItemGroup>
         </When>
         <When Condition="'$(Configuration)' == 'Sql2014' Or '$(Configuration)' == '2014Debug'">
@@ -216,6 +217,7 @@
                     <Private>False</Private>
                     <HintPath>..\packages\Microsoft.SqlServer.DTS.12.0.0\lib\Microsoft.SQLServer.DTSPipelineWrap.dll</HintPath>
                 </Reference>
+                <Reference Include="Microsoft.CSharp" />
             </ItemGroup>
         </When>
         <When Condition="'$(Configuration)' == 'Sql2016' Or '$(Configuration)' == '2016Debug'">
@@ -250,6 +252,7 @@
                     <Private>False</Private>
                     <HintPath>..\packages\Microsoft.SqlServer.DTS.13.0.0\lib\Microsoft.SQLServer.PipelineHost.dll</HintPath>
                 </Reference>
+                <Reference Include="Microsoft.CSharp" />
             </ItemGroup>
         </When>
         <Otherwise>
