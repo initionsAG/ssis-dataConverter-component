@@ -12,7 +12,11 @@ namespace DataConverter
     /// <summary>
     /// DataConverter (special) conversion types
     /// </summary>
-    public enum DateConvertTypes { None, YYYYMMDD, YYYYMM, YYYY, Point2Comma, Comma2Point, AmericanDecimal, GermanDecimal, STR2YYYYMMDD, HHMM, HHMMSS }
+    public enum DateConvertTypes
+    {
+        None, YYYYMMDD, YYYYMM, YYYY, Point2Comma, Comma2Point, AmericanDecimal, GermanDecimal, STR2YYYYMMDD, HHMM, HHMMSS,
+        YYYYMMDDHH, YYYYMMDDHHMM, YYYYMMDDHHMMSS
+    }
 
     /// <summary>
     /// Conversion types datatype characteristic
@@ -564,6 +568,21 @@ namespace DataConverter
         }
 
         /// <summary>
+        /// Do column input and output datatype allow usage of output column type numeric/integer?
+        /// </summary>
+        [BrowsableAttribute(false), ReadOnly(true)]
+        public bool SupportsConversionDateToNumeric
+        {
+            get
+            {
+                return (DataType == "DT_NUMERIC" ||
+                       DataType == "DT_I4" || DataType == "DT_I8" || DataType == "DT_UI4" || DataType == "DT_UI8") &&
+                       (DataTypeInput.StartsWith("DT_DATE") || DataTypeInput.StartsWith("DT_DBDATE") || DataTypeInput.StartsWith("DT_DBTIMESTAMP"));
+            }
+        }
+
+
+        /// <summary>
         /// Do column input and output datatype allow usage of DataConverter conversion types YYYYMMDD, YYYYMM, YYYY?
         /// </summary>
         [BrowsableAttribute(false), ReadOnly(true)]
@@ -571,7 +590,7 @@ namespace DataConverter
         {
             get
             {
-                return (DataType == "DT_WSTR" || DataType == "DT_STR") &&
+                return (DataType == "DT_WSTR" || DataType == "DT_STR" || SupportsConversionDateToNumeric) &&
                        (DataTypeInput.StartsWith("DT_DATE") || DataTypeInput.StartsWith("DT_DBDATE") || DataTypeInput.StartsWith("DT_DBTIMESTAMP"));
             }
         }
@@ -633,6 +652,9 @@ namespace DataConverter
                     _supportedConversions.Add(DateConvertTypes.YYYYMMDD.ToString());
                     _supportedConversions.Add(DateConvertTypes.HHMM.ToString());
                     _supportedConversions.Add(DateConvertTypes.HHMMSS.ToString());
+                    _supportedConversions.Add(DateConvertTypes.YYYYMMDDHH.ToString());
+                    _supportedConversions.Add(DateConvertTypes.YYYYMMDDHHMM.ToString());
+                    _supportedConversions.Add(DateConvertTypes.YYYYMMDDHHMMSS.ToString());
                 }
 
                 if (SupportsConversionNumeric)

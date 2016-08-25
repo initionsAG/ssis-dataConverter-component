@@ -166,7 +166,24 @@ namespace DataConverter
         }
 
         /// <summary>
-        /// Converts a date to string with a given format (YYYYMMDD, YYYYMM, YYYY)
+        /// Converts a date to bigint with a given format (YYYYMMDD, YYYYMM, YYYY,...)
+        /// </summary>
+        /// <param name="value">date to convert</param>
+        /// <param name="date2stringType">output format (YYYYMMDD, YYYYMM, YYYY)</param>
+        /// <param name="status">filled if conversion fails</param>
+        /// <returns></returns>
+        public static object DateToNumeric(object value, DateConvertTypes date2stringType, ref StatusConvert status)
+        {
+            string strResult = Converter.DateToString(value, date2stringType, ref status).ToString();
+
+            //anderes Zielformat: bei Konvertierung nach einer Uhrzeit im string Format wird ein ":" einegfügt
+            strResult = strResult.Replace(":", "");
+
+            return Int64.Parse(strResult);
+        }
+
+        /// <summary>
+        /// Converts a date to string with a given format (YYYYMMDD, YYYYMM, YYYY,...)
         /// </summary>
         /// <param name="value">date to convert</param>
         /// <param name="date2stringType">output format (YYYYMMDD, YYYYMM, YYYY)</param>
@@ -184,6 +201,10 @@ namespace DataConverter
                 string day = date.Day.ToString();
                 if (day.Length == 1) day = "0" + day;
 
+                string hour = date.Hour.ToString().PadLeft(2, '0');
+                string minute = date.Minute.ToString().PadLeft(2, '0');
+                string second = date.Second.ToString().PadLeft(2, '0');
+
                 switch (date2stringType)
                 {
                     case DateConvertTypes.None:
@@ -198,6 +219,12 @@ namespace DataConverter
                         return date.Hour.ToString().PadLeft(2, '0') + ":" + date.Minute.ToString().PadLeft(2, '0');
                     case DateConvertTypes.HHMMSS:
                         return date.Hour.ToString().PadLeft(2, '0') + ":" + date.Minute.ToString().PadLeft(2, '0') + ":" + date.Second.ToString().PadLeft(2, '0');
+                    case DateConvertTypes.YYYYMMDDHH:
+                        return date.Year.ToString() + month + day + hour;
+                    case DateConvertTypes.YYYYMMDDHHMM:
+                        return date.Year.ToString() + month + day + hour + minute;
+                    case DateConvertTypes.YYYYMMDDHHMMSS:
+                        return date.Year.ToString() + month + day + hour + minute + second;
                     default:
                         break;
                 }

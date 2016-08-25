@@ -526,6 +526,10 @@ namespace DataConverter {
             /// </summary>
             public bool ConvertFromDateToInt;
             /// <summary>
+            /// Conversion from date to int/numeric (with conversion rules)?
+            /// </summary>
+            public bool ConvertFromDateToNumeric;
+            /// <summary>
             /// Conversion to string?
             /// </summary>
             public bool ConvertToString;
@@ -755,10 +759,11 @@ namespace DataConverter {
 
                         if (!bufferMapping.ConvertToNumericByUsingConversionRules &&
                              (inputType == DataType.DT_DBTIMESTAMP || inputType == DataType.DT_DBDATE || inputType == DataType.DT_DATE) &&
-                             (outputType == DataType.DT_WSTR || outputType == DataType.DT_STR))
+                             (outputType == DataType.DT_WSTR || outputType == DataType.DT_STR) || config.SupportsConversionDateToNumeric)
                             bufferMapping.ConvertFromDateToStringType = config.Date2string;
                         else
                             bufferMapping.ConvertFromDateToStringType = DateConvertTypes.None;
+                        bufferMapping.ConvertFromDateToNumeric = config.SupportsConversionDateToNumeric;
 
                         bufferMapping.ConvertFromStringByFormat = config.Date2string == DateConvertTypes.STR2YYYYMMDD;
                         bufferMapping.ConvertFromStringFormat = config.StrConversionByFormat;
@@ -1107,6 +1112,10 @@ namespace DataConverter {
                                                                   value, ref status);
                 else if (config.ConvertFromIntToDate)
                     value = Converter.IntToDate(value, ref status);
+                //Konvertierung muss vor ConvertFromDateToInt stehen (würde sonst nicht berücksichtigt werden):
+                else if (config.ConvertFromDateToStringType != DateConvertTypes.None && config.ConvertFromDateToNumeric)
+                    value = Converter.DateToNumeric(value, config.ConvertFromDateToStringType, ref status);
+                //implizite Konvertierung von date nach int:
                 else if (config.ConvertFromDateToInt)
                     value = Converter.DateToInt(value, config.outputDataType, ref status);
                 else if (config.ConvertFromDateToStringType != DateConvertTypes.None)
