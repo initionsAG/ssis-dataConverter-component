@@ -100,6 +100,8 @@ namespace DataConverter {
         /// </summary>
         private IsagCustomProperties _isagCustomProperties;
 
+        private Converter _conveter = new Converter();
+
         #region Validate & Reinitialize
 
         /// <summary>
@@ -628,8 +630,8 @@ namespace DataConverter {
 
             _debugMode = _isagCustomProperties.DebugModus;
 
-            Converter.USED_CULTURE = string.IsNullOrEmpty(_isagCustomProperties.Language) || _isagCustomProperties.Language.Trim() == ""?
-               Converter.USED_CULTURE : new CultureInfo(_isagCustomProperties.Language); 
+            _conveter.USED_CULTURE = string.IsNullOrEmpty(_isagCustomProperties.Language) || _isagCustomProperties.Language.Trim() == ""?
+               _conveter.USED_CULTURE : new CultureInfo(_isagCustomProperties.Language); 
 
             InitVariables();
 
@@ -790,7 +792,7 @@ namespace DataConverter {
                         if (config.HasDefaultValue())
                         {
                             StatusConvert status = new StatusConvert();
-                            bufferMapping.onNullValue = Converter.GetConvertedValue(config.Default, bufferMapping.outputDataType, ref status, false, config.Codepage);
+                            bufferMapping.onNullValue = _conveter.GetConvertedValue(config.Default, bufferMapping.outputDataType, ref status, false, config.Codepage);
                             if (status.HasError)
                             {
                                 Events.Fire(ComponentMetaData, Events.Type.Error, "Der OnNull Wert kann nicht in den Datentyp der Zielspalte konvertiert werden: " + status.ErrorMessage);
@@ -801,7 +803,7 @@ namespace DataConverter {
                         if (config.HasOnErrorValue())
                         {
                             StatusConvert status = new StatusConvert();
-                            bufferMapping.onErrorValue = Converter.GetConvertedValue(config.OnErrorValue, bufferMapping.outputDataType, ref status, false, config.Codepage);
+                            bufferMapping.onErrorValue = _conveter.GetConvertedValue(config.OnErrorValue, bufferMapping.outputDataType, ref status, false, config.Codepage);
                             if (status.HasError)
                             {
                                 Events.Fire(ComponentMetaData, Events.Type.Error, "Der OnNull Wert kann nicht in den Datentyp der Zielspalte konvertiert werden: " + status.ErrorMessage);
@@ -1106,24 +1108,24 @@ namespace DataConverter {
             if (!status.HasError && (!config.hasSameDataType || config.ConvertFromStringByFormat))
             {
                 if (config.ConvertFromStringByFormat)
-                    value = Converter.String2YearMonthDayByFormat(config.OutputDataTypeKindForDate, config.outputDataType, config.dateYYYYIndex,
+                    value = _conveter.String2YearMonthDayByFormat(config.OutputDataTypeKindForDate, config.outputDataType, config.dateYYYYIndex,
                                                                   config.dateMMIndex, config.dateDDIndex, config.dateFirstSplitterIndex,
                                                                   config.dateSecondSpitterIndex, config.dateFirstSplitter, config.dateSecondSpitter,
                                                                   value, ref status);
                 else if (config.ConvertFromIntToDate)
-                    value = Converter.IntToDate(value, ref status);
+                    value = _conveter.IntToDate(value, ref status);
                 //Konvertierung muss vor ConvertFromDateToInt stehen (würde sonst nicht berücksichtigt werden):
                 else if (config.ConvertFromDateToStringType != DateConvertTypes.None && config.ConvertFromDateToNumeric)
-                    value = Converter.DateToNumeric(value, config.ConvertFromDateToStringType, ref status);
+                    value = _conveter.DateToNumeric(value, config.ConvertFromDateToStringType, ref status);
                 //implizite Konvertierung von date nach int:
                 else if (config.ConvertFromDateToInt)
-                    value = Converter.DateToInt(value, config.outputDataType, ref status);
+                    value = _conveter.DateToInt(value, config.outputDataType, ref status);
                 else if (config.ConvertFromDateToStringType != DateConvertTypes.None)
-                    value = Converter.DateToString(value, config.ConvertFromDateToStringType, ref status);
+                    value = _conveter.DateToString(value, config.ConvertFromDateToStringType, ref status);
                 else if (config.ConvertToNumericByUsingConversionRules)
-                    value = Converter.String2Numeric(value, config.ConvertFromStringToNumericType, config.outputDataType, ref status);
+                    value = _conveter.String2Numeric(value, config.ConvertFromStringToNumericType, config.outputDataType, ref status);
                 else
-                    value = Converter.GetConvertedValue(value, config.outputDataType, ref status, config.ConvertFromString, config.CodePage);
+                    value = _conveter.GetConvertedValue(value, config.outputDataType, ref status, config.ConvertFromString, config.CodePage);
 
                 if ((config.outputDataType == DataType.DT_WSTR || config.outputDataType == DataType.DT_STR) && value != null && value.ToString().Length > config.lengthOfString)
                 {

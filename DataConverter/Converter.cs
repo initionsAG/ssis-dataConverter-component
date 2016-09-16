@@ -11,9 +11,9 @@ namespace DataConverter
     /// <summary>
     /// Holds methods for conversions
     /// </summary>
-    public static class Converter
+    public class Converter
     {
-        public static CultureInfo USED_CULTURE = CultureInfo.CurrentCulture;
+        public CultureInfo USED_CULTURE = CultureInfo.CurrentCulture;
 
         /// <summary>
         /// Convertes a string with a given format to a string with format YYYYMMDD
@@ -30,7 +30,7 @@ namespace DataConverter
         /// <param name="value">value to convert</param>
         /// <param name="status">filled if conversion fails</param>
         /// <returns>string with format YYYYMMDD</returns>
-        public static object String2YearMonthDayByFormat(DataTypeKind dataTypeKind, DataType outputDataType,
+        public object String2YearMonthDayByFormat(DataTypeKind dataTypeKind, DataType outputDataType,
             int posY, int posM, int posD, int posSplitterFirst, int posSplitterSecond, string splitterFirst, string splitterSecond,
             object value, ref StatusConvert status)
         {
@@ -89,7 +89,7 @@ namespace DataConverter
         /// <param name="value">value to convert</param>
         /// <param name="status">filled if conversion fails</param>
         /// <returns>date</returns>
-        public static object IntToDate(object value, ref StatusConvert status)
+        public object IntToDate(object value, ref StatusConvert status)
         {
             object result = null;
 
@@ -128,7 +128,7 @@ namespace DataConverter
         /// <param name="dataType">output datatype</param>
         /// <param name="status">filled if conversion fails</param>
         /// <returns>number with the specified datatype</returns>
-        public static object DateToInt(object value, DataType dataType, ref StatusConvert status)
+        public object DateToInt(object value, DataType dataType, ref StatusConvert status)
         {
             try
             {
@@ -172,9 +172,9 @@ namespace DataConverter
         /// <param name="date2stringType">output format (YYYYMMDD, YYYYMM, YYYY)</param>
         /// <param name="status">filled if conversion fails</param>
         /// <returns></returns>
-        public static object DateToNumeric(object value, DateConvertTypes date2stringType, ref StatusConvert status)
+        public object DateToNumeric(object value, DateConvertTypes date2stringType, ref StatusConvert status)
         {
-            string strResult = Converter.DateToString(value, date2stringType, ref status).ToString();
+            string strResult = DateToString(value, date2stringType, ref status).ToString();
 
             //anderes Zielformat: bei Konvertierung nach einer Uhrzeit im string Format wird ein ":" einegfügt
             strResult = strResult.Replace(":", "");
@@ -189,7 +189,7 @@ namespace DataConverter
         /// <param name="date2stringType">output format (YYYYMMDD, YYYYMM, YYYY)</param>
         /// <param name="status">filled if conversion fails</param>
         /// <returns>converted value as string</returns>
-        public static object DateToString(object value, DateConvertTypes date2stringType, ref StatusConvert status)
+        public object DateToString(object value, DateConvertTypes date2stringType, ref StatusConvert status)
         {
             try
             {
@@ -248,7 +248,7 @@ namespace DataConverter
         /// <param name="date2stringType">conversion rule</param>
         /// <param name="dataType">output datatype (DT_I4, DT_I8, DT_UI4, DT_UI8 or DT_NUMERIC) </param>
         /// <returns>converted value</returns>
-        public static object String2Numeric(object value, DateConvertTypes date2stringType, DataType dataType, ref StatusConvert status)
+        public object String2Numeric(object value, DateConvertTypes date2stringType, DataType dataType, ref StatusConvert status)
         {
             if (dataType != DataType.DT_I4 && dataType != DataType.DT_I8 && dataType != DataType.DT_UI4 && dataType != DataType.DT_UI8 && dataType != DataType.DT_NUMERIC)
                 throw new Exception("Fehler: ConvertToNumeric erwartet einen folgender Zieldatentypen: DT_I4, DT_I8, DT_UI4, DT_UI8, DT_NUMERIC.");
@@ -274,7 +274,7 @@ namespace DataConverter
                     break;
             }
 
-            object result = Converter.GetConvertedValue(strValue, DataType.DT_NUMERIC, ref status, true);
+            object result = GetConvertedValue(strValue, DataType.DT_NUMERIC, ref status, true);
             if (dataType != DataType.DT_NUMERIC && result != null)
             {
                 try
@@ -286,7 +286,7 @@ namespace DataConverter
                     status.SetError("Can convert the value " + value.ToString() + " to decimal but not to " + dataType.ToString());
                 }
 
-                result = Converter.GetConvertedValue(result.ToString(), dataType, ref status, true);
+                result = GetConvertedValue(result.ToString(), dataType, ref status, true);
                 if (result == null) status.SetError("Can convert the value " + value.ToString() + " to decimal but not to " + dataType.ToString());
             }
 
@@ -301,7 +301,7 @@ namespace DataConverter
         /// <param name="status">conversion status</param>
         /// <param name="convertFromString">Is input datatype == string?</param>
         /// <returns>converted value</returns>
-        public static object GetConvertedValue(object value, DataType dataType, ref StatusConvert status, bool convertFromString)
+        public object GetConvertedValue(object value, DataType dataType, ref StatusConvert status, bool convertFromString)
         {
             return GetConvertedValue(value, dataType, ref status, convertFromString, string.Empty);
         }
@@ -313,7 +313,7 @@ namespace DataConverter
         /// <param name="status">conversion status</param>
         /// <param name="convertFromString">Is input datatype == string?</param>
         /// <returns>converted value</returns>
-        public static object GetConvertedValue(object value, DataType dataType, ref StatusConvert status, bool convertFromString, string codepage)
+        public object GetConvertedValue(object value, DataType dataType, ref StatusConvert status, bool convertFromString, string codepage)
         {
             if (value == null) return null;
             else
