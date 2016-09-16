@@ -40,7 +40,16 @@ namespace DataConverterTest.TestFramework
         private IDTSComponentMetaData100 AddComponent(string componentClassID)
         {
             IDTSComponentMetaData100 componentMetaData = _dft.ComponentMetaDataCollection.New();
-            componentMetaData.ComponentClassID = componentClassID;
+            try
+            {
+                componentMetaData.ComponentClassID = componentClassID;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
 
             return componentMetaData;
         }

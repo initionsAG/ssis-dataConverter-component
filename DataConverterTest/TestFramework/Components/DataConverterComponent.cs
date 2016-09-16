@@ -8,18 +8,52 @@ using System.Threading.Tasks;
 
 namespace DataConverterTest.TestFramework.Components
 {
+    /// <summary>
+    /// DataConverter component inherits from Component
+    /// </summary>
     class DataConverterComponent : Component
     {
+        /// <summary>
+        /// string to generate DataConverter component in package
+        /// </summary>
+        /// 
+
+#if (SQL2008)
+        public new static string MONIKER = "DataConverter.DataConverter, DataConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8a91e54220f9b6ce";
+#elif (SQL2012)
+        public new static string MONIKER = "DataConverter.DataConverter, DataConverter2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=611facfb07109fd4";
+#elif (SQL2014)
+        public new static string MONIKER = "DataConverter.DataConverter, DataConverter3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1e7bd12ce9d458f0";
+#elif (SQL2016)
         public new static string MONIKER = "DataConverter.DataConverter, initions.Henry.SSIS.DataConverter2016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1e7bd12ce9d458f0";
+#endif
+        /// <summary>
+        /// logoutput of the dataconverter
+        /// </summary>
         public static string LOGOUTPUT = "logOutput";
+        /// <summary>
+        /// output of the dataconverter
+        /// </summary>
         public static string OUTPUT = "output";
+        /// <summary>
+        /// name of the custom property in the DataConverter
+        /// </summary>
         public static string PROPERTIES_NAME = "DataConverter Configuration";
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="metadata">Metadata of the DataConverter</param>
+        /// <param name="name">Name of the Component</param>
         public DataConverterComponent(IDTSComponentMetaData100 metadata, string name) : base(metadata, name) { }
 
+        /// <summary>
+        /// Adds a conversion to the DataConverter
+        /// </summary>
+        /// <param name="outputDataType">destination datatype</param>
+        /// <param name="inputColumnName">name of the input column</param>
         private void AddConversion(SsisDataType outputDataType, string inputColumnName)
         {
-            // Reset();
             IsagCustomProperties isagCustomProperties = GetIsagCustomProperties();
 
             ColumnConfig config = isagCustomProperties.GetColumnConfigByInputColumnName(inputColumnName);
@@ -29,13 +63,9 @@ namespace DataConverterTest.TestFramework.Components
             config.Scale = outputDataType.Scale.ToString();
             config.Precision = outputDataType.Precision.ToString();
             config.Length = outputDataType.Length.ToString();
-            config.Codepage = outputDataType.Codepage.ToString();
-
-            isagCustomProperties.Save(Metadata);
-            isagCustomProperties = GetIsagCustomProperties();
+            config.Codepage = outputDataType.Codepage.ToString();  
 
             IDTSOutput100 output = Metadata.OutputCollection[0];
-            IDTSInputColumn100 colInputValue = Metadata.InputCollection[0].InputColumnCollection[inputColumnName];
             IDTSOutputColumn100 colOutputValue = output.OutputColumnCollection.New();
             colOutputValue.Name = config.OutputAlias;
             colOutputValue.SetDataTypeProperties(outputDataType.Type, outputDataType.Length, outputDataType.Precision, outputDataType.Scale, outputDataType.Codepage);
@@ -48,6 +78,10 @@ namespace DataConverterTest.TestFramework.Components
             isagCustomProperties.Save(Metadata);
         }
 
+        /// <summary>
+        /// set property "errorName" in the DataConverter
+        /// </summary>
+        /// <param name="errorName">the errorname</param>
         public void SetErrorName(string errorName)
         {
             IsagCustomProperties prop = GetIsagCustomProperties();
@@ -55,6 +89,9 @@ namespace DataConverterTest.TestFramework.Components
             prop.Save(Metadata);
         }
 
+        /// <summary>
+        /// Reininitialize the metadata of the DataConverter
+        /// </summary>
         public void Reset()
         {
             //Input-/Outputcolumns löschen
@@ -75,17 +112,29 @@ namespace DataConverterTest.TestFramework.Components
             isagCustomProperties.Save(Metadata);
         }
 
+        /// <summary>
+        /// Loads the custom properties
+        /// </summary>
+        /// <returns>custom properties</returns>
         private IsagCustomProperties GetIsagCustomProperties()
         {
             return IsagCustomProperties.LoadFromXml(Metadata.CustomPropertyCollection[PROPERTIES_NAME].Value.ToString());
         }
 
+        /// <summary>
+        /// configures the errorCounter
+        /// </summary>
+        /// <param name="properties">properties of the DataConverter</param>
         private void AddErrorCounter(ref IsagCustomProperties properties)
         {
             properties.GetColumnConfigByInputColumnName("isETL_errorCount").IsErrorCounter = true;
             Metadata.InputCollection[0].InputColumnCollection["isETL_errorCount"].UsageType = DTSUsageType.UT_READWRITE;
         }
 
+        /// <summary>
+        /// configues the DataConverter for one testConfiguration
+        /// </summary>
+        /// <param name="testConfiguration">the testConfiguration</param>
         public void ConfigureDataConverter(DataConverterTestConfiguration testConfiguration)
         {
             AddConversion(testConfiguration.ExpectedDataType, testConfiguration.InputColumnName);

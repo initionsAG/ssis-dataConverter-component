@@ -30,9 +30,9 @@ namespace DataConverterTest
         //
         //_deleteInputCsvFile = false -> Input CSV Files werden nicht gelöscht, die gespeicherten Pakete sind dadurch lauffähig
         //i.e. C:\Users\Henry\AppData\Local\Temp
-        private bool _SavePackages = true;
-        private bool _deleteInputCsvFile = false;
-        private bool _deleteOutputCsvFile = false;
+        private bool _SavePackages = false;
+        private bool _deleteInputCsvFile = true;
+        private bool _deleteOutputCsvFile = true;
 
         [TestInitialize]
         public void Init()
@@ -55,32 +55,48 @@ namespace DataConverterTest
         }
 
         [TestMethod]
-        public void TestString2Int()
+        public void TestString2Integer()
         {
-            SsisDataType inputDataType = new SsisDataType()
-            {
-                Type = Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_WSTR,
-                Length = 255
-            };
+            Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType[] dataTypes =
+                 new Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType[] {
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I1,
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I2,
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I4,
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I8 };
+            ListTestConfiguration testConfigs = new ListTestConfiguration();
 
-            SsisDataType expectedDataType = new SsisDataType()
+            foreach (Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType dataType in dataTypes)
             {
-                Type = Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I4
-            };
 
-            DataConverterTestConfiguration testConfig = new DataConverterTestConfiguration()
-            {
-                InputDataType = inputDataType,
-                ExpectedDataType = expectedDataType,
-                InputValueExpression = @"""3""",
-                ExpectedValueExpression = "3",
-            };
+                SsisDataType inputDataType = new SsisDataType()
+                {
+                    Type = Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_WSTR,
+                    Length = 255
+                };
 
-            TestResult testResult = _testPackage.StartTest(testConfig);
+                SsisDataType expectedDataType = new SsisDataType()
+                {
+                    Type = dataType
+                };
+
+                DataConverterTestConfiguration testConfig = new DataConverterTestConfiguration()
+                {
+                    InputDataType = inputDataType,
+                    ExpectedDataType = expectedDataType,
+                    InputValueExpression = @"""3""",
+                    ExpectedValueExpression = "3",
+                };
+
+                testConfigs.Add(testConfig);
+            }
+
+            TestResult testResult = _testPackage.StartTest(testConfigs);
 
             Assert.IsTrue(testResult.IsSuccessful, testResult.ErrorMessage);
             Assert.AreEqual(0, testResult.CountErrorOutput);
             Assert.AreEqual(0, testResult.CountLogOutput);
+
+
         }
 
         [TestMethod]
@@ -204,6 +220,131 @@ namespace DataConverterTest
             Assert.AreEqual(0, testResult.CountLogOutput);
         }
 
+        [TestMethod]
+        public void TestInt2Date()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType[] inputDataTypes =
+                new Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType[] {
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I4,
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I8 };
+
+            Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType[] outputDataTypes =
+                new Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType[] {
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_DATE,
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_DBDATE ,
+               Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_DBTIMESTAMP};
+
+            ListTestConfiguration testConfigs = new ListTestConfiguration();
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType dataTypeInput in inputDataTypes)
+            {
+                foreach (Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType dataTypeOutput in outputDataTypes)
+                {
+                    SsisDataType inputDataType = new SsisDataType()
+                    {
+                        Type = dataTypeInput
+                    };
+
+                    SsisDataType expectedDataType = new SsisDataType()
+                    {
+                        Type = dataTypeOutput
+                    };
+
+                    DataConverterTestConfiguration testConfig = new DataConverterTestConfiguration()
+                    {
+                        InputDataType = inputDataType,
+                        ExpectedDataType = expectedDataType,
+                        InputValueExpression = @"19001012",
+                        ExpectedValueExpression = @"(DT_DATE) ""12.10.1900""" //dummy
+                    };
+
+                    testConfigs.Add(testConfig);
+                }
+            }
+
+            TestResult testResult = _testPackage.StartTest(testConfigs);
+
+            Assert.IsTrue(testResult.IsSuccessful, testResult.ErrorMessage);
+            Assert.AreEqual(1, testResult.CountOutput);
+            Assert.AreEqual(0, testResult.CountErrorOutput);
+            Assert.AreEqual(0, testResult.CountLogOutput);
+        }
+
+        [TestMethod]
+        public void TestInt2Date_Error()
+        {
+            Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType[] inputDataTypes =
+                new Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType[] {
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I4,
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I8 };
+
+            Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType[] outputDataTypes =
+                new Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType[] {
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_DATE,
+                     Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_DBDATE ,
+                Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_DBTIMESTAMP};
+
+            ListTestConfiguration testConfigs = new ListTestConfiguration();
+
+            foreach (Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType dataTypeInput in inputDataTypes)
+            {
+                foreach (Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType dataTypeOutput in outputDataTypes)
+                {
+                    SsisDataType inputDataType = new SsisDataType()
+                    {
+                        Type = dataTypeInput
+                    };
+
+                    SsisDataType expectedDataType = new SsisDataType()
+                    {
+                        Type = dataTypeOutput
+                    };
+
+                    DataConverterTestConfiguration testConfig = new DataConverterTestConfiguration()
+                    {
+                        InputDataType = inputDataType,
+                        ExpectedDataType = expectedDataType,
+                        InputValueExpression = @"10000",
+                        ExpectedValueExpression = @"(DT_DATE) ""12.10.1900""" //dummy
+                    };
+
+                    testConfigs.Add(testConfig);
+                }
+            }
+
+            TestResult testResult = _testPackage.StartTest(testConfigs);
+
+            Assert.AreEqual(0, testResult.CountOutput);
+            Assert.AreEqual(1, testResult.CountErrorOutput);
+            Assert.AreEqual(1, testResult.CountLogOutput);
+        }
+
+        [TestMethod]
+        public void TestI82Date_Error()
+        {
+            SsisDataType inputDataType = new SsisDataType()
+            {
+                Type = Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_I8
+            };
+
+            SsisDataType expectedDataType = new SsisDataType()
+            {
+                Type = Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_DATE
+            };
+
+            DataConverterTestConfiguration testConfig = new DataConverterTestConfiguration()
+            {
+                InputDataType = inputDataType,
+                ExpectedDataType = expectedDataType,
+                InputValueExpression = @"9.999999999 * 1000000000", //workaround as DerivedColumn does not accept bigint values like 9999999999
+                ExpectedValueExpression = @"(DT_DATE) ""12.10.1900""" //dummy
+            };
+            TestResult testResult = _testPackage.StartTest(testConfig);
+
+            Assert.AreEqual(0, testResult.CountOutput);
+            Assert.AreEqual(1, testResult.CountErrorOutput);
+            Assert.AreEqual(1, testResult.CountLogOutput);
+        }
         [TestMethod]
         public void TestString2Date_OnNull()
         {

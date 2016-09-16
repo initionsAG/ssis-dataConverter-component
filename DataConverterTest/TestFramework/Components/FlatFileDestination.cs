@@ -10,7 +10,17 @@ namespace DataConverterTest.TestFramework.Components
 {
     class FlatFileDestination : FlatFile
     {
+#if (SQL2008)
+        public new static string MONIKER = "DTSAdapter.FlatFileDestination.2";
+#elif (SQL2012)
+       public new static string MONIKER = "DTSAdapter.FlatFileDestination.3";
+#elif (SQL2014)
+        public new static string MONIKER = "DTSAdapter.FlatFileDestination.4";
+#else
         public new static string MONIKER = "Microsoft.FlatFileDestination";
+#endif
+
+        //public new static string MONIKER = "Microsoft.FlatFileDestination.4";
 
         public FlatFileDestination(IDTSComponentMetaData100 metadata, string name, ConnectionManagerFlatFile conMgr) : base (metadata, name, conMgr) { }      
 

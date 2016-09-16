@@ -7,10 +7,33 @@ using System.Threading.Tasks;
 
 namespace DataConverterTest.TestFramework.Components
 {
+    /// <summary>
+    /// DerivedColumn component inherits from Component
+    /// </summary>
     class DerivedColumn : Component
     {
+        /// <summary>
+        /// string to generate DerviedColumn component in package
+        /// </summary>
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+#if (SQL2008)
+        public bool NeedsIdProperty { get { return false; } }
+        public new static string MONIKER = "DTSTransform.DerivedColumn.2";
+#elif (SQL2012)
+        public bool NeedsIdProperty { get { return true; } }
+        public new static string MONIKER = "DTSTransform.DerivedColumn.3";
+#elif (SQL2014)
+        public bool NeedsIdProperty { get { return true; } }
+        public new static string MONIKER = "DTSTransform.DerivedColumn.4";
+#else
+        public bool NeedsIdProperty { get { return true; } }
         public new static string MONIKER = "DTSTransform.DerivedColumn.5";
-        public bool NeedsIdProperty { get { return true; } }       
+#endif
+
 
         public DerivedColumn(IDTSComponentMetaData100 metadata, string name) : base(metadata, name) { }
 

@@ -26,14 +26,18 @@ namespace DataConverterTest.TestFramework
             connectionManager.Name = name;
 
             ConnectionManager = connectionManager;
+
+            Microsoft.SqlServer.Dts.Runtime.Wrapper.IDTSConnectionManagerFlatFile100 conMgr =
+               (Microsoft.SqlServer.Dts.Runtime.Wrapper.IDTSConnectionManagerFlatFile100)(((ConnectionManager)(ConnectionManager)).InnerObject);
+            conMgr.ColumnNamesInFirstDataRow = true;
         }
 
         public void AddFlatFileColumn(string colName, bool lastColumn = false)
         {
-            Microsoft.SqlServer.Dts.Runtime.Wrapper.IDTSConnectionManagerFlatFile100 _conMgr =
+            Microsoft.SqlServer.Dts.Runtime.Wrapper.IDTSConnectionManagerFlatFile100 conMgr =
                 (Microsoft.SqlServer.Dts.Runtime.Wrapper.IDTSConnectionManagerFlatFile100)(((ConnectionManager)(ConnectionManager)).InnerObject);
-
-            Microsoft.SqlServer.Dts.Runtime.Wrapper.IDTSConnectionManagerFlatFileColumn100 newCol = _conMgr.Columns.Add();
+          
+            Microsoft.SqlServer.Dts.Runtime.Wrapper.IDTSConnectionManagerFlatFileColumn100 newCol = conMgr.Columns.Add();
             newCol.DataType = DATATYPE;
             newCol.MaximumWidth = WIDTH;
             newCol.ColumnType = COLUMNTYPE;

@@ -42,6 +42,7 @@ namespace DataConverterTest.TestFramework
 
         public TestPackage(string inputfile, string outputfile, string outputfileError, string outputfileLog)
         {
+            
             _package = new Package();
             _package.ProtectionLevel = DTSProtectionLevel.DontSaveSensitive;
 
@@ -58,7 +59,7 @@ namespace DataConverterTest.TestFramework
             AddFlatFileConnectionManagerDestination();
             AddFlatFileConnectionManagerDestinationError();
             AddFlatFileConnectionManagerDestinationLog();
-
+            
             //Create DataFlow Components
             FF_Src = Dft.CreateFlatFileSource("FF_SRC", CnMgrSource);
             DER_Init = Dft.CreateDerivedColumn("DER_COL Init");
@@ -75,7 +76,7 @@ namespace DataConverterTest.TestFramework
             FF_Dest = Dft.CreateFlatFileDestination("FF_dest", CnMgrDestination);
             FF_Dest_Error = Dft.CreateFlatFileDestination("FF_Dest_Error", CnMgrDestinationError);
             FF_Dest_Log = Dft.CreateFlatFileDestination("FF_Dest_Log", CnMgrDestinationLog);
-
+         
             //Attach DataFlow Components
             Dft.ConnectComponents(FF_Src.Metadata, DER_Init.Metadata);
             Dft.ConnectComponents(DER_Init.Metadata, DC.Metadata);
@@ -154,7 +155,7 @@ namespace DataConverterTest.TestFramework
             DER_Output.AddExpressionOutputColumn("result", new SsisDataType()
             {
                 Type = Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_WSTR,
-                Length = 255
+                Length = 4000
             },
                 resultFriendlyExpression
             );
@@ -206,6 +207,12 @@ namespace DataConverterTest.TestFramework
 
             DC.Reset();
             DC.SetErrorName(testConfigList.DataConverterErrorName);
+
+            //if (SavePackage)
+            //{
+            //    Application app = new Application();
+            //    app.SaveToXml("TestPackage" + Guid.NewGuid().ToString() + ".dtsx", _package, null);
+            //}
 
             foreach (DataConverterTestConfiguration testConfig in testConfigList)
             {
