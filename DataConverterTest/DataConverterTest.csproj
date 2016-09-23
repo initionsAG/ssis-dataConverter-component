@@ -1,65 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{383BD531-DDCA-43F6-92C4-F0E9E98D4FE0}</ProjectGuid>
+    <ProjectGuid>{298FD1D1-9955-4062-AAC7-BECDA252E091}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataConverter</RootNamespace>
+    <RootNamespace>DataConverterTest</RootNamespace>
+    <AssemblyName>DataConverterTest</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <TargetFrameworkProfile />
-    <ApplicationIcon>Resources\DataConverter_DC.ico</ApplicationIcon>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <!--<DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>-->
   </PropertyGroup>
-  <Choose>
-    <When Condition="'$(Configuration)' == 'Sql2008' Or '$(Configuration)' == '2008Debug'">
-      <PropertyGroup>
-        <AssemblyOriginatorKeyFile>Resources\DataConverter.snk</AssemblyOriginatorKeyFile>
-        <AssemblyName>DataConverter</AssemblyName>
-        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-      </PropertyGroup>
-    </When>
-    <When Condition="'$(Configuration)' == 'Sql2012' Or '$(Configuration)' == '2012Debug'">
-      <PropertyGroup>
-        <AssemblyOriginatorKeyFile>Resources\DataConverter_2012.snk</AssemblyOriginatorKeyFile>
-        <AssemblyName>DataConverter2</AssemblyName>
-        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-      </PropertyGroup>
-    </When>
-    <When Condition="'$(Configuration)' == 'Sql2014' Or '$(Configuration)' == '2014Debug'">
-      <PropertyGroup>
-        <AssemblyOriginatorKeyFile>Resources\DataConverter_2014.snk</AssemblyOriginatorKeyFile>
-        <AssemblyName>DataConverter3</AssemblyName>
-        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-      </PropertyGroup>
-    </When>
-    <When Condition="'$(Configuration)' == 'Sql2016' Or '$(Configuration)' == '2016Debug'">
-      <PropertyGroup>
-        <AssemblyOriginatorKeyFile>Resources\DataConverter_2014.snk</AssemblyOriginatorKeyFile>
-        <AssemblyName>initions.Henry.SSIS.DataConverter2016</AssemblyName>
-        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-      </PropertyGroup>
-    </When>
-    <Otherwise>
-      <PropertyGroup>
-        <AssemblyOriginatorKeyFile>Resources\DataConverter.snk</AssemblyOriginatorKeyFile>
-        <AssemblyName>DataConverter</AssemblyName>
-        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-      </PropertyGroup>
-    </Otherwise>
-  </Choose>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2008|AnyCPU' Or '$(Configuration)|$(Platform)' == '2008Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;SQL2008</DefineConstants>
   </PropertyGroup>
@@ -72,60 +45,107 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2016|AnyCPU' Or '$(Configuration)|$(Platform)' == '2016Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;SQL2016</DefineConstants>
   </PropertyGroup>
-  <!--Output Paths (start)-->
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2008|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2008|AnyCPU' Or '$(Configuration)|$(Platform)' == '2008Debug|AnyCPU'">
     <OutputPath>bin\Sql2008\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2008Debug|AnyCPU'">
-    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\100\DTS\PipelineComponents</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2012|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2012|AnyCPU' Or '$(Configuration)|$(Platform)' == '2012Debug|AnyCPU'">
     <OutputPath>bin\Sql2012\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2012Debug|AnyCPU'">
-    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\110\DTS\PipelineComponents</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2014|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2014|AnyCPU' Or '$(Configuration)|$(Platform)' == '2014Debug|AnyCPU'">
     <OutputPath>bin\Sql2014\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2014Debug|AnyCPU'">
-    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\120\DTS\PipelineComponents</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2016|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sql2016|AnyCPU' Or '$(Configuration)|$(Platform)' == '2016Debug|AnyCPU'">
     <OutputPath>bin\Sql2016\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2016Debug|AnyCPU'">
-    <OutputPath>C:\Program Files (x86)\Microsoft SQL Server\130\DTS\PipelineComponents</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2014Debug|AnyCPU'">
+    <DebugType>full</DebugType>
   </PropertyGroup>
-  <!--Output Paths (end)-->
-  <!--<Choose>
-        <When Condition="'$(Configuration)' != 'Sql2008' Or '$(Configuration)' != '2008Debug'">
-            <ItemGroup>
-                
-            </ItemGroup>
-        </When>
-    </Choose>-->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2012Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2016Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2008Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.SqlServer.Dts.DtsClient, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\DTS\Binn\Microsoft.SqlServer.Dts.DtsClient.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="TestFramework\Components\Conponent.cs" />
+    <Compile Include="TestFramework\Components\DataConverterComponent.cs" />
+    <Compile Include="TestFramework\Components\DerivedColumn.cs" />
+    <Compile Include="TestFramework\Components\FlatFileDestination.cs" />
+    <Compile Include="TestFramework\Components\FlatFileSource.cs" />
+    <Compile Include="TestFramework\ConnectionManagerFlatFile.cs" />
+    <Compile Include="TestFramework\DFT.cs" />
+    <Compile Include="TestFramework\Components\FlatFile.cs" />
+    <Compile Include="TestFramework\ListTestConfiguration.cs" />
+    <Compile Include="TestFramework\SsisDataType.cs" />
+    <Compile Include="TestFramework\TestConfiguration.cs" />
+    <Compile Include="TestFramework\TestPackage.cs" />
+    <Compile Include="TestFramework\TestResult.cs" />
+    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataConverter\DataConverter.csproj">
+      <Project>{383bd531-ddca-43f6-92c4-f0e9e98d4fe0}</Project>
+      <Name>DataConverter</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
   <Choose>
     <When Condition="'$(Configuration)' == 'Sql2008' Or '$(Configuration)' == '2008Debug'">
       <ItemGroup>
-        <Reference Include="Microsoft.SqlServer.Dts.Design, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-          <SpecificVersion>True</SpecificVersion>
-          <EmbedInteropTypes>False</EmbedInteropTypes>
-          <Private>False</Private>
-          <HintPath>..\packages\Microsoft.SqlServer.DTS.10.5.0\lib\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+        <Reference Include="Microsoft.SqlServer.Dts.DtsClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\DTS\Binn\Microsoft.SqlServer.Dts.DtsClient.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x64">
           <SpecificVersion>True</SpecificVersion>
@@ -155,11 +175,9 @@
     </When>
     <When Condition="'$(Configuration)' == 'Sql2012' Or '$(Configuration)' == '2012Debug'">
       <ItemGroup>
-        <Reference Include="Microsoft.SqlServer.Dts.Design, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-          <SpecificVersion>True</SpecificVersion>
-          <EmbedInteropTypes>False</EmbedInteropTypes>
-          <Private>False</Private>
-          <HintPath>..\packages\Microsoft.SqlServer.DTS.11.0.0\lib\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+        <Reference Include="Microsoft.SqlServer.Dts.DtsClient, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\110\DTS\Binn\Microsoft.SqlServer.Dts.DtsClient.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x64">
           <SpecificVersion>True</SpecificVersion>
@@ -190,11 +208,9 @@
     </When>
     <When Condition="'$(Configuration)' == 'Sql2014' Or '$(Configuration)' == '2014Debug'">
       <ItemGroup>
-        <Reference Include="Microsoft.SqlServer.Dts.Design, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-          <SpecificVersion>True</SpecificVersion>
-          <EmbedInteropTypes>False</EmbedInteropTypes>
-          <Private>False</Private>
-          <HintPath>..\packages\Microsoft.SqlServer.DTS.12.0.0\lib\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+        <Reference Include="Microsoft.SqlServer.Dts.DtsClient, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\120\DTS\Binn\Microsoft.SqlServer.Dts.DtsClient.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x64">
           <SpecificVersion>True</SpecificVersion>
@@ -225,11 +241,9 @@
     </When>
     <When Condition="'$(Configuration)' == 'Sql2016' Or '$(Configuration)' == '2016Debug'">
       <ItemGroup>
-        <Reference Include="Microsoft.SqlServer.Dts.Design, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-          <SpecificVersion>True</SpecificVersion>
-          <EmbedInteropTypes>False</EmbedInteropTypes>
-          <Private>False</Private>
-          <HintPath>..\packages\Microsoft.SqlServer.DTS.13.0.0\lib\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+        <Reference Include="Microsoft.SqlServer.Dts.DtsClient, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\130\DTS\Binn\Microsoft.SqlServer.Dts.DtsClient.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x64">
           <SpecificVersion>True</SpecificVersion>
@@ -260,9 +274,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.SqlServer.Dts.Design, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+        <Reference Include="Microsoft.SqlServer.Dts.DtsClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
           <SpecificVersion>False</SpecificVersion>
-          <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.Dts.Design.dll</HintPath>
+          <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\DTS\Binn\Microsoft.SqlServer.Dts.DtsClient.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
           <SpecificVersion>False</SpecificVersion>
@@ -278,82 +292,4 @@
       </ItemGroup>
     </Otherwise>
   </Choose>
-  <ItemGroup>
-    <Compile Include="ColumnConfig.cs" />
-    <Compile Include="Common.cs" />
-    <Compile Include="Comparer.cs" />
-    <Compile Include="ComponentFramework\Mapping\LineageMapping.cs" />
-    <Compile Include="ComponentFramework\SortableBindingList.cs" />
-    <Compile Include="ComponentMetaDataTools.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="Converter.cs" />
-    <Compile Include="DataConverter.cs" />
-    <Compile Include="DataConverterUI.cs" />
-    <Compile Include="Events.cs" />
-    <Compile Include="frmDataConverterUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmDataConverterUI.Designer.cs">
-      <DependentUpon>frmDataConverterUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmEditor.designer.cs">
-      <DependentUpon>frmEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="IsagCustomProperties.cs" />
-    <Compile Include="NewColumnConfig.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="RegularExpressions.cs" />
-    <Compile Include="StatusConvert.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="frmDataConverterUI.resx">
-      <DependentUpon>frmDataConverterUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmEditor.resx">
-      <DependentUpon>frmEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Resources\DataConverter.snk" />
-    <None Include="Resources\DataConverter_2012.snk" />
-    <None Include="Resources\DataConverter_2014.snk" />
-    <!--<Content Include="DataConverter_DC.ico" />-->
-    <EmbeddedResource Include="Resources\DataConverter_DC.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DataConverterFW\DataConverterFW.csproj">
-      <Project>{0aa18489-81bc-4a57-af87-6e6af03bb2bd}</Project>
-      <Name>DataConverterFW</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!--PostBuildEvents (start)-->
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2008Debug|AnyCPU'">
-    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2012Debug|AnyCPU'&#xD;&#xA;						   Or '$(Configuration)|$(Platform)' == '2014Debug|AnyCPU'&#xD;&#xA;	Or '$(Configuration)|$(Platform)' == '2016Debug|AnyCPU'&#xD;&#xA;">
-    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
-  </PropertyGroup>
-  <!--PostBuildEvents (end)-->
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
