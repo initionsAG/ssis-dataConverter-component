@@ -90,6 +90,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2008Debug|AnyCPU' &#xD;&#xA;						   Or '$(Configuration)|$(Platform)' == '2012Debug|AnyCPU' &#xD;&#xA;						   Or '$(Configuration)|$(Platform)' == '2014Debug|AnyCPU'&#xD;&#xA;	">
     <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\gacutil.exe" /if "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
   <!--PostBuildEvents (end)-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
