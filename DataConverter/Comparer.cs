@@ -15,7 +15,7 @@ namespace DataConverter
         public bool HasInvalidOp { get; set; }
 
         /// <summary>
-        /// Dictionary(Key: column name, value: 2 column values)C:\Visual Studio\Visual Studio TFS\initions-BI\Henry Components\DataConverter\Dev\Dev\DataConverter\ColumnConfig.cs
+        /// Dictionary(Key: column name, value: 2 column values)
         /// </summary>
         private Dictionary<string, ColumnValues> _columnValues = new Dictionary<string, ColumnValues>();
         /// <summary>
@@ -195,11 +195,11 @@ namespace DataConverter
     class ColumnValues
     {
         /// <summary>
-        /// left column value
+        /// input column value (not useed for comparism -> remove property?)
         /// </summary>
         public object InputValue { get; set; }
         /// <summary>
-        /// right column value
+        /// output column value
         /// </summary>
         public object OutputValue { get; set; }
 

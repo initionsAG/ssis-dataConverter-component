@@ -129,20 +129,23 @@ namespace DataConverterTest.TestFramework
                 {
                     successFriendlyExpression += " && ";
                 }
-                successFriendlyExpression += "C_" + testConfig.InputColumnName + " == " + testConfig.ExpectedColumnName;
+                successFriendlyExpression += "(";
+                successFriendlyExpression += "(ISNULL(C_" + testConfig.InputColumnName + ") && ISNULL(" + testConfig.ExpectedColumnName + "))" + 
+                                             " || C_" + testConfig.InputColumnName + " == " + testConfig.ExpectedColumnName;
                 if (testConfig.UseErrorCount) successFriendlyExpression += " && isETL_errorCount == " + testConfig.ExpectedErrorCount.ToString();
-                successFriendlyExpression = "(" + successFriendlyExpression + ")";
+                successFriendlyExpression += ")";
 
                 //result
                 if (resultFriendlyExpression != "")
                 {
                     resultFriendlyExpression += "+\"\t|\t\" + ";
                 }
+
                 resultFriendlyExpression +=
-                    "\"Input: \" +  (DT_WSTR,255)" + testConfig.InputColumnName +
-                    " + \" | converted: \" +  (DT_WSTR,255)C_" + testConfig.InputColumnName +
-                    " + \" | expected: \" +  (DT_WSTR,255)" + testConfig.ExpectedColumnName +
-                    " + \" | success: \" + (DT_WSTR,255)(C_" + testConfig.InputColumnName + " == " + testConfig.ExpectedColumnName + ")";
+                    "\"Input: \" +  " + testConfig.InputDataType.StringCastExpression + testConfig.InputColumnName +
+                    " + \" | converted: \" + " +  testConfig.ExpectedDataType.StringCastExpression + " C_" + testConfig.InputColumnName +
+                    " + \" | expected: \" + " + testConfig.ExpectedDataType.StringCastExpression + testConfig.ExpectedColumnName +
+                     " + \" | success: \" + (DT_WSTR,255)(C_" + testConfig.InputColumnName + " == " + testConfig.ExpectedColumnName + ")";
             }
 
             DER_Output.AddExpressionOutputColumn("success", new SsisDataType()
@@ -157,10 +160,8 @@ namespace DataConverterTest.TestFramework
                 Type = Microsoft.SqlServer.Dts.Runtime.Wrapper.DataType.DT_WSTR,
                 Length = 4000
             },
-                resultFriendlyExpression
+                "(DT_WSTR, 4000)(" + resultFriendlyExpression + ")"
             );
-
-
         }
 
         public TestResult StartTest(DataConverterTestConfiguration testConfig)

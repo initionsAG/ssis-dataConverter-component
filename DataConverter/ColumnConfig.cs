@@ -837,7 +837,7 @@ namespace DataConverter
                             IDTSInputColumn100 inputCol, IDTSOutputColumn100 outCol, IDTSOutputColumn100 outLogCol)
         {
             // _use = use;
-            _inputColumnName = inputColumnName;
+            InputColumnName = inputColumnName;
             _convert = convert;
             _outputAlias = outputAlias;
             _dataTypeInput = CreateInputDataTypeString(dataTypeInput, length, precision, scale, codepage);
@@ -866,13 +866,14 @@ namespace DataConverter
             OnErrorValue = "";
 
             _date2string = dateConverttype;
-            _customId = Guid.NewGuid().ToString();
+            CustomId = Guid.NewGuid().ToString();
 
-            LineageMapping.SetIdProperty(_customId, inputCol.CustomPropertyCollection);
+            LineageMapping.SetIdProperty(CustomId, inputCol.CustomPropertyCollection);
+            //outCol is always null (at least if called from DC, maybe PB creates ColumnConfig with existing outCol?)
             if (outCol != null)
-                LineageMapping.SetIdProperty(_customId, outCol.CustomPropertyCollection);
+                LineageMapping.SetIdProperty(CustomId, outCol.CustomPropertyCollection);
             if (outLogCol != null)
-                LineageMapping.SetIdProperty(_customId, outLogCol.CustomPropertyCollection);
+                LineageMapping.SetIdProperty(CustomId, outLogCol.CustomPropertyCollection);
 
         }
 
@@ -911,7 +912,7 @@ namespace DataConverter
 
             try
             {;
-                _inputColumnName = reader.GetAttribute("InputColumnName");
+                InputColumnName = reader.GetAttribute("InputColumnName");
                 _convert = (reader.GetAttribute("Convert") == "True");
                 _outputAlias = reader.GetAttribute("OutputAlias");
                 _dataTypeInput = reader.GetAttribute("DataTypeInput");
@@ -960,7 +961,7 @@ namespace DataConverter
                 _outputErrorIdString = reader.GetAttribute("OutputErrorIdString");
                 _outputErrorLineageId = reader.GetAttribute("OutputErrorLineageId");
 
-                _customId = reader.GetAttribute("CustomId");
+                CustomId = reader.GetAttribute("CustomId");
 
                 reader.Read();
 
@@ -980,7 +981,7 @@ namespace DataConverter
         /// <param name="writer">xml writer</param>
         public void WriteXml(System.Xml.XmlWriter writer)
         {
-            writer.WriteAttributeString("InputColumnName", _inputColumnName);
+            writer.WriteAttributeString("InputColumnName", InputColumnName);
             writer.WriteAttributeString("Convert", _convert.ToString());
             writer.WriteAttributeString("OutputAlias", _outputAlias);
             writer.WriteAttributeString("DataTypeInput", _dataTypeInput);
@@ -1011,7 +1012,7 @@ namespace DataConverter
             writer.WriteAttributeString("OutputErrorIdString", _outputErrorIdString);
             writer.WriteAttributeString("OutputErrorLineageId", _outputErrorLineageId);
 
-            writer.WriteAttributeString("CustomId", _customId);
+            writer.WriteAttributeString("CustomId", CustomId);
         }
 
         #endregion
